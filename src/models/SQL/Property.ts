@@ -58,4 +58,4 @@ const Property = MSQLDC_FetchENV().define("property", {
 
 Property.belongsTo(User);
 
-module.exports = Property;
+export default Property;

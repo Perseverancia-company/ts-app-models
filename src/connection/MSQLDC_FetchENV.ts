@@ -1,6 +1,4 @@
-const Sequelize = require("sequelize");
-const dotenv = require("dotenv");
-import Sequelize from "sequelize";
+import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
 
 // Setup dotenv
@@ -10,11 +8,15 @@ dotenv.config({
 
 module.exports = function MSQLDC_FetchENV() {
     // Mysql information
-    const MYSQL_NAME = process.env.DATABASE_NAME ?? process.env.MYSQL_DATABASE_NAME;
+    const MYSQL_NAME = process.env.DATABASE_NAME ?? process.env.MYSQL_DATABASE_NAME ?? "good-roots";
     const MYSQL_USERNAME = process.env.DATABASE_USERNAME ?? process.env.MYSQL_USERNAME ?? "root";
     const MYSQL_PASSWORD = process.env.DATABASE_PASSWORD ?? process.env.MYSQL_PASSWORD ?? "";
     const MYSQL_HOST = process.env.DATABASE_HOST ?? process.env.MYSQL_HOST ?? "localhost";
-    const MYSQL_PORT = process.env.MYSQL_PORT ?? 3306;
+    
+    // Get port
+    let endPort: number = 3306;
+    if(process.env.MYSQL_PORT) endPort = parseInt(process.env.MYSQL_PORT);
+    const MYSQL_PORT = endPort;
     
     const mysqlConnection = new Sequelize(MYSQL_NAME, MYSQL_USERNAME, MYSQL_PASSWORD, {
         host: MYSQL_HOST,
@@ -33,7 +35,8 @@ module.exports = function MSQLDC_FetchENV() {
             // Five seconds of idling
             idle: 5 * 1000,
         },
-        operatorAliases: false,
+        // This one seems to not exist on ts
+        // operatorAliases: false,
         // Disable logging
         logging: false
     });

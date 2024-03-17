@@ -60,7 +60,7 @@ const User = MySQLDatabaseConnection.define("user", {
 });
 
 // Personalized methods
-User.prototype.verifyPassword = function(password) {
+User.prototype.verifyPassword = function(password: string) {
     return bcrypt.compareSync(password, this.password);
 }
 
