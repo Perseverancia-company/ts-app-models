@@ -5,18 +5,25 @@ import MySQLDatabaseConnection from "./connection/MySQLDatabaseConnection";
 
 import printMysqlEnvironmentVariables from "./env/printMysqlEnvironmentVariables";
 
+import TablesController, { resetTables } from "./cmd/tables";
+
 import MODEL from "./models/index";
 
 export default {
     // Connectors
     // To connect to the database
+    // For compatibility
     MSQLDC_FetchENV,
-    mysqlConn,
     MySQLDatabaseConnection,
+    // Prefer to use this one
+    mysqlConn,
     
     // Debug
     printMysqlEnvironmentVariables,
     
-    // Default exports
-    MODEL
+    MODEL,
+    
+    // Tables
+    resetTables,
+    TablesController
 }

@@ -106,16 +106,26 @@ class TablesController {
     }
 }
 
-// Main
+/**
+ * Reset tables
+ */
+export async function resetTables() {
+    printMysqlEnvironmentVariables();
+    
+    const tablesController = new TablesController();
+    
+    await tablesController.initialize();
+    await tablesController.dropAll();
+    await tablesController.upAll();
+}
+
+/**
+ * Tables main
+ * 
+ * @param args 
+ */
 export default async function tablesMain(args: any) {
     if(args.reset_tables) {
-        
-        printMysqlEnvironmentVariables();
-        
-        const tablesController = new TablesController();
-        
-        await tablesController.initialize();
-        await tablesController.dropAll();
-        await tablesController.upAll();
+        await resetTables();
     }
 }
