@@ -6,7 +6,7 @@ dotenv.config({
     path: ".env"
 });
 
-module.exports = function MSQLDC_FetchENV() {
+export default function MSQLDC_FetchENV() {
     // Mysql information
     const MYSQL_NAME = process.env.DATABASE_NAME ?? process.env.MYSQL_DATABASE_NAME ?? "good-roots";
     const MYSQL_USERNAME = process.env.DATABASE_USERNAME ?? process.env.MYSQL_USERNAME ?? "root";

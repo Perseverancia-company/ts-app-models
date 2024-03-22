@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-import mysqlConn from "../../../connection/mysqlConn";
+import mysqlConn from "../connection/mysqlConn";
 import User from "./User";
 
 function UserMessages() {
@@ -27,7 +27,7 @@ function UserMessages() {
         tableName: "user-messages",
     });
     
-    model.belongsTo(new User());
+    model.belongsTo(User());
     
     return model;
 }

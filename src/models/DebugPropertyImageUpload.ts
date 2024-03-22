@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-import mysqlConn from "../../../connection/mysqlConn";
+import mysqlConn from "../connection/mysqlConn";
 
 function DebugPropertyImageUpload() {
     const model = mysqlConn().define("debug-property-image-upload", {

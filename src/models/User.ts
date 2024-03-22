@@ -1,12 +1,12 @@
 import { DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
 
-import mysqlConn from "../../../connection/mysqlConn";
+import mysqlConn from "../connection/mysqlConn";
 
 function User() {
     const TABLE_NAME = "user";
     
-    const model = mysqlConn().define(TABLE_NAME, {
+    const model: any = mysqlConn().define(TABLE_NAME, {
         id: {
             type: DataTypes.BIGINT,
             allowNull: false,
@@ -31,7 +31,7 @@ function User() {
         tableName: TABLE_NAME,
         hooks: {
             // Before creating the user on the database
-            beforeCreate: async function(user) {
+            beforeCreate: async function(user: any) {
                 // Hash the password
                 const salt = await bcrypt.genSalt(10);
                 

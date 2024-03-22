@@ -1,11 +1,4 @@
-import {
-    Category,
-    DebugPropertyImageUpload,
-    Price,
-    Property,
-    User,
-    UserMessages,
-} from "../models/SQL/runtime/index";
+import MODEL from "../models/index";
 import mysqlConn from "../connection/mysqlConn";
 import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariables';
 
@@ -15,6 +8,8 @@ import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariable
  * To manage all tables
  */
 class TablesController {
+    db: any;
+    
     constructor() {}
     
     /**
@@ -69,14 +64,14 @@ class TablesController {
     models() {
         const modelArray = [
             // Independent
-            new User(),
-            new DebugPropertyImageUpload(),
-            new Category(),
-            new Price(),
+            MODEL.User(),
+            MODEL.DebugPropertyImageUpload(),
+            MODEL.Category(),
+            MODEL.Price(),
             
             // Dependents
-            new Property(),
-            new UserMessages(),
+            MODEL.Property(),
+            MODEL.UserMessages(),
         ];
         
         return modelArray;
@@ -112,7 +107,7 @@ class TablesController {
 }
 
 // Main
-export default async function tablesMain(args) {
+export default async function tablesMain(args: any) {
     if(args.reset_tables) {
         
         printMysqlEnvironmentVariables();

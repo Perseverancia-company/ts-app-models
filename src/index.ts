@@ -5,15 +5,7 @@ import MySQLDatabaseConnection from "./connection/MySQLDatabaseConnection";
 
 import printMysqlEnvironmentVariables from "./env/printMysqlEnvironmentVariables";
 
-import {
-    Category,
-    DebugPropertyImageUpload,
-    Price,
-    Property,
-    User,
-    UserMessages,
-} from "./models/SQL/runtime/index";
-import MODEL from "./models/SQL/index";
+import MODEL from "./models/index";
 
 export default {
     // Connectors
@@ -25,14 +17,6 @@ export default {
     // Debug
     printMysqlEnvironmentVariables,
     
-    // Module level initialization
-    MODEL,
-    
     // Default exports
-    Category,
-    DebugPropertyImageUpload,
-    Price,
-    Property,
-    User,
-    UserMessages,
+    MODEL
 }

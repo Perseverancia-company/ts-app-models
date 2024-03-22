@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-import mysqlConn from "../../../connection/mysqlConn";
+import mysqlConn from "../connection/mysqlConn";
 import Category from "./Category";
 import Price from "./Price";
 import User from "./User";
@@ -59,9 +59,9 @@ function Property() {
         tableName: "property",
     });
     
-    model.belongsTo(new User());
-    model.belongsTo(new Category());
-    model.belongsTo(new Price());
+    model.belongsTo(User());
+    model.belongsTo(Category());
+    model.belongsTo(Price());
     
     return model;
 }

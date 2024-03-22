@@ -1,6 +1,6 @@
 import { DataTypes } from "sequelize";
 
-import mysqlConn from "../../../connection/mysqlConn";
+import mysqlConn from "../connection/mysqlConn";
 
 function Price() {
     const Model = mysqlConn().define("price", {
