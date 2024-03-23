@@ -3,6 +3,10 @@ import { DataTypes } from "sequelize";
 import mysqlConn from "../connection/mysqlConn";
 import User from "./User";
 
+/**
+ * 
+ * @deprecated Use 'Models' class instead, for reusing connections.
+ */
 function UserMessages() {
     const model = mysqlConn().define("user-messages", {
         id: {

@@ -2,6 +2,10 @@ import { DataTypes } from "sequelize";
 
 import mysqlConn from "../connection/mysqlConn";
 
+/**
+ * 
+ * @deprecated Use 'Models' class instead, for reusing connections.
+ */
 function DebugPropertyImageUpload() {
     const model = mysqlConn().define("debug-property-image-upload", {
         // This is for every entry, I need a bigger set, which will be the whole course of actions

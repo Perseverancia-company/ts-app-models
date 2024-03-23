@@ -1,20 +1,20 @@
 // Connections
 import MSQLDC_FetchENV from "./connection/MSQLDC_FetchENV";
 import mysqlConn from "./connection/mysqlConn";
-import MySQLDatabaseConnection from "./connection/MySQLDatabaseConnection";
 
 import printMysqlEnvironmentVariables from "./env/printMysqlEnvironmentVariables";
 
 import TablesController, { resetTables } from "./cmd/tables";
 
 import MODEL from "./models/index";
+import Models from "./Models";
 
-export default {
+// Types
+import PartialConnectionOptions from "./types/sequelize/PartialConnectionOptions";
+
+export {
     // Connectors
-    // To connect to the database
-    // For compatibility
     MSQLDC_FetchENV,
-    MySQLDatabaseConnection,
     // Prefer to use this one
     mysqlConn,
     
@@ -22,8 +22,12 @@ export default {
     printMysqlEnvironmentVariables,
     
     MODEL,
+    Models,
     
     // Tables
     resetTables,
-    TablesController
+    TablesController,
+    
+    // Types
+    PartialConnectionOptions,
 }

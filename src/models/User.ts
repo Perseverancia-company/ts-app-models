@@ -3,6 +3,10 @@ import bcrypt from "bcrypt";
 
 import mysqlConn from "../connection/mysqlConn";
 
+/**
+ * 
+ * @deprecated Use 'Models' class instead, for reusing connections.
+ */
 function User() {
     const TABLE_NAME = "user";
     

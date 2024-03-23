@@ -1,6 +1,6 @@
-import MODEL from "../models/index";
 import mysqlConn from "../connection/mysqlConn";
 import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariables';
+import Models from "../Models";
 
 /**
  * Tables controller
@@ -9,8 +9,12 @@ import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariable
  */
 class TablesController {
     db: any;
+    modelManager: any;
     
-    constructor() {}
+    constructor() {
+        // Create connection
+        this.modelManager = new Models();
+    }
     
     /**
      * Initialize
@@ -64,14 +68,14 @@ class TablesController {
     models() {
         const modelArray = [
             // Independent
-            MODEL.User(),
-            MODEL.DebugPropertyImageUpload(),
-            MODEL.Category(),
-            MODEL.Price(),
+            this.modelManager.user(),
+            this.modelManager.debugPropertyImageUpload(),
+            this.modelManager.category(),
+            this.modelManager.price(),
             
             // Dependents
-            MODEL.Property(),
-            MODEL.UserMessages(),
+            this.modelManager.property(),
+            this.modelManager.userMessages(),
         ];
         
         return modelArray;

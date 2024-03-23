@@ -5,6 +5,10 @@ import Category from "./Category";
 import Price from "./Price";
 import User from "./User";
 
+/**
+ * 
+ * @deprecated Use 'Models' class instead, for reusing connections.
+ */
 function Property() {
     const model = mysqlConn().define("property", {
         id: {

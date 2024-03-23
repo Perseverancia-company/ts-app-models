@@ -1,7 +1,12 @@
 import { ArgumentParser } from "argparse";
 import dotenv from "dotenv";
 
+// Often this is run to test whether things work or not
+// So import everything that may crash here
+import mysqlConn from "../connection/mysqlConn";
+
 import tablesMain from "./tables";
+import modelMain from "./model";
 
 // Setup dotenv
 dotenv.config({
@@ -17,6 +22,11 @@ parser.add_argument("--reset-tables", {
     action: "store_true"
 });
 
+parser.add_argument("--open-all", {
+    help:"Create a model class and open connections to each model simultaneously to check if they work",
+    action: "store_true"
+})
+
 // Parse arguments
 const args = parser.parse_args();
 
@@ -24,6 +34,8 @@ const args = parser.parse_args();
 (async () => {
     // Tables
     await tablesMain(args);
+    
+    await modelMain(args);
     
     process.exit(0);
 })();

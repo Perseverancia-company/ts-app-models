@@ -1,12 +1,32 @@
+import os from "os";
+
 import { Sequelize } from "sequelize";
 import dotenv from "dotenv";
+
+import PartialConnectionOptions from "../types/sequelize/PartialConnectionOptions";
 
 // Setup dotenv
 dotenv.config({
     path: ".env"
 });
 
-export default function MSQLDC_FetchENV() {
+/**
+ * Initialize sequelize using environment variables
+ * 
+ * Had a lot of trouble with sequelize, because the environment variables were being
+ * fetch very early, this is to fetch them a little later.
+ * 
+ * @param options 
+ * @deprecated Use 'mysqlConn'.
+ */
+export default function MSQLDC_FetchENV(options: PartialConnectionOptions = {
+    pool: {
+        // Per processor
+        max: os.cpus().length * 2,
+        acquire: 10 * 1000,
+        idle: 5 * 1000,
+    }
+}) {
     // Mysql information
     const MYSQL_NAME = process.env.DATABASE_NAME ?? process.env.MYSQL_DATABASE_NAME ?? "good-roots";
     const MYSQL_USERNAME = process.env.DATABASE_USERNAME ?? process.env.MYSQL_USERNAME ?? "root";
@@ -26,14 +46,7 @@ export default function MSQLDC_FetchENV() {
             timestamps: true,
         },
         pool: {
-            // The default is 5, so we have to forcefully set a high limit
-            // 30 per processor seems ok, I have 16, hmmm this won't work if others have less processors.
-            // I could fetch how many processors the computer has, but this problem is too tiny for my concern.
-            max: 16 * 30,
-            // Ten seconds
-            acquire: 10 * 1000,
-            // Five seconds of idling
-            idle: 5 * 1000,
+            ...options.pool
         },
         // This one seems to not exist on ts
         // operatorAliases: false,

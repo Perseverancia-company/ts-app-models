@@ -5,7 +5,7 @@ import mysqlConn from "../connection/mysqlConn";
 /**
  * Runtime definition
  * 
- * @returns 
+ * @deprecated Use 'Models' class instead, for reusing connections.
  */
 function Category() {
     const Model = mysqlConn().define("category", {
