@@ -68,6 +68,7 @@ class TablesController {
     models() {
         const modelArray = [
             // Independent
+            this.modelManager.process(),
             this.modelManager.user(),
             this.modelManager.debugPropertyImageUpload(),
             this.modelManager.category(),
@@ -129,6 +130,14 @@ export async function resetTables() {
  * @param args 
  */
 export default async function tablesMain(args: any) {
+    if(args.up_all) {
+        printMysqlEnvironmentVariables();
+        
+        const tc = new TablesController();
+        await tc.initialize();
+        await tc.upAll();
+    }
+    
     if(args.reset_tables) {
         await resetTables();
     }

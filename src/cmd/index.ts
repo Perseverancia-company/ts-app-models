@@ -25,7 +25,12 @@ parser.add_argument("--reset-tables", {
 parser.add_argument("--open-all", {
     help:"Create a model class and open connections to each model simultaneously to check if they work",
     action: "store_true"
-})
+});
+
+parser.add_argument("--up-all", {
+    help:"Create all models table",
+    action: "store_true"
+});
 
 // Parse arguments
 const args = parser.parse_args();

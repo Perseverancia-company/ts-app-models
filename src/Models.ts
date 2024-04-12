@@ -43,6 +43,51 @@ export default class Models {
     }
     
     /**
+     * Process model
+     * 
+     * Store apps process informaiton
+     * 
+     * - Process are identified by a unique name
+     * With this simple rule you can start the same app, for example,
+     * with different arguments and it will still work if you provide a different name
+     */
+    process() {
+        const TABLE_NAME = "process";
+        const model = this.connection.define(TABLE_NAME, {
+            // Name like 'authentication' or 'real-estate'
+            name: {
+                type: DataTypes.STRING(128),
+                allowNull: false,
+                primaryKey: true,
+            },
+            pid: {
+                type: DataTypes.INTEGER,
+            },
+            // URL if it's a server
+            url: {
+                type: DataTypes.STRING(256),
+            },
+            // App type
+            // 1) application
+            // Normal app, for end users
+            // 2) server
+            // A backend server
+            // 3) frontend
+            // A frontend server
+            // 4) daemon
+            appType: {
+                type: DataTypes.STRING(64),
+                allowNull: false,
+                defaultValue: "server",
+            }
+        }, {
+            tableName: TABLE_NAME,
+        });
+        
+        return model;
+    }
+    
+    /**
      * Debug property image upload
      */
     debugPropertyImageUpload() {
@@ -132,11 +177,6 @@ export default class Models {
     
     /**
      * Property
-     * 
-     * This one is heavy, because it 'belongs' to many, I'm not sure but I think sequelize
-     * creates a connection for each one it belongs to!
-     * 
-     * A workaround would be to use 'indirect' foreign keys...
      */
     property() {
         const model = this.connection.define("property", {
