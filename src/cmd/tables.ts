@@ -62,12 +62,11 @@ class TablesController {
     // --- Drop and create models ---
     /**
      * Models from high independence to low independence
-     * 
-     * @returns {Array}
      */
     models() {
         const modelArray = [
             // Independent
+            this.modelManager.app(),
             this.modelManager.process(),
             this.modelManager.user(),
             this.modelManager.debugPropertyImageUpload(),
@@ -80,6 +79,14 @@ class TablesController {
         ];
         
         return modelArray;
+    }
+    
+    /**
+     * Sync
+     */
+    async sync() {
+        this.models();
+        await this.sync();
     }
     
     /**
@@ -130,6 +137,11 @@ export async function resetTables() {
  * @param args 
  */
 export default async function tablesMain(args: any) {
+    if(args.db_sync) {
+        const tc = new TablesController();
+        await tc.sync();
+    }
+    
     if(args.up_all) {
         printMysqlEnvironmentVariables();
         

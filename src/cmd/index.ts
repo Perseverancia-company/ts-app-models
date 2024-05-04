@@ -32,6 +32,11 @@ parser.add_argument("--up-all", {
     action: "store_true"
 });
 
+parser.add_argument("--db-sync", {
+    help: "Sync the database",
+    action: "store_true"
+});
+
 // Parse arguments
 const args = parser.parse_args();
 

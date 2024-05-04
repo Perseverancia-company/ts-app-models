@@ -20,26 +20,42 @@ export default class Models {
     }
     
     // --- Models ---
+    // --- App manager ---
     /**
-     * Category model
+     * App information
      */
-    category() {
-        const Model = this.connection.define("category", {
-            id:{ 
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.INTEGER
-            },
+    app() {
+        const TABLE_NAME = "app";
+        const model = this.connection.define(TABLE_NAME, {
+            // Name like 'authentication' or 'real-estate'
+            // Indirect relation with 'process' table
             name: {
                 type: DataTypes.STRING(128),
                 allowNull: false,
-            }
+                primaryKey: true,
+            },
+            // App path
+            path: {
+                type: DataTypes.STRING(2 ** 12),
+            },
+            // App type
+            // 1) application
+            // Normal app, for end users
+            // 2) server
+            // A backend server
+            // 3) frontend
+            // A frontend server
+            // 4) daemon
+            appType: {
+                type: DataTypes.STRING(64),
+                allowNull: false,
+                defaultValue: "server",
+            },
         }, {
-            tableName: "category",
+            tableName: TABLE_NAME,
         });
         
-        return Model;
+        return model;
     }
     
     /**
@@ -85,6 +101,29 @@ export default class Models {
         });
         
         return model;
+    }
+    
+    // --- Real estate app ---
+    /**
+     * Category model
+     */
+    category() {
+        const Model = this.connection.define("category", {
+            id:{ 
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.INTEGER
+            },
+            name: {
+                type: DataTypes.STRING(128),
+                allowNull: false,
+            }
+        }, {
+            tableName: "category",
+        });
+        
+        return Model;
     }
     
     /**
