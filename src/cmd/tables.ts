@@ -14,20 +14,20 @@ class TablesController {
     constructor() {
         // Create connection
         this.modelManager = new Models();
+        
+        this.db = this.modelManager.connection;
     }
     
     /**
      * Initialize
      */
     async initialize() {
-        const db = mysqlConn();
-        console.log(`Tables db connection`);
+        // const db = mysqlConn();
+        // console.log(`Tables db connection`);
         
         // Authenticate
-        await db.authenticate();
+        await this.db.authenticate();
         console.log(`Authenticated`);
-        
-        this.db = db;
         
         return this;
     }
@@ -64,9 +64,13 @@ class TablesController {
      * Models from high independence to low independence
      */
     models() {
+        const app = this.modelManager.app;
+        
         const modelArray = [
             // Independent
-            this.modelManager.app(),
+            app,
+            this.modelManager.appTag,
+            this.modelManager.appGroup,
             this.modelManager.process(),
             this.modelManager.user(),
             this.modelManager.debugPropertyImageUpload(),
@@ -76,6 +80,8 @@ class TablesController {
             // Dependents
             this.modelManager.property(),
             this.modelManager.userMessages(),
+            this.modelManager.tagAppJunction,
+            this.modelManager.groupAppJunction,
         ];
         
         return modelArray;
@@ -85,8 +91,13 @@ class TablesController {
      * Sync
      */
     async sync() {
-        this.models();
-        await this.sync();
+        for(const model of this.models()) {
+            try {
+                await model.sync();
+            } catch(err) {
+                console.log(`Couldn't sync model: `, model);
+            }
+        }
     }
     
     /**
@@ -113,6 +124,7 @@ class TablesController {
                 await model.sync();
             } catch(err) {
                 console.log(`Couldn't sync model: `, model);
+                console.error(err);
             }
         }
     }
