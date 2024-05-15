@@ -82,6 +82,7 @@ class TablesController {
             this.modelManager.userMessages(),
             this.modelManager.tagAppJunction,
             this.modelManager.groupAppJunction,
+            this.modelManager.appOutput,
         ];
         
         return modelArray;

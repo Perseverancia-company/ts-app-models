@@ -13,8 +13,9 @@ export default class Models {
     connection: Sequelize;
     
     app: any;
-    appTag: any;
     appGroup: any;
+    appOutput: any;
+    appTag: any;
     tagAppJunction: any;
     groupAppJunction: any;
     
@@ -36,23 +37,49 @@ export default class Models {
         this.appTag = appTag;
         this.appGroup = appGroup;
         
-        // These all are many to many relations
-        // When I create the tables this does nothing, I don't know why
-        app.belongsToMany(appTag, { through: 'tag-app-junction' });
-        appTag.belongsToMany(app, { through: 'tag-app-junction' });
-        app.belongsToMany(appGroup, { through: 'group-app-junction' });
-        appGroup.belongsToMany(app, { through: 'group-app-junction' });
-        
         // --- Junction tables ---
         const tagAppJunction = this.#tagAppJunction();
         const groupAppJunction = this.#groupAppJunction();
         
+        this.appOutput = this.#appOutput();
         this.tagAppJunction = tagAppJunction;
         this.groupAppJunction = groupAppJunction;
     }
     
     // --- Models ---
     // --- App manager ---
+    
+    /**
+     * App output
+     */
+    #appOutput() {
+        const TABLE_NAME = "app-output";
+        const appOutput = this.connection.define(TABLE_NAME, {
+            id: {
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.BIGINT,
+            },
+            appName: { 
+                allowNull: false,
+                type: DataTypes.STRING(128),
+                references: {
+                    model: this.app,
+                    key: 'name'
+                }
+            },
+            output: { 
+                allowNull: false,
+                type: DataTypes.TEXT,
+            },
+        }, {
+            tableName: TABLE_NAME,
+        });
+        
+        return appOutput;
+    }
+    
     /**
      * Group app junction table
      */
