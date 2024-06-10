@@ -26,6 +26,7 @@
     "sequelize-typescript": "^2.1.6"
   },
   "devDependencies": {
+    "@swc/core": "^1.5.27",
     "@types/argparse": "^2.0.15",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.14.2",

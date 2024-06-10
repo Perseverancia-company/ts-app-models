@@ -17,12 +17,14 @@ export {
     // Debug
     printMysqlEnvironmentVariables,
     
+    // Models
     Models,
     
     // Tables
     resetTables,
     TablesController,
-    
-    // Types
-    PartialConnectionOptions,
+}
+
+export type {
+    PartialConnectionOptions
 }
