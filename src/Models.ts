@@ -1,7 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
-import bcrypt from "bcrypt";
 
 import mysqlConn from "./connection/mysqlConn";
+import User, { createUserModel } from "./model/User";
 
 /**
  * Models
@@ -12,12 +12,16 @@ import mysqlConn from "./connection/mysqlConn";
 export default class Models {
     connection: Sequelize;
     
+    // App manager tables
     app: any;
     appGroup: any;
     appOutput: any;
     appTag: any;
     tagAppJunction: any;
     groupAppJunction: any;
+    
+    // Real estate tables
+    user: typeof User;
     
     /**
      * Constructor
@@ -32,10 +36,15 @@ export default class Models {
         const appTag = this.#appTag();
         const appGroup = this.#appGroup();
         
+        // Real estate
+        const user = createUserModel(this.connection);
+        
         // We've got to declare this before the junction models
         this.app = app;
         this.appTag = appTag;
         this.appGroup = appGroup;
+        
+        this.user = user;
         
         // --- Junction tables ---
         const tagAppJunction = this.#tagAppJunction();
@@ -291,7 +300,7 @@ export default class Models {
         });
         
         // Relations
-        Model.belongsTo(this.user(), {
+        Model.belongsTo(this.user, {
             foreignKey: "userId",
         });
         Model.belongsTo(this.property(), {
@@ -330,7 +339,7 @@ export default class Models {
         Model.belongsTo(this.property(), {
             foreignKey: "propertyId",
         });
-        Model.belongsTo(this.user(), {
+        Model.belongsTo(this.user, {
             foreignKey: "userId",
         });
         
@@ -362,7 +371,7 @@ export default class Models {
         Model.belongsTo(this.property(), {
             foreignKey: "propertyId",
         });
-        Model.belongsTo(this.user(), {
+        Model.belongsTo(this.user, {
             foreignKey: "userId",
         });
         
@@ -396,7 +405,7 @@ export default class Models {
         Model.belongsTo(this.property(), {
             foreignKey: "propertyId",
         });
-        Model.belongsTo(this.user(), {
+        Model.belongsTo(this.user, {
             foreignKey: "userId",
         });
         
@@ -570,7 +579,7 @@ export default class Models {
             tableName: "property",
         });
         
-        Model.belongsTo(this.user());
+        Model.belongsTo(this.user);
         Model.belongsTo(this.category());
         Model.belongsTo(this.price());
         
@@ -603,72 +612,11 @@ export default class Models {
         });
         
         // Relations
-        Model.belongsTo(this.user(), {
+        Model.belongsTo(this.user, {
             foreignKey: "userId",
         });
         
         return Model;
-    }
-    
-    /**
-     * User
-     */
-    user() {
-        const TABLE_NAME = "user";
-        
-        const model: any = mysqlConn().define(TABLE_NAME, {
-            id: {
-                type: DataTypes.BIGINT,
-                allowNull: false,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            name: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            email: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            password: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            token: DataTypes.STRING,
-            confirmedEmail: DataTypes.BOOLEAN,
-        }, {
-            tableName: TABLE_NAME,
-            hooks: {
-                // Before creating the user on the database
-                beforeCreate: async function(user: any) {
-                    // Hash the password
-                    const salt = await bcrypt.genSalt(10);
-                    
-                    console.log(`User password: ${user.password}`);
-                    user.password = await bcrypt.hash(user.password, salt);
-                }
-            },
-            scopes: {
-                // Should be called something else like
-                // 'frontend'
-                deletePassword: {
-                    attributes: {
-                        exclude: [
-                            "password",
-                            "token",
-                        ]
-                    }
-                }
-            }
-        });
-
-        // Personalized methods
-        model.prototype.verifyPassword = function(password: string) {
-            return bcrypt.compareSync(password, this.password);
-        }
-        
-        return model;
     }
     
     /**
@@ -706,7 +654,7 @@ export default class Models {
             tableName: "user-messages",
         });
         
-        model.belongsTo(this.user());
+        model.belongsTo(this.user);
         
         return model;
     }

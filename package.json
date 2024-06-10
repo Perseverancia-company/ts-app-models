@@ -1,6 +1,6 @@
 {
   "name": "felixriddle.ts-app-models",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Sequelize models for my apps",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -21,11 +21,15 @@
     "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "mysql2": "^3.9.2",
-    "sequelize": "^6.37.1"
+    "reflect-metadata": "^0.2.2",
+    "sequelize": "^6.37.1",
+    "sequelize-typescript": "^2.1.6"
   },
   "devDependencies": {
     "@types/argparse": "^2.0.15",
     "@types/bcrypt": "^5.0.2",
+    "@types/node": "^20.14.2",
+    "@types/validator": "^13.11.10",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",
     "typescript": "^5.4.2"
