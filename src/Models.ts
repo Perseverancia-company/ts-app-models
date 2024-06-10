@@ -274,6 +274,136 @@ export default class Models {
     
     // --- Real estate app ---
     /**
+     * User favorites
+     */
+    userFavoriteProperty() {
+        const TABLE_NAME = "user-favorite-property";
+        
+        const Model = this.connection.define(TABLE_NAME, {
+            id: { 
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.BIGINT
+            },
+        }, {
+            tableName: TABLE_NAME,
+        });
+        
+        // Relations
+        Model.belongsTo(this.user(), {
+            foreignKey: "userId",
+        });
+        Model.belongsTo(this.property(), {
+            foreignKey: "propertyId",
+        });
+        
+        return Model;
+    }
+    
+    /**
+     * Property ratings
+     * 
+     * Most websites use a 0 to 5 stars rating, and it's a float, so we are going with that.
+     * 
+     * We keep track of the user, so that the user can't give more ratings to the same property.
+     */
+    propertyRating() {
+        const TABLE_NAME = "property-rating";
+        
+        const Model = this.connection.define(TABLE_NAME, {
+            id: { 
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.BIGINT
+            },
+            rating: {
+                type: DataTypes.FLOAT,
+                allowNull: false,
+            }
+        }, {
+            tableName: TABLE_NAME,
+        });
+        
+        // Relations
+        Model.belongsTo(this.property(), {
+            foreignKey: "propertyId",
+        });
+        Model.belongsTo(this.user(), {
+            foreignKey: "userId",
+        });
+        
+        return Model;
+    }
+    
+    /**
+     * Property comments
+     */
+    propertyComment() {
+        const TABLE_NAME = "property-comment";
+        
+        const Model = this.connection.define(TABLE_NAME, {
+            id: { 
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.BIGINT
+            },
+            message: {
+                type: DataTypes.STRING(2048),
+                allowNull: false,
+            }
+        }, {
+            tableName: TABLE_NAME,
+        });
+        
+        // Relations
+        Model.belongsTo(this.property(), {
+            foreignKey: "propertyId",
+        });
+        Model.belongsTo(this.user(), {
+            foreignKey: "userId",
+        });
+        
+        return Model;
+    }
+    
+    /**
+     * Messages sent to a property seller
+     * 
+     * The difference between messages and comments is that messages are private, between the user and property owner.
+     */
+    propertySellerMessage() {
+        const TABLE_NAME = "property-seller-message";
+        
+        const Model = this.connection.define(TABLE_NAME, {
+            id:{ 
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.BIGINT
+            },
+            message: {
+                type: DataTypes.STRING(512),
+                allowNull: false,
+            }
+        }, {
+            tableName: TABLE_NAME,
+        });
+        
+        // Relations
+        Model.belongsTo(this.property(), {
+            foreignKey: "propertyId",
+        });
+        Model.belongsTo(this.user(), {
+            foreignKey: "userId",
+        });
+        
+        return Model;
+    }
+    
+    /**
      * Category model
      */
     category() {
@@ -387,7 +517,7 @@ export default class Models {
      * Property
      */
     property() {
-        const model = this.connection.define("property", {
+        const Model = this.connection.define("property", {
             id: {
                 type: DataTypes.BIGINT,
                 allowNull: false,
@@ -440,11 +570,44 @@ export default class Models {
             tableName: "property",
         });
         
-        model.belongsTo(this.user());
-        model.belongsTo(this.category());
-        model.belongsTo(this.price());
+        Model.belongsTo(this.user());
+        Model.belongsTo(this.category());
+        Model.belongsTo(this.price());
         
-        return model;
+        return Model;
+    }
+    
+    /**
+     * User contact methods
+     * 
+     * Most people primary email will be hidden, this is where they can put a public one, or a phone number.
+     */
+    userContactMethods() {
+        const TABLE_NAME = "user-contact-methods";
+        
+        const Model = this.connection.define(TABLE_NAME, {
+            id:{ 
+                allowNull: false,
+                autoIncrement: true,
+                primaryKey: true,
+                type: DataTypes.BIGINT
+            },
+            email: {
+                type: DataTypes.STRING(128),
+            },
+            phoneNumber: {
+                type: DataTypes.STRING(128),
+            }
+        }, {
+            tableName: TABLE_NAME,
+        });
+        
+        // Relations
+        Model.belongsTo(this.user(), {
+            foreignKey: "userId",
+        });
+        
+        return Model;
     }
     
     /**
@@ -510,6 +673,14 @@ export default class Models {
     
     /**
      * User messages
+     * 
+     * Messages sent from the system to the user.
+     * 
+     * Like:
+     * * Failed validation
+     * * Notifications
+     * * Offers
+     * * Suggestions
      */
     userMessages() {
         const model = this.connection.define("user-messages", {
