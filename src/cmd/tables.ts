@@ -1,3 +1,4 @@
+import { Sequelize } from "sequelize";
 import mysqlConn from "../connection/mysqlConn";
 import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariables';
 import Models from "../Models";
@@ -8,13 +9,11 @@ import Models from "../Models";
  * To manage all tables
  */
 class TablesController {
-    db: any;
-    modelManager: any;
+    db: Sequelize;
+    modelManager: Models;
     
-    constructor() {
-        // Create connection
-        this.modelManager = new Models();
-        
+    constructor(models: Models) {
+        this.modelManager = models;
         this.db = this.modelManager.connection;
     }
     
@@ -72,7 +71,7 @@ class TablesController {
             this.modelManager.appTag,
             this.modelManager.appGroup,
             this.modelManager.process(),
-            this.modelManager.user(),
+            this.modelManager.user,
             this.modelManager.debugPropertyImageUpload(),
             this.modelManager.category(),
             this.modelManager.price(),
@@ -134,10 +133,10 @@ class TablesController {
 /**
  * Reset tables
  */
-export async function resetTables() {
+export async function resetTables(models: Models) {
     printMysqlEnvironmentVariables();
     
-    const tablesController = new TablesController();
+    const tablesController = new TablesController(models);
     
     await tablesController.initialize();
     await tablesController.dropAll();
@@ -149,21 +148,21 @@ export async function resetTables() {
  * 
  * @param args 
  */
-export default async function tablesMain(args: any) {
+export default async function tablesMain(args: any, models: Models) {
     if(args.db_sync) {
-        const tc = new TablesController();
+        const tc = new TablesController(models);
         await tc.sync();
     }
     
     if(args.up_all) {
         printMysqlEnvironmentVariables();
         
-        const tc = new TablesController();
+        const tc = new TablesController(models);
         await tc.initialize();
         await tc.upAll();
     }
     
     if(args.reset_tables) {
-        await resetTables();
+        await resetTables(models);
     }
 }

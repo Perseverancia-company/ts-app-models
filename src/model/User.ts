@@ -1,10 +1,18 @@
-import { Model, InferCreationAttributes, InferAttributes, ModelStatic, Sequelize, DataTypes } from "sequelize";
+import { Model, InferCreationAttributes, InferAttributes, ModelStatic, Sequelize, DataTypes, Optional } from "sequelize";
 import bcrypt from "bcrypt";
 
 /**
  * User model
  */
-export default class User extends Model<InferAttributes<User>, InferCreationAttributes<User>> {
+export default class User extends Model<
+    InferAttributes<
+        User,
+        { omit: 'id' | 'confirmedEmail' | 'createdAt' | 'updatedAt' | 'token' }
+    >,
+    InferCreationAttributes<
+        User,
+        { omit: 'id' | 'confirmedEmail' | 'createdAt' | 'updatedAt' | 'token' }
+    >> {
     declare id: number;
     declare name: string;
     declare email: string;
@@ -88,7 +96,7 @@ export function createUserModel(conn: Sequelize) {
                     ]
                 }
             }
-        }
+        },
     });
     
     return UserModel;

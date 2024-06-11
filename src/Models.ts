@@ -38,13 +38,12 @@ export default class Models {
         
         // Real estate
         const user = createUserModel(this.connection);
+        this.user = user;
         
         // We've got to declare this before the junction models
         this.app = app;
         this.appTag = appTag;
         this.appGroup = appGroup;
-        
-        this.user = user;
         
         // --- Junction tables ---
         const tagAppJunction = this.#tagAppJunction();
