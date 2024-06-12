@@ -73,7 +73,7 @@ class TablesController {
             this.modelManager.process(),
             this.modelManager.user,
             this.modelManager.debugPropertyImageUpload(),
-            this.modelManager.category(),
+            this.modelManager.category,
             this.modelManager.price(),
             
             // Dependents

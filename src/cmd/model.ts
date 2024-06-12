@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
  * Open all models
  */
 async function openAll(models: Models) {
-    const category = models.category();
+    const category = models.category;
     const debugPropertyimageUpload = models.debugPropertyImageUpload();
     const price = models.price();
     // This one opens three more

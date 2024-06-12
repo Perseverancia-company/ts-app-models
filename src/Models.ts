@@ -2,6 +2,7 @@ import { Sequelize, DataTypes } from "sequelize";
 
 import mysqlConn from "./connection/mysqlConn";
 import User, { createUserModel } from "./model/User";
+import Category, { createCategoryModel } from "./model/Category";
 
 /**
  * Models
@@ -22,6 +23,7 @@ export default class Models {
     
     // Real estate tables
     user: typeof User;
+    category: typeof Category;
     
     /**
      * Constructor
@@ -35,15 +37,16 @@ export default class Models {
         const app = this.#app();
         const appTag = this.#appTag();
         const appGroup = this.#appGroup();
-        
-        // Real estate
-        const user = createUserModel(this.connection);
-        this.user = user;
-        
         // We've got to declare this before the junction models
         this.app = app;
         this.appTag = appTag;
         this.appGroup = appGroup;
+        
+        // Real estate
+        const user = createUserModel(this.connection);
+        const category = createCategoryModel(this.connection);
+        this.user = user;
+        this.category = category;
         
         // --- Junction tables ---
         const tagAppJunction = this.#tagAppJunction();
@@ -412,28 +415,6 @@ export default class Models {
     }
     
     /**
-     * Category model
-     */
-    category() {
-        const Model = this.connection.define("category", {
-            id:{ 
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.INTEGER
-            },
-            name: {
-                type: DataTypes.STRING(128),
-                allowNull: false,
-            }
-        }, {
-            tableName: "category",
-        });
-        
-        return Model;
-    }
-    
-    /**
      * Debug property image upload
      */
     debugPropertyImageUpload() {
@@ -579,7 +560,7 @@ export default class Models {
         });
         
         Model.belongsTo(this.user);
-        Model.belongsTo(this.category());
+        Model.belongsTo(this.category);
         Model.belongsTo(this.price());
         
         return Model;

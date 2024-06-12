@@ -1,4 +1,4 @@
-import { Model, InferCreationAttributes, InferAttributes, ModelStatic, Sequelize, DataTypes, Optional } from "sequelize";
+import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
 
 /**
@@ -6,8 +6,7 @@ import bcrypt from "bcrypt";
  */
 export default class User extends Model<
     InferAttributes<
-        User,
-        { omit: 'id' | 'confirmedEmail' | 'createdAt' | 'updatedAt' | 'token' }
+        User
     >,
     InferCreationAttributes<
         User,
@@ -76,6 +75,7 @@ export function createUserModel(conn: Sequelize) {
     }, {
         sequelize: conn,
         tableName: TABLE_NAME,
+        modelName: TABLE_NAME,
         hooks: {
             // Before creating the user on the database
             beforeCreate: async function(user: any) {
