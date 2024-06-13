@@ -72,13 +72,13 @@ class TablesController {
             this.modelManager.appGroup,
             this.modelManager.process(),
             this.modelManager.user,
-            this.modelManager.debugPropertyImageUpload(),
+            this.modelManager.debugPropertyImageUpload,
             this.modelManager.category,
-            this.modelManager.price(),
+            this.modelManager.price,
             
             // Dependents
-            this.modelManager.property(),
-            this.modelManager.userMessages(),
+            this.modelManager.property,
+            this.modelManager.userMessages,
             this.modelManager.tagAppJunction,
             this.modelManager.groupAppJunction,
             this.modelManager.appOutput,

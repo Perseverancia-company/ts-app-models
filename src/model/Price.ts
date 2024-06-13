@@ -3,12 +3,12 @@ import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes }
 /**
  * User model
  */
-export default class Category extends Model<
+export default class Price extends Model<
     InferAttributes<
-        Category
+        Price
     >,
     InferCreationAttributes<
-        Category,
+        Price,
         { omit: 'id' | 'createdAt' | 'updatedAt' }
     >> {
     declare id: number;
@@ -18,15 +18,15 @@ export default class Category extends Model<
 }
 
 /**
- * Create category model
+ * Create price model
  * 
  * @param conn 
  * @returns 
  */
-export function createCategoryModel(conn: Sequelize) {
-    const TABLE_NAME = "category";
+export function createPriceModel(conn: Sequelize) {
+    const TABLE_NAME = "price";
         
-    const Model = Category.init({
+    const Model = Price.init({
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,

@@ -3,6 +3,15 @@ import { Sequelize, DataTypes } from "sequelize";
 import mysqlConn from "./connection/mysqlConn";
 import User, { createUserModel } from "./model/User";
 import Category, { createCategoryModel } from "./model/Category";
+import Price, { createPriceModel } from "./model/Price";
+import UserMessages, { createUserMessagesModel } from "./model/UserMessages";
+import Property, { createPropertyModel } from "./model/Property";
+import UserContactMethods, { createUserContactMethods } from "./model/UserContactMethods";
+import DebugPropertyImageUpload, { createDebugPropertyImageUpload } from "./model/DebugPropertyImageUpload";
+import PropertySellerMessage, { createPropertySellerMessage } from "./model/PropertySellerMessage";
+import PropertyComment, { createPropertyComment } from "./model/PropertyComment";
+import PropertyRating, { createPropertyRating } from "./model/PropertyRating";
+import UserFavoriteProperty, { createUserFavoriteProperty } from "./model/UserFavoriteProperty";
 
 /**
  * Models
@@ -21,9 +30,20 @@ export default class Models {
     tagAppJunction: any;
     groupAppJunction: any;
     
-    // Real estate tables
+    // User tables
     user: typeof User;
+    
+    // Real estate tables
     category: typeof Category;
+    price: typeof Price;
+    userMessages: typeof UserMessages;
+    property: typeof Property;
+    userContactMethods: typeof UserContactMethods;
+    debugPropertyImageUpload: typeof DebugPropertyImageUpload;
+    propertySellerMessage: typeof PropertySellerMessage;
+    propertyComment: typeof PropertyComment;
+    propertyRating: typeof PropertyRating;
+    userFavoriteProperty: typeof UserFavoriteProperty;
     
     /**
      * Constructor
@@ -42,12 +62,6 @@ export default class Models {
         this.appTag = appTag;
         this.appGroup = appGroup;
         
-        // Real estate
-        const user = createUserModel(this.connection);
-        const category = createCategoryModel(this.connection);
-        this.user = user;
-        this.category = category;
-        
         // --- Junction tables ---
         const tagAppJunction = this.#tagAppJunction();
         const groupAppJunction = this.#groupAppJunction();
@@ -55,6 +69,36 @@ export default class Models {
         this.appOutput = this.#appOutput();
         this.tagAppJunction = tagAppJunction;
         this.groupAppJunction = groupAppJunction;
+        
+        // --- User tables ---
+        const user = createUserModel(this.connection);
+        this.user = user;
+        
+        // --- Real estate ---
+        const category = createCategoryModel(this.connection);
+        const price = createPriceModel(this.connection);
+        this.category = category;
+        this.price = price;
+        
+        // Dependents
+        const userMessages = createUserMessagesModel(this.connection, this.user);
+        const property = createPropertyModel(this.connection, this.user, this.category, this.price);
+        const userContactMethods = createUserContactMethods(this.connection, this.user);
+        this.userMessages = userMessages;
+        this.property = property;
+        this.userContactMethods = userContactMethods;
+        
+        // Dependents level 2
+        const debugPropertyImageUpload = createDebugPropertyImageUpload(this.connection, this.property);
+        const propertySellerMessage = createPropertySellerMessage(this.connection, this.user, this.property);
+        const propertyComment = createPropertyComment(this.connection, this.user, this.property);
+        const propertyRating = createPropertyRating(this.connection, this.user, this.property);
+        const userFavoriteProperty = createUserFavoriteProperty(this.connection, this.user, this.property);
+        this.debugPropertyImageUpload = debugPropertyImageUpload;
+        this.propertySellerMessage = propertySellerMessage;
+        this.propertyComment = propertyComment;
+        this.propertyRating = propertyRating;
+        this.userFavoriteProperty = userFavoriteProperty;
     }
     
     // --- Models ---
@@ -279,362 +323,6 @@ export default class Models {
         }, {
             tableName: TABLE_NAME,
         });
-        
-        return model;
-    }
-    
-    // --- Real estate app ---
-    /**
-     * User favorites
-     */
-    userFavoriteProperty() {
-        const TABLE_NAME = "user-favorite-property";
-        
-        const Model = this.connection.define(TABLE_NAME, {
-            id: { 
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.BIGINT
-            },
-        }, {
-            tableName: TABLE_NAME,
-        });
-        
-        // Relations
-        Model.belongsTo(this.user, {
-            foreignKey: "userId",
-        });
-        Model.belongsTo(this.property(), {
-            foreignKey: "propertyId",
-        });
-        
-        return Model;
-    }
-    
-    /**
-     * Property ratings
-     * 
-     * Most websites use a 0 to 5 stars rating, and it's a float, so we are going with that.
-     * 
-     * We keep track of the user, so that the user can't give more ratings to the same property.
-     */
-    propertyRating() {
-        const TABLE_NAME = "property-rating";
-        
-        const Model = this.connection.define(TABLE_NAME, {
-            id: { 
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.BIGINT
-            },
-            rating: {
-                type: DataTypes.FLOAT,
-                allowNull: false,
-            }
-        }, {
-            tableName: TABLE_NAME,
-        });
-        
-        // Relations
-        Model.belongsTo(this.property(), {
-            foreignKey: "propertyId",
-        });
-        Model.belongsTo(this.user, {
-            foreignKey: "userId",
-        });
-        
-        return Model;
-    }
-    
-    /**
-     * Property comments
-     */
-    propertyComment() {
-        const TABLE_NAME = "property-comment";
-        
-        const Model = this.connection.define(TABLE_NAME, {
-            id: { 
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.BIGINT
-            },
-            message: {
-                type: DataTypes.STRING(2048),
-                allowNull: false,
-            }
-        }, {
-            tableName: TABLE_NAME,
-        });
-        
-        // Relations
-        Model.belongsTo(this.property(), {
-            foreignKey: "propertyId",
-        });
-        Model.belongsTo(this.user, {
-            foreignKey: "userId",
-        });
-        
-        return Model;
-    }
-    
-    /**
-     * Messages sent to a property seller
-     * 
-     * The difference between messages and comments is that messages are private, between the user and property owner.
-     */
-    propertySellerMessage() {
-        const TABLE_NAME = "property-seller-message";
-        
-        const Model = this.connection.define(TABLE_NAME, {
-            id:{ 
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.BIGINT
-            },
-            message: {
-                type: DataTypes.STRING(512),
-                allowNull: false,
-            }
-        }, {
-            tableName: TABLE_NAME,
-        });
-        
-        // Relations
-        Model.belongsTo(this.property(), {
-            foreignKey: "propertyId",
-        });
-        Model.belongsTo(this.user, {
-            foreignKey: "userId",
-        });
-        
-        return Model;
-    }
-    
-    /**
-     * Debug property image upload
-     */
-    debugPropertyImageUpload() {
-        const model = this.connection.define("debug-property-image-upload", {
-            // This is for every entry, I need a bigger set, which will be the whole course of actions
-            id: {
-                type: DataTypes.BIGINT,
-                allowNull: false,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            // Action course uuid
-            // (because configuring auto increment to act however I want, it's kinda hard)
-            actionCourseUuid: {
-                // String instead of uuid
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            // Actions stage
-            // 1) Frontend validation
-            // 2) Folder creation and validation
-            // 3) Backend validation
-            // 4) Endpoint finishing touches
-            actionStage: {
-                type: DataTypes.SMALLINT,
-                allowNull: false,
-            },
-            // Action type
-            // 'validate_image_size'
-            action: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
-            // Image information
-            // Array is not available in MySQL
-            imageNames: {
-                type: DataTypes.JSON,
-                allowNull: true,
-            },
-            // State information
-            title: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
-            message: {
-                type: DataTypes.TEXT,
-                allowNull: false,
-            },
-            // 1) Normal
-            // 2) Success
-            // 3) Warning
-            // 4) Error
-            // 5) Notification
-            status: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            }
-        }, {
-            tableName: "debug-property-image-upload",
-        });
-        
-        return model;
-    }
-    
-    /**
-     * Price
-     */
-    price() {
-        // This creates a new connection each time, we have to take a reference
-        const Model = this.connection.define("price", {
-            id:{
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.INTEGER
-            },
-            name: {
-                type: DataTypes.STRING(128),
-                allowNull: false,
-            }
-        }, {
-            tableName: "price",
-        });
-        
-        return Model;
-    }
-    
-    /**
-     * Property
-     */
-    property() {
-        const Model = this.connection.define("property", {
-            id: {
-                type: DataTypes.BIGINT,
-                allowNull: false,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            uuid: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
-                allowNull: false,
-            },
-            title: {
-                type: DataTypes.STRING(128),
-                allowNull: false,
-            },
-            description: {
-                type: DataTypes.TEXT,
-                allowNull: false,
-            },
-            rooms: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            parking: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            bathrooms: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            },
-            street: {
-                type: DataTypes.STRING(128),
-                allowNull: false,
-            },
-            latitude: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            longitude: {
-                type: DataTypes.STRING,
-                allowNull: false,
-            },
-            published: {
-                type: DataTypes.BOOLEAN,
-                allowNull: false,
-                defaultValue: false,
-            },
-        }, {
-            tableName: "property",
-        });
-        
-        Model.belongsTo(this.user);
-        Model.belongsTo(this.category);
-        Model.belongsTo(this.price());
-        
-        return Model;
-    }
-    
-    /**
-     * User contact methods
-     * 
-     * Most people primary email will be hidden, this is where they can put a public one, or a phone number.
-     */
-    userContactMethods() {
-        const TABLE_NAME = "user-contact-methods";
-        
-        const Model = this.connection.define(TABLE_NAME, {
-            id:{ 
-                allowNull: false,
-                autoIncrement: true,
-                primaryKey: true,
-                type: DataTypes.BIGINT
-            },
-            email: {
-                type: DataTypes.STRING(128),
-            },
-            phoneNumber: {
-                type: DataTypes.STRING(128),
-            }
-        }, {
-            tableName: TABLE_NAME,
-        });
-        
-        // Relations
-        Model.belongsTo(this.user, {
-            foreignKey: "userId",
-        });
-        
-        return Model;
-    }
-    
-    /**
-     * User messages
-     * 
-     * Messages sent from the system to the user.
-     * 
-     * Like:
-     * * Failed validation
-     * * Notifications
-     * * Offers
-     * * Suggestions
-     */
-    userMessages() {
-        const model = this.connection.define("user-messages", {
-            id: {
-                type: DataTypes.BIGINT,
-                allowNull: false,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            title: {
-                type: DataTypes.STRING,
-                allowNull: true,
-            },
-            message: {
-                type: DataTypes.TEXT,
-                allowNull: false,
-            },
-            status: {
-                type: DataTypes.INTEGER,
-                allowNull: false,
-            }
-        }, {
-            tableName: "user-messages",
-        });
-        
-        model.belongsTo(this.user);
         
         return model;
     }

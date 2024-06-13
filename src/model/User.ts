@@ -40,7 +40,7 @@ export default class User extends Model<
 }
 
 /**
- * Initialize user model
+ * Create user model
  * 
  * @param conn 
  * @returns 
