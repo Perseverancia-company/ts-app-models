@@ -1,6 +1,7 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
 import User from "./User";
 import Property from "./Property";
+import GeneralPropertyInformation from "./GeneralPropertyInformation";
 
 /**
  * Property comment
@@ -22,7 +23,11 @@ export default class PropertyComment extends Model<
 /**
  * Property comments
  */
-export function createPropertyComment(conn: Sequelize, user: typeof User, property: typeof Property) {
+export function createPropertyComment(
+    conn: Sequelize,
+    user: typeof User,
+    property: typeof Property
+) {
     const TABLE_NAME = "property-comment";
         
     const PropertyCommentModel = PropertyComment.init({
@@ -47,14 +52,6 @@ export function createPropertyComment(conn: Sequelize, user: typeof User, proper
     // Relations
     PropertyCommentModel.belongsTo(property);
     PropertyCommentModel.belongsTo(user);
-    
-    // // Relations
-    // PropertySellerMessageModel.belongsTo(this.property, {
-    //     foreignKey: "propertyId",
-    // });
-    // PropertySellerMessageModel.belongsTo(this.user, {
-    //     foreignKey: "userId",
-    // });
     
     return PropertyCommentModel;
 }

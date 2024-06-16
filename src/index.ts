@@ -1,14 +1,11 @@
 // Connections
 import mysqlConn from "./connection/mysqlConn";
-
 import printMysqlEnvironmentVariables from "./env/printMysqlEnvironmentVariables";
-
-import TablesController, { resetTables } from "./cmd/tables";
-
+import { resetTables } from "./cmd/tables";
 import Models from "./Models";
-
-// Types
 import PartialConnectionOptions from "./types/sequelize/PartialConnectionOptions";
+import TablesController from "./lib/TablesController";
+import RealEstateTables from "./lib/tables/RealEstate";
 
 export {
     // Prefer to use this one
@@ -22,6 +19,7 @@ export {
     
     // Tables
     resetTables,
+    RealEstateTables,
     TablesController,
 }
 

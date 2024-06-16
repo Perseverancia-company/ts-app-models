@@ -18,6 +18,7 @@ const parser = new ArgumentParser({
     description: "Argparse example"
 });
 
+// Tables
 parser.add_argument("--reset-tables", {
     help: "Destroy and create the tables again with the default data",
     action: "store_true"
@@ -30,6 +31,11 @@ parser.add_argument("--up-all", {
 
 parser.add_argument("--db-sync", {
     help: "Sync the database",
+    action: "store_true"
+});
+
+parser.add_argument("--reset-real-estate", {
+    help: "Delete and create real estate tables",
     action: "store_true"
 });
 
