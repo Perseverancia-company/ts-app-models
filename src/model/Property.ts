@@ -1,10 +1,13 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
+
 import User from "./User";
 import Category from "./Category";
 import Price from "./Price";
 
 /**
- * User model
+ * Property model
+ * 
+ * This model holds the property data.
  */
 export default class Property extends Model<
     InferAttributes<
@@ -23,12 +26,13 @@ export default class Property extends Model<
     declare parking: number;
     declare bathrooms: number;
     
-    // These three could be put in another table
-    // because there may be many apartments at the same direction.
+    // TODO: These three could be put in another table
+    // because there may be many apartments at the same direction for example, and also for cleanliness.
     declare street: string;
     declare latitude: string;
     declare longitude: string;
     
+    // TODO: External attribute that should be on general property information too
     declare published: boolean;
     
     declare createdAt: Date;
@@ -36,20 +40,17 @@ export default class Property extends Model<
 }
 
 /**
- * User messages
- * 
- * Messages sent from the system to the user.
- * 
- * Like:
- * * Failed validation
- * * Notifications
- * * Offers
- * * Suggestions
+ * Property model
  * 
  * @param conn 
  * @returns 
  */
-export function createPropertyModel(conn: Sequelize, user: typeof User, category: typeof Category, price: typeof Price) {
+export function createPropertyModel(
+    conn: Sequelize,
+    user: typeof User,
+    category: typeof Category,
+    price: typeof Price
+) {
     const TABLE_NAME = "property";
     
     const PropertyModel = Property.init({
@@ -109,6 +110,8 @@ export function createPropertyModel(conn: Sequelize, user: typeof User, category
         modelName: TABLE_NAME,
     });
     
+    // TODO: These three could be moved to general property information too
+    // The problem is just that, it will break everything.
     PropertyModel.belongsTo(user);
     PropertyModel.belongsTo(category);
     PropertyModel.belongsTo(price);

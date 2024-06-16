@@ -12,6 +12,7 @@ import PropertySellerMessage, { createPropertySellerMessage } from "./model/Prop
 import PropertyComment, { createPropertyComment } from "./model/PropertyComment";
 import PropertyRating, { createPropertyRating } from "./model/PropertyRating";
 import UserFavoriteProperty, { createUserFavoriteProperty } from "./model/UserFavoriteProperty";
+import GeneralPropertyInformation, { createGeneralPropertyInformationModel } from "./model/GeneralPropertyInformation";
 
 /**
  * Models
@@ -44,6 +45,7 @@ export default class Models {
     propertyComment: typeof PropertyComment;
     propertyRating: typeof PropertyRating;
     userFavoriteProperty: typeof UserFavoriteProperty;
+    generalPropertyInformation: typeof GeneralPropertyInformation;
     
     /**
      * Constructor
@@ -99,6 +101,16 @@ export default class Models {
         this.propertyComment = propertyComment;
         this.propertyRating = propertyRating;
         this.userFavoriteProperty = userFavoriteProperty;
+        
+        // Dependents level 3
+        const generalPropertyInformation = createGeneralPropertyInformationModel(
+            this.connection,
+            this.property,
+            this.propertySellerMessage,
+            this.propertyRating,
+            this.propertyComment
+        );
+        this.generalPropertyInformation = generalPropertyInformation;
     }
     
     // --- Models ---
