@@ -16,8 +16,8 @@ export default class User extends Model<
     declare name: string;
     declare email: string;
     declare password: string;
-    declare token: string;
     declare confirmedEmail: boolean;
+    declare token: string;
 	declare expires: Date;
 	declare pfp: string;
 	
@@ -58,6 +58,10 @@ export function createUserModel(conn: Sequelize) {
             primaryKey: true,
             autoIncrement: true,
         },
+		// TODO: Relation with company model
+		// company: {
+			
+		// },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -84,14 +88,14 @@ export function createUserModel(conn: Sequelize) {
 				}
 			}
         },
-        token: DataTypes.STRING,
         confirmedEmail: DataTypes.BOOLEAN,
+        token: DataTypes.STRING,
+		expires: {
+			type: DataTypes.DATE
+		},
 		// PFP will be the name of the image only, the path is calculated elsewhere
 		pfp: {
 			type: DataTypes.STRING(64),
-		},
-		expires: {
-			type: DataTypes.DATE
 		},
         // If you don't put these it's gonna give you a big fat error
         createdAt: DataTypes.DATE,

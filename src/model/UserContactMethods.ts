@@ -51,10 +51,5 @@ export function createUserContactMethods(conn: Sequelize, user: typeof User) {
     // Relations
     UserContactMethodsModel.belongsTo(user);
     
-    // // Relations
-    // Model.belongsTo(this.user, {
-    //     foreignKey: "userId",
-    // });
-    
     return UserContactMethodsModel;
 }

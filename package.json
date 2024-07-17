@@ -32,6 +32,8 @@
     "@types/argparse": "^2.0.15",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20.14.2",
+    "@types/shortid": "^0.0.32",
+    "@types/slug": "^5.0.8",
     "@types/validator": "^13.11.10",
     "ts-node": "^10.9.2",
     "tsup": "^8.0.2",

@@ -58,6 +58,7 @@ export function createJobModel(conn: Sequelize) {
             type: DataTypes.STRING(128),
             allowNull: false,
         },
+		// TODO: Relation with company model
         company: {
             type: DataTypes.STRING(128),
             allowNull: false,

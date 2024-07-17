@@ -1,6 +1,7 @@
 import { Sequelize, DataTypes } from "sequelize";
 
 import mysqlConn from "./connection/mysqlConn";
+
 import User, { createUserModel } from "./model/User";
 import Category, { createCategoryModel } from "./model/Category";
 import Price, { createPriceModel } from "./model/Price";
@@ -14,12 +15,16 @@ import PropertyRating, { createPropertyRating } from "./model/PropertyRating";
 import UserFavoriteProperty, { createUserFavoriteProperty } from "./model/UserFavoriteProperty";
 import GeneralPropertyInformation, { createGeneralPropertyInformationModel } from "./model/GeneralPropertyInformation";
 import Job, { createJobModel } from "./model/Job";
-import SocialCategory, { createSocialCategoryModel } from "./model/SocialCategory";
 import Address, { createAddressModel } from "./model/Address";
 import Groups, { createGroupsModel } from "./model/Groups";
 import Meeti, { createMeetiModel } from "./model/Meeti";
 import MeetiParticipants, { createMeetiParticipantsModel } from "./model/MeetiParticipants";
 import Comment, { createCommentModel } from "./model/Comment";
+import Product, { createProductModel } from "./model/Product";
+import Invoice, { createInvoiceModel } from "./model/Invoice";
+import InvoiceProductJunction, { createInvoiceProductJunctionModel } from "./model/InvoiceProductJunction";
+import Company, { createCompanyModel } from "./model/Company";
+import SocialCategory, { createSocialCategoryModel } from "./model/SocialCategory";
 
 /**
  * Models
@@ -30,23 +35,29 @@ import Comment, { createCommentModel } from "./model/Comment";
 export default class Models {
     connection: Sequelize;
     
+	// The order that is shown here is the correct order of creation
+	// And for destruction the reverse of this order
+    // Independent tables
+    user: typeof User;
+	address: typeof Address;
+	
+	// User tables
+    userContactMethods: typeof UserContactMethods;
+    
     // App manager tables
     app: any;
     appGroup: any;
     appOutput: any;
+	process: any;
     appTag: any;
     tagAppJunction: any;
     groupAppJunction: any;
-    
-    // User tables
-    user: typeof User;
     
     // Real estate tables
     category: typeof Category;
     price: typeof Price;
     userMessages: typeof UserMessages;
     property: typeof Property;
-    userContactMethods: typeof UserContactMethods;
     debugPropertyImageUpload: typeof DebugPropertyImageUpload;
     propertySellerMessage: typeof PropertySellerMessage;
     propertyComment: typeof PropertyComment;
@@ -55,15 +66,20 @@ export default class Models {
     generalPropertyInformation: typeof GeneralPropertyInformation;
     
     // Jobs tables
+	company: typeof Company;
     job: typeof Job;
 	
 	// Meetup tables
 	socialCategory: typeof SocialCategory;
-	address: typeof Address;
 	groups: typeof Groups;
 	meeti: typeof Meeti;
 	meetiParticipants: typeof MeetiParticipants;
 	comment: typeof Comment;
+	
+	// CRM tables
+	product: typeof Product;
+	invoice: typeof Invoice;
+	invoiceProductJunction: typeof InvoiceProductJunction;
 	
     /**
      * Constructor
@@ -71,29 +87,23 @@ export default class Models {
     constructor() {
         this.connection = mysqlConn();
         
-        // I'm just realizing it now
-        // All models have to be initialized at once and be kept on memory
-        // I thought it wasn't like that for some reason, but we can keep some in 'spawn when needed'
-        const app = this.#app();
-        const appTag = this.#appTag();
-        const appGroup = this.#appGroup();
-        // We've got to declare this before the junction models
-        this.app = app;
-        this.appTag = appTag;
-        this.appGroup = appGroup;
+        // Independent tables
+        this.user = createUserModel(this.connection);
+		this.address = createAddressModel(this.connection);
+		
+		// User tables
+        this.userContactMethods = createUserContactMethods(this.connection, this.user);
         
-        // --- Junction tables ---
-        const tagAppJunction = this.#tagAppJunction();
-        const groupAppJunction = this.#groupAppJunction();
+        // App tables
+        this.app = this.#app();
+        this.appTag = this.#appTag();
+        this.appGroup = this.#appGroup();
+		this.process = this.#process();
         
         this.appOutput = this.#appOutput();
-        this.tagAppJunction = tagAppJunction;
-        this.groupAppJunction = groupAppJunction;
-        
-        // --- User tables ---
-        const user = createUserModel(this.connection);
-        this.user = user;
-        
+        this.tagAppJunction = this.#tagAppJunction();
+        this.groupAppJunction = this.#groupAppJunction();
+		
         // --- Real estate ---
         const category = createCategoryModel(this.connection);
         const price = createPriceModel(this.connection);
@@ -103,10 +113,8 @@ export default class Models {
         // Dependents
         const userMessages = createUserMessagesModel(this.connection, this.user);
         const property = createPropertyModel(this.connection, this.user, this.category, this.price);
-        const userContactMethods = createUserContactMethods(this.connection, this.user);
         this.userMessages = userMessages;
         this.property = property;
-        this.userContactMethods = userContactMethods;
         
         // Dependents level 2
         const debugPropertyImageUpload = createDebugPropertyImageUpload(this.connection, this.property);
@@ -131,16 +139,19 @@ export default class Models {
         this.generalPropertyInformation = generalPropertyInformation;
         
         // --- Job app(Dev jobs) ---
+		const company = createCompanyModel(
+			this.connection,
+			this.address
+		);
+		this.company = company;
+		
         const job = createJobModel(
             this.connection,
         );
         this.job = job;
 		
 		// --- Meetup app(Meeti) ---
-		const socialCategory = createSocialCategoryModel(this.connection);
-		const address = createAddressModel(this.connection);
-		this.socialCategory = socialCategory;
-		this.address = address;
+		this.socialCategory = createSocialCategoryModel(this.connection);
 		
 		const groups = createGroupsModel(this.connection, this.socialCategory, this.user);
 		this.groups = groups;
@@ -165,6 +176,25 @@ export default class Models {
 		);
 		this.meetiParticipants = meetiParticipants;
 		this.comment = comment;
+		
+		// --- CRM ---
+		const product = createProductModel(
+			this.connection
+		);
+		this.product = product;
+		
+		const invoice = createInvoiceModel(
+			this.connection,
+			this.user
+		);
+		this.invoice = invoice;
+		
+		const invoiceProductJunction = createInvoiceProductJunctionModel(
+			this.connection,
+			this.invoice,
+			this.product
+		);
+		this.invoiceProductJunction = invoiceProductJunction;
     }
     
     // --- Models ---
@@ -357,7 +387,7 @@ export default class Models {
      * With this simple rule you can start the same app, for example,
      * with different arguments and it will still work if you provide a different name
      */
-    process() {
+    #process() {
         const TABLE_NAME = "process";
         const model = this.connection.define(TABLE_NAME, {
             // Name like 'authentication' or 'real-estate'

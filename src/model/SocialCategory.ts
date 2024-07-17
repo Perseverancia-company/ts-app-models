@@ -50,5 +50,3 @@ export function createSocialCategoryModel(conn: SequelizeConnection) {
 	
 	return SocialCategoryModel;
 }
-
-module.exports = createSocialCategoryModel;

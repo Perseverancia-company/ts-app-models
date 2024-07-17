@@ -114,5 +114,3 @@ export function createMeetiModel(
 	
 	return MeetiModel;
 }
-
-module.exports = createMeetiModel;

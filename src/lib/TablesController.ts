@@ -5,6 +5,8 @@ import Models from "../Models";
  * Tables controller
  * 
  * To manage all tables
+ * 
+ * Be careful when using this!
  */
 export default class TablesController {
     db: Sequelize;
@@ -64,18 +66,16 @@ export default class TablesController {
      * When I need it I'll update it.
      */
     models() {
-        const app = this.modelManager.app;
-        
         const modelArray = [
             // Independent
-            app,
-            this.modelManager.appTag,
-            this.modelManager.appGroup,
-            this.modelManager.process(),
-            this.modelManager.user,
-            this.modelManager.debugPropertyImageUpload,
             this.modelManager.category,
             this.modelManager.price,
+			this.modelManager.app,
+            this.modelManager.appTag,
+            this.modelManager.appGroup,
+            this.modelManager.process,
+			
+            this.modelManager.debugPropertyImageUpload,
             
             // Dependents
             this.modelManager.property,
