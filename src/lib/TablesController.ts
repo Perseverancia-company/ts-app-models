@@ -60,45 +60,25 @@ export default class TablesController {
     
     // --- Drop and create models ---
     /**
-     * Models from high independence to low independence
-     * 
-     * This is missing a lot of tables, the reason is that I'm not using it right now.
-     * When I need it I'll update it.
-     */
-    models() {
-        const modelArray = [
-            // Independent
-            this.modelManager.category,
-            this.modelManager.price,
-			this.modelManager.app,
-            this.modelManager.appTag,
-            this.modelManager.appGroup,
-            this.modelManager.process,
-			
-            this.modelManager.debugPropertyImageUpload,
-            
-            // Dependents
-            this.modelManager.property,
-            this.modelManager.userMessages,
-            this.modelManager.tagAppJunction,
-            this.modelManager.groupAppJunction,
-            this.modelManager.appOutput,
-        ];
-        
-        return modelArray;
-    }
-    
-    /**
      * Sync
      */
     async sync() {
-        for(const model of this.models()) {
+        for(const model of this.modelManager.models()) {
             try {
                 await model.sync();
-            } catch(err) {
+            } catch(err: any) {
                 console.log(`Couldn't sync model: `, model);
             }
         }
+    }
+    
+    /**
+     * Create all
+	 * 
+	 * Alias for sync
+     */
+    async createAll() {
+        return await this.sync();
     }
     
     /**
@@ -107,25 +87,11 @@ export default class TablesController {
      * I don't know why db.drop doesn't work
      */
     async dropAll() {
-        for(const model of this.models().reverse()) {
+        for(const model of this.modelManager.models().reverse()) {
             try {
                 await model.drop();
             } catch(err) {
                 console.log(`Couldn't drop model: `, model);
-            }
-        }
-    }
-    
-    /**
-     * Create all
-     */
-    async createAll() {
-        for(const model of this.models()) {
-            try {
-                await model.sync();
-            } catch(err) {
-                console.log(`Couldn't sync model: `, model);
-                console.error(err);
             }
         }
     }

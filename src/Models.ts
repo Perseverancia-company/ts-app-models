@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes } from "sequelize";
+import { Sequelize } from "sequelize";
 
 import mysqlConn from "./connection/mysqlConn";
 
@@ -34,6 +34,8 @@ import GroupAppJunction, { createGroupAppJunction } from "./model/GroupAppJuncti
 import TagAppJunction, { createTagAppJunction } from "./model/TagAppJunction";
 import EmployeeRole, { createEmployeeRoleModel } from "./model/EmployeeRole";
 import CompanyStaff, { createCompanyStaffModel } from "./model/CompanyStaff";
+import Skill, { createSkillModel } from "./model/Skill";
+import JobSkillJunction, { createJobSkillJunction } from "./model/JobSkillJunction";
 
 /**
  * Models
@@ -82,6 +84,8 @@ export default class Models {
 	
     // Jobs
     job: typeof Job;
+	skill: typeof Skill;
+	jobSkillJunction: typeof JobSkillJunction;
 	
 	// Meetup tables
 	socialCategory: typeof SocialCategory;
@@ -175,9 +179,19 @@ export default class Models {
         // Job(Dev jobs)
         this.job = createJobModel(
             this.connection,
+			this.company,
         );
+		this.skill = createSkillModel(
+			this.connection
+		);
 		
-		// --- Meetup app(Meeti) ---
+		this.jobSkillJunction = createJobSkillJunction(
+			this.connection,
+			this.job,
+			this.skill
+		);
+		
+		// Meetup(Meeti)
 		this.socialCategory = createSocialCategoryModel(this.connection);
 		
 		const groups = createGroupsModel(this.connection, this.socialCategory, this.user);
@@ -262,6 +276,8 @@ export default class Models {
 			
 			// Jobs
 			this.job,
+			this.skill,
+			this.jobSkillJunction,
 			
 			// Meetup
 			this.socialCategory,

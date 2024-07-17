@@ -1,6 +1,7 @@
 import slug from "slug";
 import shortid from "shortid";
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
+import Company from "./Company";
 
 /**
  * User model
@@ -15,13 +16,11 @@ export default class Job extends Model<
     >> {
     declare id: number;
     declare title: string;
-    declare company: string;
     declare location: string;
     declare salary: number;
     declare contract: string;
     declare description: string;
     declare url: string;
-    declare skills: string[];
     declare createdAt: Date;
     declare updatedAt: Date;
 }
@@ -39,27 +38,22 @@ export const JOB_CONTRACT_TYPES = [
 ];
 
 /**
- * Create price model
- * 
- * @param conn 
- * @returns 
+ * Job model
  */
-export function createJobModel(conn: Sequelize) {
+export function createJobModel(
+	conn: Sequelize,
+	company: typeof Company,
+) {
     const TABLE_NAME = "job";
         
     const Model = Job.init({
         id: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BIGINT,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
         },
         title: {
-            type: DataTypes.STRING(128),
-            allowNull: false,
-        },
-		// TODO: Relation with company model
-        company: {
             type: DataTypes.STRING(128),
             allowNull: false,
         },
@@ -83,10 +77,6 @@ export function createJobModel(conn: Sequelize) {
             type: DataTypes.STRING(256),
             allowNull: false,
         },
-        skills: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            allowNull: false,
-        },
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
     }, {
@@ -101,6 +91,8 @@ export function createJobModel(conn: Sequelize) {
             }
         },
     });
+	
+	Model.belongsTo(company);
 	
     return Model;
 }
