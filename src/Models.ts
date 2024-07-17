@@ -32,6 +32,8 @@ import Process, { createProcessModel } from "./model/Process";
 import AppGroup, { createAppGroupModel } from "./model/AppGroup";
 import GroupAppJunction, { createGroupAppJunction } from "./model/GroupAppJunction";
 import TagAppJunction, { createTagAppJunction } from "./model/TagAppJunction";
+import EmployeeRole, { createEmployeeRoleModel } from "./model/EmployeeRole";
+import CompanyStaff, { createCompanyStaffModel } from "./model/CompanyStaff";
 
 /**
  * Models
@@ -73,8 +75,12 @@ export default class Models {
     userFavoriteProperty: typeof UserFavoriteProperty;
     generalPropertyInformation: typeof GeneralPropertyInformation;
     
-    // Jobs tables
+	// Company
 	company: typeof Company;
+	employeeRole: typeof EmployeeRole;
+	companyStaff: typeof CompanyStaff;
+	
+    // Jobs
     job: typeof Job;
 	
 	// Meetup tables
@@ -153,17 +159,23 @@ export default class Models {
         );
         this.generalPropertyInformation = generalPropertyInformation;
         
-        // --- Job app(Dev jobs) ---
-		const company = createCompanyModel(
+		// Company
+		this.company = createCompanyModel(
 			this.connection,
 			this.address
 		);
-		this.company = company;
+		this.employeeRole = createEmployeeRoleModel(this.connection);
+		this.companyStaff = createCompanyStaffModel(
+			this.connection,
+			this.user,
+			this.employeeRole,
+			this.company
+		);
 		
-        const job = createJobModel(
+        // Job(Dev jobs)
+        this.job = createJobModel(
             this.connection,
         );
-        this.job = job;
 		
 		// --- Meetup app(Meeti) ---
 		this.socialCategory = createSocialCategoryModel(this.connection);
@@ -210,5 +222,60 @@ export default class Models {
 			this.product
 		);
 		this.invoiceProductJunction = invoiceProductJunction;
+    }
+	
+    /**
+     * Models from high independence to low independence
+     */
+    models() {
+        const modelArray = [
+			this.user,
+			this.address,
+			
+			this.userContactMethods,
+			
+			// App manager
+			this.app,
+			this.appGroup,
+			this.appOutput,
+			this.process,
+			this.appTag,
+			this.tagAppJunction,
+			this.groupAppJunction,
+			
+			// Real estate
+			this.category,
+			this.price,
+			this.userMessages,
+			this.property,
+			this.debugPropertyImageUpload,
+			this.propertySellerMessage,
+			this.propertyComment,
+			this.propertyRating,
+			this.userFavoriteProperty,
+			this.generalPropertyInformation,
+			
+			// Company
+			this.company,
+			this.employeeRole,
+			this.companyStaff,
+			
+			// Jobs
+			this.job,
+			
+			// Meetup
+			this.socialCategory,
+			this.groups,
+			this.meeti,
+			this.meetiParticipants,
+			this.comment,
+			
+			// CRM
+			this.product,
+			this.invoice,
+			this.invoiceProductJunction,
+        ];
+        
+        return modelArray;
     }
 }

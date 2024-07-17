@@ -58,10 +58,6 @@ export function createUserModel(conn: Sequelize) {
             primaryKey: true,
             autoIncrement: true,
         },
-		// TODO: Relation with company model
-		// company: {
-			
-		// },
         name: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -69,6 +65,7 @@ export function createUserModel(conn: Sequelize) {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+			unique: true,
 			validate: {
 				isEmail: {
 					msg: "Email is incorrect",
