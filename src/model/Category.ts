@@ -1,7 +1,7 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
 
 /**
- * User model
+ * Category
  */
 export default class Category extends Model<
     InferAttributes<
@@ -19,9 +19,6 @@ export default class Category extends Model<
 
 /**
  * Create category model
- * 
- * @param conn 
- * @returns 
  */
 export function createCategoryModel(conn: Sequelize) {
     const TABLE_NAME = "category";

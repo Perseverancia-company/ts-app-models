@@ -10,7 +10,7 @@ export default class User extends Model<
     >,
     InferCreationAttributes<
         User,
-        { omit: 'id' | 'confirmedEmail' | 'createdAt' | 'updatedAt' | 'token' }
+        { omit: 'id' | 'confirmedEmail' | 'createdAt' | 'updatedAt' | 'token' | "expires" | "pfp" }
     >> {
     declare id: number;
     declare name: string;
@@ -18,6 +18,9 @@ export default class User extends Model<
     declare password: string;
     declare token: string;
     declare confirmedEmail: boolean;
+	declare expires: Date;
+	declare pfp: string;
+	
     declare createdAt: Date;
     declare updatedAt: Date;
     
@@ -62,13 +65,34 @@ export function createUserModel(conn: Sequelize) {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+			validate: {
+				isEmail: {
+					msg: "Email is incorrect",
+				},
+				unique: {
+					args: true,
+					msg: "The email is already registered"
+				}
+			},
         },
         password: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(64),
             allowNull: false,
+			validate: {
+				notEmpty: {
+					msg: "Password cannot be empty"
+				}
+			}
         },
         token: DataTypes.STRING,
         confirmedEmail: DataTypes.BOOLEAN,
+		// PFP will be the name of the image only, the path is calculated elsewhere
+		pfp: {
+			type: DataTypes.STRING(64),
+		},
+		expires: {
+			type: DataTypes.DATE
+		},
         // If you don't put these it's gonna give you a big fat error
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,

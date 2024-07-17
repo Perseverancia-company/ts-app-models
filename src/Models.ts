@@ -13,6 +13,13 @@ import PropertyComment, { createPropertyComment } from "./model/PropertyComment"
 import PropertyRating, { createPropertyRating } from "./model/PropertyRating";
 import UserFavoriteProperty, { createUserFavoriteProperty } from "./model/UserFavoriteProperty";
 import GeneralPropertyInformation, { createGeneralPropertyInformationModel } from "./model/GeneralPropertyInformation";
+import Job, { createJobModel } from "./model/Job";
+import SocialCategory, { createSocialCategoryModel } from "./model/SocialCategory";
+import Address, { createAddressModel } from "./model/Address";
+import Groups, { createGroupsModel } from "./model/Groups";
+import Meeti, { createMeetiModel } from "./model/Meeti";
+import MeetiParticipants, { createMeetiParticipantsModel } from "./model/MeetiParticipants";
+import Comment, { createCommentModel } from "./model/Comment";
 
 /**
  * Models
@@ -47,6 +54,17 @@ export default class Models {
     userFavoriteProperty: typeof UserFavoriteProperty;
     generalPropertyInformation: typeof GeneralPropertyInformation;
     
+    // Jobs tables
+    job: typeof Job;
+	
+	// Meetup tables
+	socialCategory: typeof SocialCategory;
+	address: typeof Address;
+	groups: typeof Groups;
+	meeti: typeof Meeti;
+	meetiParticipants: typeof MeetiParticipants;
+	comment: typeof Comment;
+	
     /**
      * Constructor
      */
@@ -111,6 +129,42 @@ export default class Models {
             this.propertyComment
         );
         this.generalPropertyInformation = generalPropertyInformation;
+        
+        // --- Job app(Dev jobs) ---
+        const job = createJobModel(
+            this.connection,
+        );
+        this.job = job;
+		
+		// --- Meetup app(Meeti) ---
+		const socialCategory = createSocialCategoryModel(this.connection);
+		const address = createAddressModel(this.connection);
+		this.socialCategory = socialCategory;
+		this.address = address;
+		
+		const groups = createGroupsModel(this.connection, this.socialCategory, this.user);
+		this.groups = groups;
+		
+		const meeti = createMeetiModel(
+			this.connection,
+			this.user,
+			this.groups,
+			this.address
+		);
+		this.meeti = meeti;
+		
+		const meetiParticipants = createMeetiParticipantsModel(
+			this.connection,
+			this.meeti,
+			this.user
+		);
+		const comment = createCommentModel(
+			this.connection,
+			this.user,
+			this.meeti
+		);
+		this.meetiParticipants = meetiParticipants;
+		this.comment = comment;
     }
     
     // --- Models ---
