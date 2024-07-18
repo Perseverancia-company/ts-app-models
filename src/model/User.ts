@@ -10,10 +10,12 @@ export default class User extends Model<
     >,
     InferCreationAttributes<
         User,
-        { omit: 'id' | 'confirmedEmail' | 'createdAt' | 'updatedAt' | 'token' | "expires" | "pfp" }
+        { omit: 'id' | "surname" | 'confirmedEmail' |
+			'createdAt' | 'updatedAt' | 'token' | "expires" | "pfp" }
     >> {
     declare id: number;
     declare name: string;
+	declare surname: string;
     declare email: string;
     declare password: string;
     declare confirmedEmail: boolean;
@@ -62,6 +64,10 @@ export function createUserModel(conn: Sequelize) {
             type: DataTypes.STRING,
             allowNull: false,
         },
+		// Surname is optional
+		surname: {
+            type: DataTypes.STRING,
+		},
         email: {
             type: DataTypes.STRING,
             allowNull: false,
