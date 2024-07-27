@@ -55,61 +55,61 @@ export default class Models {
 	// And for destruction the reverse of this order
 	
     // Independent tables
-    user: typeof User;
-	address: typeof Address;
+    User: typeof User;
+	Address: typeof Address;
 	
 	// User tables
-    userContactMethods: typeof UserContactMethods;
+    UserContactMethods: typeof UserContactMethods;
     
     // App manager tables
-    app: typeof App;
-    appGroup: typeof AppGroup;
-    appOutput: typeof AppOutput;
-	process: typeof Process;
-    appTag: typeof AppTag;
-    tagAppJunction: typeof TagAppJunction;
-    groupAppJunction: typeof GroupAppJunction;
+    App: typeof App;
+    AppGroup: typeof AppGroup;
+    AppOutput: typeof AppOutput;
+	Process: typeof Process;
+    AppTag: typeof AppTag;
+    TagAppJunction: typeof TagAppJunction;
+    GroupAppJunction: typeof GroupAppJunction;
     
     // Real estate tables
-    category: typeof Category;
-    price: typeof Price;
-    userMessages: typeof UserMessages;
-    property: typeof Property;
-    debugPropertyImageUpload: typeof DebugPropertyImageUpload;
-    propertySellerMessage: typeof PropertySellerMessage;
-    propertyComment: typeof PropertyComment;
-    propertyRating: typeof PropertyRating;
-    userFavoriteProperty: typeof UserFavoriteProperty;
-    generalPropertyInformation: typeof GeneralPropertyInformation;
+    Category: typeof Category;
+    Price: typeof Price;
+    UserMessages: typeof UserMessages;
+    Property: typeof Property;
+    DebugPropertyImageUpload: typeof DebugPropertyImageUpload;
+    PropertySellerMessage: typeof PropertySellerMessage;
+    PropertyComment: typeof PropertyComment;
+    PropertyRating: typeof PropertyRating;
+    UserFavoriteProperty: typeof UserFavoriteProperty;
+    GeneralPropertyInformation: typeof GeneralPropertyInformation;
     
 	// Company
-	company: typeof Company;
-	employeeRole: typeof EmployeeRole;
-	companyStaff: typeof CompanyStaff;
+	Company: typeof Company;
+	EmployeeRole: typeof EmployeeRole;
+	CompanyStaff: typeof CompanyStaff;
 	
     // Jobs
-    job: typeof Job;
-	skill: typeof Skill;
-	jobSkillJunction: typeof JobSkillJunction;
+    Job: typeof Job;
+	Skill: typeof Skill;
+	JobSkillJunction: typeof JobSkillJunction;
 	
 	// Meetup tables
-	socialCategory: typeof SocialCategory;
-	groups: typeof Groups;
-	meeti: typeof Meeti;
-	meetiParticipants: typeof MeetiParticipants;
-	comment: typeof Comment;
+	SocialCategory: typeof SocialCategory;
+	Groups: typeof Groups;
+	Meeti: typeof Meeti;
+	MeetiParticipants: typeof MeetiParticipants;
+	Comment: typeof Comment;
 	
 	// CRM tables
-	product: typeof Product;
-	invoice: typeof Invoice;
-	invoiceProductJunction: typeof InvoiceProductJunction;
+	Product: typeof Product;
+	Invoice: typeof Invoice;
+	InvoiceProductJunction: typeof InvoiceProductJunction;
 	
 	// Personal log
-	music: typeof Music;
-	note: typeof Note;
-	personalLog: typeof PersonalLog;
-	listeningTo: typeof ListeningTo;
-	logNotes: typeof LogNotes;
+	Music: typeof Music;
+	Note: typeof Note;
+	PersonalLog: typeof PersonalLog;
+	ListeningTo: typeof ListeningTo;
+	LogNotes: typeof LogNotes;
 	
     /**
      * Constructor
@@ -118,140 +118,132 @@ export default class Models {
         this.connection = mysqlConn();
         
         // Independent tables
-        this.user = createUserModel(this.connection);
-		this.address = createAddressModel(this.connection);
+        this.User = createUserModel(this.connection);
+		this.Address = createAddressModel(this.connection);
 		
 		// User tables
-        this.userContactMethods = createUserContactMethods(this.connection, this.user);
+        this.UserContactMethods = createUserContactMethods(this.connection, this.User);
         
         // App tables
-        this.app = createAppModel(this.connection);
-        this.appTag = createAppTagModel(this.connection);
-        this.appGroup = createAppGroupModel(this.connection);
-		this.process = createProcessModel(this.connection);
+        this.App = createAppModel(this.connection);
+        this.AppTag = createAppTagModel(this.connection);
+        this.AppGroup = createAppGroupModel(this.connection);
+		this.Process = createProcessModel(this.connection);
         
-        this.appOutput = createAppOutputModel(this.connection, this.app);
-        this.tagAppJunction = createTagAppJunction(
+        this.AppOutput = createAppOutputModel(this.connection, this.App);
+        this.TagAppJunction = createTagAppJunction(
 			this.connection,
-			this.appTag,
-			this.app,
+			this.AppTag,
+			this.App,
 		);
-        this.groupAppJunction = createGroupAppJunction(
-			this.connection, this.app, this.appGroup
+        this.GroupAppJunction = createGroupAppJunction(
+			this.connection, this.App, this.AppGroup
 		);
 		
         // Real estate
-        this.category = createCategoryModel(this.connection);
-        this.price = createPriceModel(this.connection);
+        this.Category = createCategoryModel(this.connection);
+        this.Price = createPriceModel(this.connection);
         
-        this.userMessages = createUserMessagesModel(this.connection, this.user);
-        this.property = createPropertyModel(this.connection, this.user, this.category, this.price);
+        this.UserMessages = createUserMessagesModel(this.connection, this.User);
+        this.Property = createPropertyModel(this.connection, this.User, this.Category, this.Price);
         
-        this.debugPropertyImageUpload = createDebugPropertyImageUpload(
-			this.connection, this.property
+        this.DebugPropertyImageUpload = createDebugPropertyImageUpload(
+			this.connection, this.Property
 		);
-        this.propertySellerMessage = createPropertySellerMessage(
-			this.connection, this.user, this.property
+        this.PropertySellerMessage = createPropertySellerMessage(
+			this.connection, this.User, this.Property
 		);
-        this.propertyComment = createPropertyComment(
-			this.connection, this.user, this.property
+        this.PropertyComment = createPropertyComment(
+			this.connection, this.User, this.Property
 		);
-        this.propertyRating = createPropertyRating(
-			this.connection, this.user, this.property
+        this.PropertyRating = createPropertyRating(
+			this.connection, this.User, this.Property
 		);
-        this.userFavoriteProperty = createUserFavoriteProperty(
-			this.connection, this.user, this.property
+        this.UserFavoriteProperty = createUserFavoriteProperty(
+			this.connection, this.User, this.Property
 		);
         
-        const generalPropertyInformation = createGeneralPropertyInformationModel(
+        this.GeneralPropertyInformation = createGeneralPropertyInformationModel(
             this.connection,
-            this.property,
-            this.propertySellerMessage,
-            this.propertyRating,
-            this.propertyComment
+            this.Property,
+            this.PropertySellerMessage,
+            this.PropertyRating,
+            this.PropertyComment
         );
-        this.generalPropertyInformation = generalPropertyInformation;
         
 		// Company
-		this.company = createCompanyModel(
+		this.Company = createCompanyModel(
 			this.connection,
-			this.address
+			this.Address
 		);
-		this.employeeRole = createEmployeeRoleModel(this.connection);
-		this.companyStaff = createCompanyStaffModel(
+		this.EmployeeRole = createEmployeeRoleModel(this.connection);
+		this.CompanyStaff = createCompanyStaffModel(
 			this.connection,
-			this.user,
-			this.employeeRole,
-			this.company
+			this.User,
+			this.EmployeeRole,
+			this.Company
 		);
 		
         // Job(Dev jobs)
-        this.job = createJobModel(
+        this.Job = createJobModel(
             this.connection,
-			this.company,
+			this.Company,
         );
-		this.skill = createSkillModel(
+		this.Skill = createSkillModel(
 			this.connection
 		);
 		
-		this.jobSkillJunction = createJobSkillJunction(
+		this.JobSkillJunction = createJobSkillJunction(
 			this.connection,
-			this.job,
-			this.skill
+			this.Job,
+			this.Skill
 		);
 		
 		// Meetup(Meeti)
-		this.socialCategory = createSocialCategoryModel(this.connection);
+		this.SocialCategory = createSocialCategoryModel(this.connection);
 		
-		const groups = createGroupsModel(this.connection, this.socialCategory, this.user);
-		this.groups = groups;
+		this.Groups = createGroupsModel(this.connection, this.SocialCategory, this.User);
 		
-		const meeti = createMeetiModel(
+		this.Meeti = createMeetiModel(
 			this.connection,
-			this.user,
-			this.groups,
-			this.address
+			this.User,
+			this.Groups,
+			this.Address
 		);
-		this.meeti = meeti;
 		
-		const meetiParticipants = createMeetiParticipantsModel(
+		this.MeetiParticipants = createMeetiParticipantsModel(
 			this.connection,
-			this.meeti,
-			this.user
+			this.Meeti,
+			this.User
 		);
-		const comment = createCommentModel(
+		this.Comment = createCommentModel(
 			this.connection,
-			this.user,
-			this.meeti
+			this.User,
+			this.Meeti
 		);
-		this.meetiParticipants = meetiParticipants;
-		this.comment = comment;
 		
 		// CRM
-		const product = createProductModel(
+		this.Product = createProductModel(
 			this.connection
 		);
-		this.product = product;
 		
-		const invoice = createInvoiceModel(
+		this.Invoice = createInvoiceModel(
 			this.connection,
-			this.user
+			this.User
 		);
-		this.invoice = invoice;
 		
-		const invoiceProductJunction = createInvoiceProductJunctionModel(
+		this.InvoiceProductJunction = createInvoiceProductJunctionModel(
 			this.connection,
-			this.invoice,
-			this.product
+			this.Invoice,
+			this.Product
 		);
-		this.invoiceProductJunction = invoiceProductJunction;
 		
 		// Personal log
-		this.music = createMusicModel(this.connection);
-		this.note = createNoteModel(this.connection);
-		this.personalLog = createPersonalLogModel(this.connection, this.address);
-		this.listeningTo = createListeningToModel(this.connection, this.music, this.personalLog);
-		this.logNotes = createLogNotesModel(this.connection, this.personalLog, this.note);
+		this.Music = createMusicModel(this.connection);
+		this.Note = createNoteModel(this.connection);
+		this.PersonalLog = createPersonalLogModel(this.connection, this.Address);
+		this.ListeningTo = createListeningToModel(this.connection, this.Music, this.PersonalLog);
+		this.LogNotes = createLogNotesModel(this.connection, this.PersonalLog, this.Note);
     }
 	
     /**
@@ -259,60 +251,60 @@ export default class Models {
      */
     models() {
         const modelArray = [
-			this.user,
-			this.address,
+			this.User,
+			this.Address,
 			
-			this.userContactMethods,
+			this.UserContactMethods,
 			
 			// App manager
-			this.app,
-			this.appGroup,
-			this.appOutput,
-			this.process,
-			this.appTag,
-			this.tagAppJunction,
-			this.groupAppJunction,
+			this.App,
+			this.AppGroup,
+			this.AppOutput,
+			this.Process,
+			this.AppTag,
+			this.TagAppJunction,
+			this.GroupAppJunction,
 			
 			// Real estate
-			this.category,
-			this.price,
-			this.userMessages,
-			this.property,
-			this.debugPropertyImageUpload,
-			this.propertySellerMessage,
-			this.propertyComment,
-			this.propertyRating,
-			this.userFavoriteProperty,
-			this.generalPropertyInformation,
+			this.Category,
+			this.Price,
+			this.UserMessages,
+			this.Property,
+			this.DebugPropertyImageUpload,
+			this.PropertySellerMessage,
+			this.PropertyComment,
+			this.PropertyRating,
+			this.UserFavoriteProperty,
+			this.GeneralPropertyInformation,
 			
 			// Company
-			this.company,
-			this.employeeRole,
-			this.companyStaff,
+			this.Company,
+			this.EmployeeRole,
+			this.CompanyStaff,
 			
 			// Jobs
-			this.job,
-			this.skill,
-			this.jobSkillJunction,
+			this.Job,
+			this.Skill,
+			this.JobSkillJunction,
 			
 			// Meetup
-			this.socialCategory,
-			this.groups,
-			this.meeti,
-			this.meetiParticipants,
-			this.comment,
+			this.SocialCategory,
+			this.GroupAppJunction,
+			this.Meeti,
+			this.MeetiParticipants,
+			this.Comment,
 			
 			// CRM
-			this.product,
-			this.invoice,
-			this.invoiceProductJunction,
+			this.Product,
+			this.Invoice,
+			this.InvoiceProductJunction,
 			
 			// Personal log
-			this.music,
-			this.note,
-			this.personalLog,
-			this.listeningTo,
-			this.logNotes
+			this.Music,
+			this.Note,
+			this.PersonalLog,
+			this.ListeningTo,
+			this.LogNotes
         ];
         
         return modelArray;
