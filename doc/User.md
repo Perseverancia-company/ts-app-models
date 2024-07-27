@@ -19,9 +19,13 @@ With these fields:
 
 Identification document id
 
-- [x] 'user-contact-methods'
+<!-- I think top-down hierarchy is better so that there's no need to perform an additional search query -->
+<!-- This is kinda like ECS -->
+Belongs to:
+- 'user-contact-methods'
+- 'account'
 
-Belongs to 'person'
+- [x] 'user-contact-methods'
 
 ## Account
 
@@ -34,21 +38,21 @@ Account information
 Fields:
 - email(Obligatory main email)
 
-Belongs to 'person'
+<!-- Hierarchy -->
+Belongs to:
+- 'password'
+- 'profile'
+- 'user-token'
 
 - [ ] 'password' table
 
 For actions that require authentication
-
-Belongs to 'account'
 
 - [ ] Public profile('profile')
 
 This one stores miscellaneous things like:
 - Profile picture
 - Username
-
-Belongs to 'account'
 
 - [ ] 'user-token'
 
@@ -59,5 +63,3 @@ A good security measure is to have one token at a time
 Fields
 - Token
 - Expiration
-
-Belongs to 'account'

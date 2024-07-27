@@ -36,6 +36,11 @@ import EmployeeRole, { createEmployeeRoleModel } from "./model/EmployeeRole";
 import CompanyStaff, { createCompanyStaffModel } from "./model/CompanyStaff";
 import Skill, { createSkillModel } from "./model/Skill";
 import JobSkillJunction, { createJobSkillJunction } from "./model/JobSkillJunction";
+import Music, { createMusicModel } from "./model/Music";
+import Note, { createNoteModel } from "./model/Note";
+import PersonalLog, { createPersonalLogModel } from "./model/PersonalLog";
+import ListeningTo, { createListeningToModel } from "./model/ListeningTo";
+import LogNotes, { createLogNotesModel } from "./model/LogNotes";
 
 /**
  * Models
@@ -99,6 +104,13 @@ export default class Models {
 	invoice: typeof Invoice;
 	invoiceProductJunction: typeof InvoiceProductJunction;
 	
+	// Personal log
+	music: typeof Music;
+	note: typeof Note;
+	personalLog: typeof PersonalLog;
+	listeningTo: typeof ListeningTo;
+	logNotes: typeof LogNotes;
+	
     /**
      * Constructor
      */
@@ -128,15 +140,13 @@ export default class Models {
 			this.connection, this.app, this.appGroup
 		);
 		
-        // --- Real estate ---
+        // Real estate
         this.category = createCategoryModel(this.connection);
         this.price = createPriceModel(this.connection);
         
-        // Dependents
         this.userMessages = createUserMessagesModel(this.connection, this.user);
         this.property = createPropertyModel(this.connection, this.user, this.category, this.price);
         
-        // Dependents level 2
         this.debugPropertyImageUpload = createDebugPropertyImageUpload(
 			this.connection, this.property
 		);
@@ -153,7 +163,6 @@ export default class Models {
 			this.connection, this.user, this.property
 		);
         
-        // Dependents level 3
         const generalPropertyInformation = createGeneralPropertyInformationModel(
             this.connection,
             this.property,
@@ -218,7 +227,7 @@ export default class Models {
 		this.meetiParticipants = meetiParticipants;
 		this.comment = comment;
 		
-		// --- CRM ---
+		// CRM
 		const product = createProductModel(
 			this.connection
 		);
@@ -236,6 +245,13 @@ export default class Models {
 			this.product
 		);
 		this.invoiceProductJunction = invoiceProductJunction;
+		
+		// Personal log
+		this.music = createMusicModel(this.connection);
+		this.note = createNoteModel(this.connection);
+		this.personalLog = createPersonalLogModel(this.connection, this.address);
+		this.listeningTo = createListeningToModel(this.connection, this.music, this.personalLog);
+		this.logNotes = createLogNotesModel(this.connection, this.personalLog, this.note);
     }
 	
     /**
@@ -290,6 +306,13 @@ export default class Models {
 			this.product,
 			this.invoice,
 			this.invoiceProductJunction,
+			
+			// Personal log
+			this.music,
+			this.note,
+			this.personalLog,
+			this.listeningTo,
+			this.logNotes
         ];
         
         return modelArray;
