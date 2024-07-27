@@ -9,10 +9,11 @@ export default class Music extends Model<
     >,
     InferCreationAttributes<
 		Music,
-        { omit: "id" | "composer" | "name" | "url" }
+        { omit: "id" | "featuring" | "composer" | "name" | "url" }
     >> {
     declare id: number;
 	declare composer: string;
+	declare featuring: string[];
 	declare name: string;
 	declare url: string;
 }
@@ -31,6 +32,9 @@ export function createMusicModel(conn: Sequelize) {
 		},
 		composer: {
 			type: DataTypes.STRING,
+		},
+		featuring: {
+			type: DataTypes.JSON,
 		},
 		name: {
 			type: DataTypes.STRING,

@@ -1,7 +1,7 @@
 import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariables';
 import Models from "../Models";
 import TablesController from "../lib/TablesController";
-import RealEstateTables from '../lib/tables/RealEstate';
+import TablesGroupController from '../lib/TablesGroupController';
 
 /**
  * Reset tables
@@ -39,8 +39,14 @@ export default async function tablesMain(args: any, models: Models) {
         await resetTables(models);
     }
     
+	// Specific tables
     if(args.reset_real_estate) {
-        const real = new RealEstateTables(models);
+        const real = new TablesGroupController(models, 'real-estate');
         await real.reset();
     }
+	
+	if(args.reset_personal_log) {
+		const personal = new TablesGroupController(models, 'personal-log');
+        await personal.reset();
+	}
 }

@@ -24,6 +24,7 @@ export default class PersonalLog extends Model<
 	declare mixed: boolean;
 	declare links: string[];
 	declare references: string[];
+	declare tags: string[];
 	
 	// Other date information
 	declare untilTimeAccurate: boolean;
@@ -86,6 +87,9 @@ export function createPersonalLogModel(
 			type: DataTypes.JSON,
 		},
 		references: {
+			type: DataTypes.JSON,
+		},
+		tags: {
 			type: DataTypes.JSON,
 		},
 		untilTimeAccurate: {

@@ -5,7 +5,7 @@ import { resetTables } from "./cmd/tables";
 import Models from "./Models";
 import PartialConnectionOptions from "./types/sequelize/PartialConnectionOptions";
 import TablesController from "./lib/TablesController";
-import RealEstateTables from "./lib/tables/RealEstate";
+import TablesGroupController from "./lib/TablesGroupController";
 
 export {
     // Prefer to use this one
@@ -19,8 +19,8 @@ export {
     
     // Tables
     resetTables,
-    RealEstateTables,
     TablesController,
+	TablesGroupController,
 }
 
 export type {

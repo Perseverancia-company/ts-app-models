@@ -309,4 +309,42 @@ export default class Models {
         
         return modelArray;
     }
+	
+	// --- Get group models ---
+    /**
+     * Real estate models
+     */
+    realEstateModels() {
+        const orderedModels = [
+            this.Category,
+            this.Price,
+			
+            this.Property,
+            this.UserMessages,
+            
+            this.PropertySellerMessage,
+            this.PropertyComment,
+            this.PropertyRating,
+            this.UserFavoriteProperty,
+            
+            this.GeneralPropertyInformation,
+        ];
+        
+        return orderedModels;
+    }
+	
+	/**
+	 * Personal log models
+	 */
+	personalLogModels() {
+		const orderedModels = [
+            this.Music,
+            this.Note,
+            this.PersonalLog,
+            this.ListeningTo,
+            this.LogNotes,
+        ];
+        
+        return orderedModels;
+	}
 }
