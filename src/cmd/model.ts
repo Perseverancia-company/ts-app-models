@@ -14,7 +14,7 @@ async function seedUser(models: Models) {
         }
     ];
     
-    const User = models.user;
+    const User = models.User;
     
     await User.bulkCreate(TEST_USERS_SEED);
 }

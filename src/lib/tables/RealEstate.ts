@@ -21,24 +21,24 @@ export default class RealEstateTables {
         
         // Ordered from higher dependency to lower
         const orderedModels = [
-            models.generalPropertyInformation,
+            models.GeneralPropertyInformation,
             
             // Dependents tier 3
             // Dependent on Property and User
-            models.propertySellerMessage,
-            models.propertyComment,
-            models.propertyRating,
-            models.userFavoriteProperty,
+            models.PropertySellerMessage,
+            models.PropertyComment,
+            models.PropertyRating,
+            models.UserFavoriteProperty,
             
             // Dependents tier 2
-            models.property,
-            models.userMessages,
-            models.userContactMethods,
+            models.Property,
+            models.UserMessages,
+            models.UserContactMethods,
             
             // Non-dependent
-            models.category,
-            models.price,
-            models.user,
+            models.Category,
+            models.Price,
+            models.User,
         ];
         
         return orderedModels;
