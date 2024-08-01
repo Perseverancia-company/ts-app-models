@@ -30,7 +30,7 @@ export function createNoteModel(conn: Sequelize) {
 			autoIncrement: true,
 		},
 		note: {
-			type: DataTypes.STRING,
+			type: DataTypes.TEXT,
 			validate: {
                 notEmpty: {
                     msg: "Note is required"
