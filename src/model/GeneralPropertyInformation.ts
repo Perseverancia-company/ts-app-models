@@ -54,9 +54,6 @@ export function createGeneralPropertyInformationModel(
     // Owns many messages
     PropertyModel.belongsTo(property);
     
-    // Before dependencies we've got to create the table
-    PropertyModel.sync();
-    
     // Junctions are for many to many relationships
     PropertyModel.hasMany(propertySellerMessage);
     PropertyModel.hasMany(propertyRating);

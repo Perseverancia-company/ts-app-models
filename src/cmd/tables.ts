@@ -31,8 +31,7 @@ export default async function tablesMain(args: any, models: Models) {
         printMysqlEnvironmentVariables();
         
         const tc = new TablesController(models);
-        await tc.initialize();
-        await tc.upAll();
+        await tc.sync();
     }
     
     if(args.reset_tables) {

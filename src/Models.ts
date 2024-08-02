@@ -55,12 +55,12 @@ export default class Models {
 	// The order that is shown here is the correct order of creation
 	// And for destruction the reverse of this order
 	
-    // Independent tables
-    User: typeof User;
+	// Independent tables
 	Address: typeof Address;
 	ContactForm: typeof ContactForm;
 	
-	// User tables
+    // User tables
+    User: typeof User;
     UserContactMethods: typeof UserContactMethods;
     
     // App manager tables
@@ -120,11 +120,11 @@ export default class Models {
         this.connection = mysqlConn();
         
         // Independent tables
-        this.User = createUserModel(this.connection);
 		this.Address = createAddressModel(this.connection);
 		this.ContactForm = createContactFormModel(this.connection);
 		
 		// User tables
+        this.User = createUserModel(this.connection);
         this.UserContactMethods = createUserContactMethods(this.connection, this.User);
         
         // App tables
@@ -148,7 +148,12 @@ export default class Models {
         this.Price = createPriceModel(this.connection);
         
         this.UserMessages = createUserMessagesModel(this.connection, this.User);
-        this.Property = createPropertyModel(this.connection, this.User, this.Category, this.Price);
+        this.Property = createPropertyModel(
+			this.connection,
+			this.User,
+			this.Category,
+			this.Price
+		);
         
         this.DebugPropertyImageUpload = createDebugPropertyImageUpload(
 			this.connection, this.Property
@@ -165,7 +170,7 @@ export default class Models {
         this.UserFavoriteProperty = createUserFavoriteProperty(
 			this.connection, this.User, this.Property
 		);
-        
+		
         this.GeneralPropertyInformation = createGeneralPropertyInformationModel(
             this.connection,
             this.Property,
@@ -254,10 +259,10 @@ export default class Models {
      */
     models() {
         const modelArray = [
-			this.User,
 			this.Address,
 			this.ContactForm,
 			
+			this.User,
 			this.UserContactMethods,
 			
 			// App manager

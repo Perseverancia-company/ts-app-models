@@ -63,7 +63,11 @@ export default class TablesController {
      * Sync
      */
     async sync() {
-        for(const model of this.modelManager.models()) {
+		// Sync connection first
+		this.modelManager.connection.sync();
+		
+		const models = this.modelManager.models();
+        for(const model of models) {
             try {
                 await model.sync();
             } catch(err: any) {
