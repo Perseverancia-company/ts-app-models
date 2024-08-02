@@ -41,6 +41,7 @@ import Note, { createNoteModel } from "./model/Note";
 import PersonalLog, { createPersonalLogModel } from "./model/PersonalLog";
 import ListeningTo, { createListeningToModel } from "./model/ListeningTo";
 import LogNotes, { createLogNotesModel } from "./model/LogNotes";
+import ContactForm, { createContactFormModel } from "./model/ContactForm";
 
 /**
  * Models
@@ -57,6 +58,7 @@ export default class Models {
     // Independent tables
     User: typeof User;
 	Address: typeof Address;
+	ContactForm: typeof ContactForm;
 	
 	// User tables
     UserContactMethods: typeof UserContactMethods;
@@ -120,6 +122,7 @@ export default class Models {
         // Independent tables
         this.User = createUserModel(this.connection);
 		this.Address = createAddressModel(this.connection);
+		this.ContactForm = createContactFormModel(this.connection);
 		
 		// User tables
         this.UserContactMethods = createUserContactMethods(this.connection, this.User);
@@ -253,6 +256,7 @@ export default class Models {
         const modelArray = [
 			this.User,
 			this.Address,
+			this.ContactForm,
 			
 			this.UserContactMethods,
 			
