@@ -42,6 +42,11 @@ import PersonalLog, { createPersonalLogModel } from "./model/PersonalLog";
 import ListeningTo, { createListeningToModel } from "./model/ListeningTo";
 import LogNotes, { createLogNotesModel } from "./model/LogNotes";
 import ContactForm, { createContactFormModel } from "./model/ContactForm";
+import File, { createFileModel } from "./model/File";
+import Folder, { createFolderModel } from "./model/Folder";
+import FolderFileJunction, { createFolderFileJunctionModel } from "./model/FolderFileJunction";
+import DuplicatedFile, { createDuplicatedFileModel } from "./model/DuplicatedFile";
+import ByteRegion, { createByteRegionModel } from "./model/ByteRegion";
 
 /**
  * Models
@@ -112,6 +117,13 @@ export default class Models {
 	PersonalLog: typeof PersonalLog;
 	ListeningTo: typeof ListeningTo;
 	LogNotes: typeof LogNotes;
+	
+	// File system
+	File: typeof File;
+	Folder: typeof Folder;
+	FolderFileJunction: typeof FolderFileJunction;
+	DuplicatedFile: typeof DuplicatedFile;
+	ByteRegion: typeof ByteRegion;
 	
     /**
      * Constructor
@@ -252,6 +264,20 @@ export default class Models {
 		this.PersonalLog = createPersonalLogModel(this.connection, this.Address);
 		this.ListeningTo = createListeningToModel(this.connection, this.Music, this.PersonalLog);
 		this.LogNotes = createLogNotesModel(this.connection, this.PersonalLog, this.Note);
+		
+		// Filesystem
+		this.File = createFileModel(this.connection);
+		this.Folder = createFolderModel(this.connection);
+		this.FolderFileJunction = createFolderFileJunctionModel(
+			this.connection,
+			this.File,
+			this.Folder
+		);
+		this.DuplicatedFile = createDuplicatedFileModel(
+			this.connection,
+			this.File
+		);
+		this.ByteRegion = createByteRegionModel(this.connection);
     }
 	
     /**
@@ -313,7 +339,14 @@ export default class Models {
 			this.Note,
 			this.PersonalLog,
 			this.ListeningTo,
-			this.LogNotes
+			this.LogNotes,
+			
+			// File
+			this.File,
+			this.Folder,
+			this.FolderFileJunction,
+			this.DuplicatedFile,
+			this.ByteRegion,
         ];
         
         return modelArray;
