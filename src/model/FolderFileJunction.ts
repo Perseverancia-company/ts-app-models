@@ -26,7 +26,7 @@ export function createFolderFileJunctionModel(
 	file: typeof File,
 	folder: typeof Folder,
 ) {
-	const TABLE_NAME = "job-skill-junction";
+	const TABLE_NAME = "folder-file-junction";
 	const Model = FolderFileJunction.init({
         id: {
             type: DataTypes.BIGINT,
