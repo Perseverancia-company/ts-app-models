@@ -20,6 +20,7 @@ export default class File extends Model<
 	declare md5: string;
     declare created: Date;
     declare updated: Date;
+	// Should've been 'Accessed'
 	declare lastOpened: Date;
 }
 
