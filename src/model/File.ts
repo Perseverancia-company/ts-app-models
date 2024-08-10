@@ -43,7 +43,7 @@ export function createFileModel(
 			allowNull: false,
 		},
 		size: {
-			type: DataTypes.INTEGER,
+			type: DataTypes.BIGINT,
 			allowNull: false,
 		},
 		path: {

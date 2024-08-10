@@ -29,9 +29,19 @@ export default async function main() {
 		action: "store_true"
 	});
 	
+	parser.add_argument("--drop-all", {
+		help: "Drop all model tables",
+		action: "store_true"
+	});
+	
 	parser.add_argument("--db-sync", {
 		help: "Sync the database",
 		action: "store_true"
+	});
+	
+	parser.add_argument("--force-sync", {
+		help: "Force sync the database",
+        action: "store_true"
 	});
 	
 	parser.add_argument("--reset-real-estate", {

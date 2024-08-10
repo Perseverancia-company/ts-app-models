@@ -33,7 +33,17 @@ export default async function tablesMain(args: any, models: Models) {
         const tc = new TablesController(models);
         await tc.sync();
     }
+	
+	if(args.force_sync) {
+		const tc = new TablesController(models);
+        await tc.forceSync();
+	}
     
+	if(args.drop_all) {
+		const tc = new TablesController(models);
+		await tc.dropAll();
+	}
+	
     if(args.reset_tables) {
         await resetTables(models);
     }

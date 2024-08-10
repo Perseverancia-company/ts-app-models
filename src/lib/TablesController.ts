@@ -75,6 +75,13 @@ export default class TablesController {
             }
         }
     }
+	
+	/**
+     * Forcefully synchronize the database
+	 */
+	async forceSync() {
+        await this.db.sync({ force: true });
+    }
     
     /**
      * Create all
@@ -87,15 +94,17 @@ export default class TablesController {
     
     /**
      * Drop all tables
-     * 
-     * I don't know why db.drop doesn't work
      */
     async dropAll() {
-        for(const model of this.modelManager.models().reverse()) {
+		const models = this.modelManager.models().reverse();
+		console.log(`Models: `, models);
+        for(const model of models) {
             try {
                 await model.drop();
+				console.log(`Dropped model: `, model);
             } catch(err) {
                 console.log(`Couldn't drop model: `, model);
+                // console.error(err);
             }
         }
     }

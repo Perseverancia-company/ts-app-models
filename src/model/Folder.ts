@@ -13,6 +13,7 @@ export default class Folder extends Model<
     >> {
 	declare id: number;
 	declare path: string;
+	declare parent_id: number;
     declare created: Date;
     declare updated: Date;
 	declare lastOpened: Date;
@@ -36,6 +37,13 @@ export function createFolderModel(
 			type: DataTypes.TEXT,
 			allowNull: false,
 		},
+        parent_id: {
+            type: DataTypes.BIGINT,
+            references: {
+                model: TABLE_NAME,
+                key: 'id'
+            }
+        },
         created: DataTypes.DATE,
         updated: DataTypes.DATE,
 		lastOpened: DataTypes.DATE,
@@ -45,6 +53,10 @@ export function createFolderModel(
         modelName: TABLE_NAME,
 		timestamps: false,
     });
+	
+    // Define the self-referential association
+    Model.hasMany(Model, { foreignKey: 'parent_id', as: 'child_folders' });
+    Model.belongsTo(Model, { foreignKey: 'parent_id', as: 'parent_folder' });
 	
 	return Model;
 }
