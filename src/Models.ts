@@ -51,6 +51,9 @@ import StorageDevice, { createStorageDeviceModel } from "./model/StorageDevice";
 import SystemMemory, { createSystemMemoryModel } from "./model/SystemMemory";
 import SystemCore, { createSystemCoreModel } from "./model/SystemCore";
 import SystemResources, { createSystemResourcesModel } from "./model/SystemResources";
+import ServerNode, { createServerNodeModel } from "./model/ServerNode";
+import ServerLocation, { createServerLocation } from "./model/ServerLocation";
+import SystemInfo, { createSystemInfoModel } from "./model/SystemInfo";
 
 /**
  * Models
@@ -134,7 +137,10 @@ export default class Models {
 	StorageDevice: typeof StorageDevice;
 	SystemMemory: typeof SystemMemory;
 	SystemCore: typeof SystemCore;
-		
+	ServerLocation: typeof ServerLocation;
+	SystemInfo: typeof SystemInfo;
+	ServerNode: typeof ServerNode;
+	
     /**
      * Constructor
      */
@@ -304,6 +310,18 @@ export default class Models {
 		);
 		this.SystemCore = createSystemCoreModel(
 			this.connection,
+			this.SystemResources,
+		);
+		this.ServerLocation = createServerLocation(
+			this.connection,
+		);
+		this.SystemInfo = createSystemInfoModel(
+			this.connection
+		);
+		this.ServerNode = createServerNodeModel(
+			this.connection,
+			this.ServerLocation,
+            this.SystemInfo,
 			this.SystemResources,
 		);
     }
