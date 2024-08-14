@@ -47,6 +47,10 @@ import Folder, { createFolderModel } from "./model/Folder";
 import FolderFileJunction, { createFolderFileJunctionModel } from "./model/FolderFileJunction";
 import DuplicatedFile, { createDuplicatedFileModel } from "./model/DuplicatedFile";
 import ByteRegion, { createByteRegionModel } from "./model/ByteRegion";
+import StorageDevice, { createStorageDeviceModel } from "./model/StorageDevice";
+import SystemMemory, { createSystemMemoryModel } from "./model/SystemMemory";
+import SystemCore, { createSystemCoreModel } from "./model/SystemCore";
+import SystemResources, { createSystemResourcesModel } from "./model/SystemResources";
 
 /**
  * Models
@@ -125,6 +129,12 @@ export default class Models {
 	DuplicatedFile: typeof DuplicatedFile;
 	ByteRegion: typeof ByteRegion;
 	
+	// System information
+	SystemResources: typeof SystemResources;
+	StorageDevice: typeof StorageDevice;
+	SystemMemory: typeof SystemMemory;
+	SystemCore: typeof SystemCore;
+		
     /**
      * Constructor
      */
@@ -278,6 +288,24 @@ export default class Models {
 			this.File
 		);
 		this.ByteRegion = createByteRegionModel(this.connection);
+		
+		// System information
+		// Mainly for 'swarm-weave' repository
+		this.SystemResources = createSystemResourcesModel(
+			this.connection,
+		);
+		this.StorageDevice = createStorageDeviceModel(
+			this.connection,
+			this.SystemResources,
+		);
+		this.SystemMemory = createSystemMemoryModel(
+			this.connection,
+			this.SystemResources,
+		);
+		this.SystemCore = createSystemCoreModel(
+			this.connection,
+			this.SystemResources,
+		);
     }
 	
     /**
