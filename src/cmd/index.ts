@@ -18,7 +18,7 @@ export default async function main() {
 		description: "Argparse example"
 	});
 	
-	// Tables
+	// --- Tables ---
 	parser.add_argument("--reset-tables", {
 		help: "Destroy and create the tables again with the default data",
 		action: "store_true"
@@ -34,8 +34,19 @@ export default async function main() {
 		action: "store_true"
 	});
 	
+	// Sync
+	parser.add_argument("--sync-production", {
+		help: "Sync production database",
+		action: "store_true"
+	});
+	
+	parser.add_argument("--sync-testing", {
+		help: "Sync testing database",
+		action: "store_true"
+	});
+	
 	parser.add_argument("--db-sync", {
-		help: "Sync the database",
+		help: "Sync development database",
 		action: "store_true"
 	});
 	

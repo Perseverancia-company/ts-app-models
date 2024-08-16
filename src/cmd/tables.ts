@@ -2,6 +2,7 @@ import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariable
 import Models from "../Models";
 import TablesController from "../lib/TablesController";
 import TablesGroupController from '../lib/TablesGroupController';
+import { mysqlProductionConnection } from '../connection/mysqlConn';
 
 /**
  * Reset tables
@@ -22,7 +23,18 @@ export async function resetTables(models: Models) {
  * @param args 
  */
 export default async function tablesMain(args: any, models: Models) {
-    if(args.db_sync) {
+    // Production
+	if(args.sync_production) {
+		const productionConnection = mysqlProductionConnection();
+		const productionModels = new Models({
+			connection: productionConnection,
+		});
+        const tc = new TablesController(productionModels);
+        await tc.sync();
+	}
+	
+	// Development
+	if(args.db_sync) {
         const tc = new TablesController(models);
         await tc.sync();
     }

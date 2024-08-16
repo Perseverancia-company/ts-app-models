@@ -144,8 +144,10 @@ export default class Models {
     /**
      * Constructor
      */
-    constructor() {
-        this.connection = mysqlConn();
+    constructor(options?: {
+		connection: Sequelize,
+	}) {
+        this.connection = (options && options.connection) ?? mysqlConn();
         
         // Independent tables
 		this.Address = createAddressModel(this.connection);

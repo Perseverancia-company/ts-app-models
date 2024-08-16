@@ -14,9 +14,24 @@ Package migrations are separated to not add space to this package, [migrations](
 
 ```bash
 # MySQL database
-MYSQL_DATABASE_NAME=perseverancia-development
 MYSQL_USERNAME=root
 MYSQL_PASSWORD=123
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
+
+# Database name
+# There are many ways to configure the database name, most of the time they depend on the state of the app
+# By state ordered from highest priority to lowest
+
+# This one is general and also used for development
+MYSQL_DATABASE_NAME=perseverancia
+DATABASE_NAME=perseverancia
+
+# Production
+PRODUCTION_MYSQL_DATABASE_NAME=perseverancia-production
+PRODUCTION_DATABASE_NAME=perseverancia-production
+
+# Testing
+TESTING_MYSQL_DATABASE_NAME=perseverancia-testing
+TESTING_DATABASE_NAME=perseverancia-testing
 ```
