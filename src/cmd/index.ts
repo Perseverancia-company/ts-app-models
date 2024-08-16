@@ -45,6 +45,16 @@ export default async function main() {
 		action: "store_true"
 	});
 	
+	parser.add_argument("--sync-development", {
+        help: "Sync development database",
+        action: "store_true"
+    });
+	
+	parser.add_argument("--sync-all", {
+        help: "Sync all databases",
+        action: "store_true"
+    });
+	
 	parser.add_argument("--db-sync", {
 		help: "Sync development database",
 		action: "store_true"

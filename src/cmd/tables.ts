@@ -2,7 +2,7 @@ import printMysqlEnvironmentVariables from '../env/printMysqlEnvironmentVariable
 import Models from "../Models";
 import TablesController from "../lib/TablesController";
 import TablesGroupController from '../lib/TablesGroupController';
-import { mysqlProductionConnection } from '../connection/mysqlConn';
+import mysqlConn, { mysqlProductionConnection, mysqlTestingConnection } from '../connection/mysqlConn';
 
 /**
  * Reset tables
@@ -32,6 +32,52 @@ export default async function tablesMain(args: any, models: Models) {
         const tc = new TablesController(productionModels);
         await tc.sync();
 	}
+	
+	// Testing
+	if(args.sync_testing) {
+        const testingConnection = mysqlTestingConnection();
+        const testingModels = new Models({
+            connection: testingConnection,
+        });
+        const tc = new TablesController(testingModels);
+        await tc.sync();
+    }
+	
+	// Development
+	if(args.sync_development) {
+        const developmentConnection = mysqlConn();
+        const developmentModels = new Models({
+            connection: developmentConnection,
+        });
+        const tc = new TablesController(developmentModels);
+        await tc.sync();
+	}
+	
+	// Sync all
+	if(args.sync_all) {
+        const productionConnection = mysqlProductionConnection();
+        const testingConnection = mysqlTestingConnection();
+        const developmentConnection = mysqlConn();
+        
+        const productionModels = new Models({
+            connection: productionConnection,
+        });
+        const testingModels = new Models({
+            connection: testingConnection,
+        });
+        const developmentModels = new Models({
+            connection: developmentConnection,
+        });
+        
+        const productionTc = new TablesController(productionModels);
+        await productionTc.sync();
+        
+        const testingTc = new TablesController(testingModels);
+        await testingTc.sync();
+        
+        const developmentTc = new TablesController(developmentModels);
+        await developmentTc.sync();
+    }
 	
 	// Development
 	if(args.db_sync) {

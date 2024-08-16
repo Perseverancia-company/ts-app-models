@@ -24,7 +24,7 @@ export function productionDatabaseName() {
  * Testing database name
  */
 export function testingDatabaseName() {
-    return process.env.TESTING_MYSQL_DATABASE_NAME ?? process.env.TESTING_DATABASE_NAME?? "perseverancia-testing";
+    return process.env.TESTING_MYSQL_DATABASE_NAME ?? process.env.TESTING_DATABASE_NAME ?? "perseverancia-testing";
 }
 
 /**

@@ -1,7 +1,7 @@
 import os from "os";
 
 import { Sequelize } from "sequelize";
-import { developmentDatabaseName, productionDatabaseName } from "../env";
+import { developmentDatabaseName, productionDatabaseName, testingDatabaseName } from "../env";
 
 export interface PartialConnectionOptions {
     pool: {
@@ -22,6 +22,20 @@ export const DEFAULT_POOL_OPTIONS = {
 	// Five seconds of idling
 	idle: 5 * 1000,
 };
+
+/**
+ * Production connection
+ * 
+ * The only thing that changes is the database name
+ */
+export function mysqlTestingConnection() {
+	const databaseName = testingDatabaseName();
+	console.log(`Database name: `, databaseName);
+	return mysqlConn({
+		pool: DEFAULT_POOL_OPTIONS,
+		databaseName,
+	});
+}
 
 /**
  * Production connection
