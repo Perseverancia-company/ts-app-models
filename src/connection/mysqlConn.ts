@@ -30,7 +30,6 @@ export const DEFAULT_POOL_OPTIONS = {
  */
 export function mysqlTestingConnection() {
 	const databaseName = testingDatabaseName();
-	console.log(`Database name: `, databaseName);
 	return mysqlConn({
 		pool: DEFAULT_POOL_OPTIONS,
 		databaseName,
