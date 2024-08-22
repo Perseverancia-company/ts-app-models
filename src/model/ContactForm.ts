@@ -68,7 +68,6 @@ export function createContactFormModel(conn: Sequelize) {
 		},
 		fromApp: {
 			type: DataTypes.STRING(128),
-            defaultValue: false,
 		},
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
