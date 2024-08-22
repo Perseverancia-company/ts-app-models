@@ -14,8 +14,15 @@ export default class ContactForm extends Model<
     declare id: number;
 	declare name: string;
     declare message: string;
+	
+	// Communication
 	declare email: string;
 	declare phoneNumber: string;
+	
+	// The service that the user wanted to get in contact from
+	declare fromWebsite: string;
+	declare fromApp: string;
+	
     declare createdAt: Date;
     declare updatedAt: Date;
 }
@@ -24,8 +31,6 @@ export default class ContactForm extends Model<
  * Contact form
  */
 export function createContactFormModel(conn: Sequelize) {
-    const TABLE_NAME = "contact-form";
-        
     const ContactFormModel = ContactForm.init({
         id: { 
             allowNull: false,
@@ -37,6 +42,10 @@ export function createContactFormModel(conn: Sequelize) {
 			type: DataTypes.STRING(128),
             allowNull: false,
 		},
+        message: {
+            type: DataTypes.TEXT,
+            allowNull: false,
+        },
 		// Either an email or a phone is required
 		email: {
 			type: DataTypes.STRING(128),
@@ -49,16 +58,22 @@ export function createContactFormModel(conn: Sequelize) {
 		phoneNumber: {
 			type: DataTypes.STRING(128),
 		},
-        message: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
+		fromWebsite: {
+			type: DataTypes.STRING(128),
+			validate: {
+				isUrl: {
+					msg: "Please enter a valid URL.",
+				}
+			}
+		},
+		fromApp: {
+			type: DataTypes.STRING(128),
+            defaultValue: false,
+		},
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
     }, {
-        sequelize: conn,
-        tableName: TABLE_NAME,
-        modelName: TABLE_NAME,
+        sequelize: conn
     });
 	
     return ContactFormModel;

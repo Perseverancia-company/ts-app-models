@@ -54,6 +54,7 @@ import SystemResources, { createSystemResourcesModel } from "./model/SystemResou
 import ServerNode, { createServerNodeModel } from "./model/ServerNode";
 import ServerLocation, { createServerLocation } from "./model/ServerLocation";
 import SystemInfo, { createSystemInfoModel } from "./model/SystemInfo";
+import Service, { createServiceModel } from "./model/Service";
 
 /**
  * Models
@@ -140,6 +141,8 @@ export default class Models {
 	ServerLocation: typeof ServerLocation;
 	SystemInfo: typeof SystemInfo;
 	ServerNode: typeof ServerNode;
+	
+	Service: typeof Service;
 	
     /**
      * Constructor
@@ -326,6 +329,8 @@ export default class Models {
             this.SystemInfo,
 			this.SystemResources,
 		);
+		
+		this.Service = createServiceModel(this.connection);
     }
 	
     /**
