@@ -34,7 +34,7 @@ export function createSystemCoreModel(
 			autoIncrement: true,
 		},
 		usagePercentage: {
-			type: DataTypes.BIGINT,
+			type: DataTypes.FLOAT,
 			allowNull: false,
 			validate: {
 				notEmpty: {
@@ -43,7 +43,7 @@ export function createSystemCoreModel(
 			}
 		},
 		freePercentage: {
-			type: DataTypes.BIGINT,
+			type: DataTypes.FLOAT,
 			allowNull: false,
 			validate: {
 				notEmpty: {
