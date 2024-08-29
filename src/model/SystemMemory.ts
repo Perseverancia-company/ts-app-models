@@ -16,7 +16,6 @@ export default class SystemMemory extends Model<
 	
 	declare total: number;
 	declare used: number;
-	declare free: number;
 }
 
 /**
@@ -49,15 +48,6 @@ export function createSystemMemoryModel(
 			validate: {
 				notEmpty: {
 					msg: "Used memory is required",
-				}
-			}
-		},
-		free: {
-			type: DataTypes.BIGINT,
-			allowNull: false,
-			validate: {
-				notEmpty: {
-					msg: "Free memory is required",
 				}
 			}
 		},
