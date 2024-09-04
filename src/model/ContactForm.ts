@@ -31,8 +31,9 @@ export default class ContactForm extends Model<
  * Contact form
  */
 export function createContactFormModel(conn: Sequelize) {
+	const TABLE_NAME = "contact-form";
     const ContactFormModel = ContactForm.init({
-        id: { 
+        id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
@@ -72,7 +73,9 @@ export function createContactFormModel(conn: Sequelize) {
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
     }, {
-        sequelize: conn
+        sequelize: conn,
+		tableName: TABLE_NAME,
+        modelName: TABLE_NAME,
     });
 	
     return ContactFormModel;
