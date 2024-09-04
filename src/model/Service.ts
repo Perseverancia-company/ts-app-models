@@ -19,6 +19,7 @@ export default class Service extends Model<
  * Service model
  */
 export function createServiceModel(conn: Sequelize) {
+	const TABLE_NAME = 'service';
     const ServiceModel = Service.init({
         id: {
             allowNull: false,
@@ -42,6 +43,8 @@ export function createServiceModel(conn: Sequelize) {
         updatedAt: DataTypes.DATE,
     }, {
         sequelize: conn,
+		tableName: TABLE_NAME,
+        modelName: TABLE_NAME,
     });
 
     return ServiceModel;
