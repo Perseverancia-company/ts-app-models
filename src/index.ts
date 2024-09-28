@@ -8,7 +8,7 @@ import { PartialConnectionOptions } from "./connection/mysqlConn";
 import TablesController from "./lib/TablesController";
 import TablesGroupController from "./lib/TablesGroupController";
 
-import { databaseName, nodeEnvDatabaseName, developmentDatabaseName, testingDatabaseName, productionDatabaseName } from "./env";
+import databaseName, { defaultDatabaseName, developmentDatabaseName, testingDatabaseName, productionDatabaseName } from "./env";
 
 export {
     // Prefer to use this one
@@ -22,8 +22,8 @@ export {
 	developmentDatabaseName,
 	testingDatabaseName,
 	productionDatabaseName,
+	defaultDatabaseName,
 	databaseName,
-	nodeEnvDatabaseName,
     
     // Models
     Models,

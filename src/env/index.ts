@@ -2,7 +2,7 @@
 /**
  * Unbiased database name
  */
-export function databaseName() {
+export function defaultDatabaseName() {
 	return process.env.MYSQL_DATABASE_NAME ?? process.env.DATABASE_NAME ?? "perseverancia";
 }
 
@@ -29,8 +29,10 @@ export function testingDatabaseName() {
 
 /**
  * Use NODE_ENV to get the database name
+ * 
+ * Preferred for detection of database name
  */
-export function nodeEnvDatabaseName() {
+export default function databaseName() {
     if (process.env.NODE_ENV === "production") {
         return productionDatabaseName();
     } else if (process.env.NODE_ENV === "development") {
@@ -38,6 +40,6 @@ export function nodeEnvDatabaseName() {
     } else if (process.env.NODE_ENV === "testing") {
 		return testingDatabaseName();
 	} else {
-        return databaseName();
+        return defaultDatabaseName();
     }
 }

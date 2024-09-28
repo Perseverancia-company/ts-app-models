@@ -1,7 +1,7 @@
 import os from "os";
 
 import { Sequelize } from "sequelize";
-import { developmentDatabaseName, productionDatabaseName, testingDatabaseName } from "../env";
+import databaseName, { productionDatabaseName, testingDatabaseName } from "../env";
 
 export interface PartialConnectionOptions {
     pool: {
@@ -60,7 +60,7 @@ export default function mysqlConn(options: PartialConnectionOptions = {
     pool: DEFAULT_POOL_OPTIONS,
 }) {
     // Mysql information
-    const databaseName = options.databaseName ?? developmentDatabaseName();
+    const DB_NAME = options.databaseName ?? databaseName();
     const MYSQL_USERNAME = process.env.DATABASE_USERNAME ?? process.env.MYSQL_USERNAME ?? "root";
     const MYSQL_PASSWORD = process.env.DATABASE_PASSWORD ?? process.env.MYSQL_PASSWORD ?? "";
     const MYSQL_HOST = process.env.DATABASE_HOST ?? process.env.MYSQL_HOST ?? "localhost";
@@ -70,7 +70,7 @@ export default function mysqlConn(options: PartialConnectionOptions = {
     if(process.env.MYSQL_PORT) endPort = parseInt(process.env.MYSQL_PORT);
     const MYSQL_PORT = endPort;
     
-    const mysqlConnection = new Sequelize(databaseName, MYSQL_USERNAME, MYSQL_PASSWORD, {
+    const mysqlConnection = new Sequelize(DB_NAME, MYSQL_USERNAME, MYSQL_PASSWORD, {
         host: MYSQL_HOST,
         port: MYSQL_PORT,
         dialect: "mysql",
