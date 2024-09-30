@@ -71,14 +71,11 @@ export function createUserModel(conn: Sequelize) {
         email: {
             type: DataTypes.STRING,
             allowNull: false,
+			// Validate uniqueness
 			unique: true,
 			validate: {
 				isEmail: {
 					msg: "Email is incorrect",
-				},
-				unique: {
-					args: true,
-					msg: "The email is already registered"
 				}
 			},
         },

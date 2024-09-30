@@ -8,16 +8,27 @@ import { PartialConnectionOptions } from "./connection/mysqlConn";
 import TablesController from "./lib/TablesController";
 import TablesGroupController from "./lib/TablesGroupController";
 
-import databaseName, { defaultDatabaseName, developmentDatabaseName, testingDatabaseName, productionDatabaseName, initializeDotenv } from "./env";
+import databaseName, {
+	defaultDatabaseName,
+	developmentDatabaseName,
+	testingDatabaseName,
+	productionDatabaseName,
+	initializeDotenv,
+	isTesting,
+	isDevelopment,
+} from "./env";
 
 export {
-    // Prefer to use this one
-    mysqlConn,
+	// Prefer to use this one
+	mysqlConn,
 	mysqlProductionConnection,
-    
-    // Debug
-    printMysqlEnvironmentVariables,
 	
+	isTesting,
+	isDevelopment,
+	
+	// Debug
+	printMysqlEnvironmentVariables,
+
 	// Environment
 	initializeDotenv,
 	developmentDatabaseName,
@@ -25,16 +36,14 @@ export {
 	productionDatabaseName,
 	defaultDatabaseName,
 	databaseName,
-    
-    // Models
-    Models,
-    
-    // Tables
-    resetTables,
-    TablesController,
-	TablesGroupController,
-}
 
-export type {
-    PartialConnectionOptions
-}
+	// Models
+	Models,
+
+	// Tables
+	resetTables,
+	TablesController,
+	TablesGroupController,
+};
+
+export type { PartialConnectionOptions };
