@@ -4,15 +4,59 @@ import dotenv from "dotenv";
 import tablesMain from "./tables";
 import modelMain from "./model";
 import Models from "../Models";
+import { isDevelopment } from "../env";
+
+/**
+ * Initialize dotenv in order
+ */
+export function initializeDotenv() {
+	// First the default env
+	dotenv.config({
+		path: ".env",
+	});
+
+	if (isDevelopment()) {
+		dotenv.config({
+			path: ".env.testing",
+		});
+	} else if (isDevelopment()) {
+		dotenv.config({
+			path: ".env.development",
+		});
+	} else {
+		dotenv.config({
+			path: ".env.production",
+		});
+	}
+	
+	// Then the local env
+	dotenv.config({
+		path: ".env.local",
+	});
+	
+	// Specific locals
+	if (isDevelopment()) {
+		// Then the development env
+		dotenv.config({
+			path: ".env.testing.local",
+		});
+	} else if (isDevelopment()) {
+		dotenv.config({
+			path: ".env.development.local",
+		});
+	} else {
+		dotenv.config({
+			path: ".env.production.local",
+		});
+	}
+}
 
 /**
  * Main
  */
 export default async function main() {
 	// Setup dotenv
-	dotenv.config({
-		path: ".env"
-	});
+	initializeDotenv();
 	
 	const parser = new ArgumentParser({
 		description: "Argparse example"
@@ -43,6 +87,11 @@ export default async function main() {
 	parser.add_argument("--sync-testing", {
 		help: "Sync testing database",
 		action: "store_true"
+	});
+	
+	parser.add_argument("--sync-testing-force", {
+		help: "Force sync the testing database",
+        action: "store_true"
 	});
 	
 	parser.add_argument("--sync-development", {

@@ -3,6 +3,7 @@ import Models from "../Models";
 import TablesController from "../lib/TablesController";
 import TablesGroupController from '../lib/TablesGroupController';
 import mysqlConn, { mysqlProductionConnection, mysqlTestingConnection } from '../connection/mysqlConn';
+import databaseName, { isTesting } from '../env';
 
 /**
  * Reset tables
@@ -42,6 +43,24 @@ export default async function tablesMain(args: any, models: Models) {
         const tc = new TablesController(testingModels);
         await tc.sync();
     }
+	
+	// Be really careful with this one because it may wipe the whole database
+	// There's a strict check on isTesting but it may end up using the default database name
+	// if not properly configured
+	if(args.sync_testing_force) {
+		if(isTesting()) {
+			// Maybe prompt for confirmation?
+			const dbName = databaseName();
+			console.log(`Database name: `, dbName);
+			
+			const testingConnection = mysqlTestingConnection();
+			const testingModels = new Models({
+				connection: testingConnection,
+			});
+			const tc = new TablesController(testingModels);
+			await tc.forceSync();
+		}
+	}
 	
 	// Development
 	if(args.sync_development) {

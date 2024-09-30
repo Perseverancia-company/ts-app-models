@@ -1,4 +1,3 @@
-
 /**
  * Unbiased database name
  */
@@ -28,16 +27,33 @@ export function testingDatabaseName() {
 }
 
 /**
+ * Check if it's testing mode
+ */
+export function isTesting() {
+    return process.env.NODE_ENV === 'testing';
+}
+
+/**
+ * Check if it's development
+ */
+export function isDevelopment() {
+	return !process.env.NODE_ENV || process.env.NODE_ENV === 'development';
+}
+
+/**
  * Use NODE_ENV to get the database name
  * 
  * Preferred for detection of database name
+ * 
+ * Note that to prevent wrongly synchronizing the database each one of the
+ * methods requires a specific definition of the variable name in the environment
  */
 export default function databaseName() {
     if (process.env.NODE_ENV === "production") {
         return productionDatabaseName();
-    } else if (process.env.NODE_ENV === "development") {
+    } else if (isDevelopment()) {
         return developmentDatabaseName();
-    } else if (process.env.NODE_ENV === "testing") {
+    } else if (isTesting()) {
 		return testingDatabaseName();
 	} else {
         return defaultDatabaseName();

@@ -23,6 +23,8 @@ MYSQL_PORT=3306
 # There are many ways to configure the database name, most of the time they depend on the state of the app
 # By state ordered from highest priority to lowest
 
+# This system allows for conscious database synchronization
+
 # This one is general and also used for development
 MYSQL_DATABASE_NAME=perseverancia
 DATABASE_NAME=perseverancia

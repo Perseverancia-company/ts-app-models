@@ -1,11 +1,15 @@
-# Public folder
-public/css
-public/js
-public/image
-public/img/test
-public/uploads
-public/user
-public/main.js
+doc_dist/
+build/
+
+# Dotenv environment variable files
+.env
+.env.testing
+.env.development
+.env.production
+.env.local
+.env.testing.local
+.env.production.local
+.env.development.local
 
 .cache/
 
