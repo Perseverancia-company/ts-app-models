@@ -1,3 +1,50 @@
+import dotenv from "dotenv";
+
+/**
+ * Initialize dotenv in order
+ */
+export function initializeDotenv() {
+	// First the default env
+	dotenv.config({
+		path: ".env",
+	});
+
+	if (isTesting()) {
+		dotenv.config({
+			path: ".env.testing",
+		});
+	} else if (isDevelopment()) {
+		dotenv.config({
+			path: ".env.development",
+		});
+	} else {
+		dotenv.config({
+			path: ".env.production",
+		});
+	}
+	
+	// Then the local env
+	dotenv.config({
+		path: ".env.local",
+	});
+	
+	// Specific locals
+	if (isTesting()) {
+		// Then the development env
+		dotenv.config({
+			path: ".env.testing.local",
+		});
+	} else if (isDevelopment()) {
+		dotenv.config({
+			path: ".env.development.local",
+		});
+	} else {
+		dotenv.config({
+			path: ".env.production.local",
+		});
+	}
+}
+
 /**
  * Unbiased database name
  */

@@ -8,7 +8,7 @@ import { PartialConnectionOptions } from "./connection/mysqlConn";
 import TablesController from "./lib/TablesController";
 import TablesGroupController from "./lib/TablesGroupController";
 
-import databaseName, { defaultDatabaseName, developmentDatabaseName, testingDatabaseName, productionDatabaseName } from "./env";
+import databaseName, { defaultDatabaseName, developmentDatabaseName, testingDatabaseName, productionDatabaseName, initializeDotenv } from "./env";
 
 export {
     // Prefer to use this one
@@ -19,6 +19,7 @@ export {
     printMysqlEnvironmentVariables,
 	
 	// Environment
+	initializeDotenv,
 	developmentDatabaseName,
 	testingDatabaseName,
 	productionDatabaseName,
