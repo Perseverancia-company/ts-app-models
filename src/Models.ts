@@ -55,6 +55,7 @@ import ServerNode, { createServerNodeModel } from "./model/ServerNode";
 import ServerLocation, { createServerLocation } from "./model/ServerLocation";
 import SystemInfo, { createSystemInfoModel } from "./model/SystemInfo";
 import Service, { createServiceModel } from "./model/Service";
+import OAuth2Client, { createOAuth2Client } from "./model/OAuth2Client";
 
 /**
  * Models
@@ -143,6 +144,7 @@ export default class Models {
 	ServerNode: typeof ServerNode;
 	
 	Service: typeof Service;
+	OAuth2Client: typeof OAuth2Client;
 	
     /**
      * Constructor
@@ -331,6 +333,7 @@ export default class Models {
 		);
 		
 		this.Service = createServiceModel(this.connection);
+		this.OAuth2Client = createOAuth2Client(this.connection);
     }
 	
     /**
@@ -400,6 +403,18 @@ export default class Models {
 			this.FolderFileJunction,
 			this.DuplicatedFile,
 			this.ByteRegion,
+			
+			// System information
+			this.SystemResources,
+			this.StorageDevice,
+			this.SystemMemory,
+			this.SystemCore,
+			this.ServerLocation,
+			this.SystemInfo,
+            this.ServerNode,
+			
+			this.Service,
+            this.OAuth2Client,
         ];
         
         return modelArray;

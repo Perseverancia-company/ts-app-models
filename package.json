@@ -1,42 +1,42 @@
 {
-  "name": "felixriddle.ts-app-models",
-  "version": "1.0.29",
-  "description": "Sequelize models for my apps",
-  "main": "./dist/index.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "start": "ts-node src/cmd/index.ts",
-    "test": "ts-node src/cmd/index.ts --test",
-    "build": "tsup"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "argparse": "^2.0.1",
-    "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.5",
-    "mysql2": "^3.9.2",
-    "reflect-metadata": "^0.2.2",
-    "sequelize": "^6.37.1",
-    "sequelize-typescript": "^2.1.6",
-    "shortid": "^2.2.16",
-    "slug": "^9.1.0"
-  },
-  "devDependencies": {
-    "@swc/core": "^1.5.27",
-    "@types/argparse": "^2.0.15",
-    "@types/bcrypt": "^5.0.2",
-    "@types/node": "^20.14.2",
-    "@types/shortid": "^0.0.32",
-    "@types/slug": "^5.0.8",
-    "@types/validator": "^13.11.10",
-    "ts-node": "^10.9.2",
-    "tsup": "^8.0.2",
-    "typescript": "^5.4.2"
-  }
+	"name": "felixriddle.ts-app-models",
+	"version": "1.0.30",
+	"description": "Sequelize models for my apps",
+	"main": "./dist/index.js",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"start": "ts-node src/cmd/index.ts",
+		"test": "ts-node src/cmd/index.ts --test",
+		"build": "tsup"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"argparse": "^2.0.1",
+		"bcrypt": "^5.1.1",
+		"dotenv": "^16.4.5",
+		"mysql2": "^3.9.2",
+		"reflect-metadata": "^0.2.2",
+		"sequelize": "^6.37.1",
+		"sequelize-typescript": "^2.1.6",
+		"shortid": "^2.2.16",
+		"slug": "^9.1.0"
+	},
+	"devDependencies": {
+		"@swc/core": "^1.5.27",
+		"@types/argparse": "^2.0.15",
+		"@types/bcrypt": "^5.0.2",
+		"@types/node": "^20.14.2",
+		"@types/shortid": "^0.0.32",
+		"@types/slug": "^5.0.8",
+		"@types/validator": "^13.11.10",
+		"ts-node": "^10.9.2",
+		"tsup": "^8.0.2",
+		"typescript": "^5.4.2"
+	}
 }
