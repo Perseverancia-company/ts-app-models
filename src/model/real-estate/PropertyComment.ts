@@ -1,35 +1,44 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
-import User from "./User";
+import User from "../User";
 import Property from "./Property";
 
 /**
  * Property comment
  */
-export default class UserFavoriteProperty extends Model<
+export default class PropertyComment extends Model<
     InferAttributes<
-        UserFavoriteProperty
+        PropertyComment
     >,
     InferCreationAttributes<
-        UserFavoriteProperty,
+        PropertyComment,
         { omit: 'id' | 'createdAt' | 'updatedAt' }
     >> {
     declare id: number;
+    declare message: string;
     declare createdAt: Date;
     declare updatedAt: Date;
 }
 
 /**
- * User favorites
+ * Property comments
  */
-export function createUserFavoriteProperty(conn: Sequelize, user: typeof User, property: typeof Property) {
-    const TABLE_NAME = "user-favorite-property";
-    
-    const PropertyRatingModel = UserFavoriteProperty.init({
+export function createPropertyComment(
+    conn: Sequelize,
+    user: typeof User,
+    property: typeof Property
+) {
+    const TABLE_NAME = "property-comment";
+        
+    const PropertyCommentModel = PropertyComment.init({
         id: { 
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: DataTypes.BIGINT
+        },
+        message: {
+            type: DataTypes.STRING(2048),
+            allowNull: false,
         },
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
@@ -40,8 +49,8 @@ export function createUserFavoriteProperty(conn: Sequelize, user: typeof User, p
     });
     
     // Relations
-    PropertyRatingModel.belongsTo(property);
-    PropertyRatingModel.belongsTo(user);
+    PropertyCommentModel.belongsTo(property);
+    PropertyCommentModel.belongsTo(user);
     
-    return PropertyRatingModel;
+    return PropertyCommentModel;
 }
