@@ -1,5 +1,4 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
-import ServerNode from "./ServerNode";
 
 /**
  * System info

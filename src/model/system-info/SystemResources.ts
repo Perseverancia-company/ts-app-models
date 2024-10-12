@@ -1,8 +1,4 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
-import SystemCore from "./SystemCore";
-import SystemMemory from "./SystemMemory";
-import StorageDevice from "./StorageDevice";
-
 
 /**
  * System resources

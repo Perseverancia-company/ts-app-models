@@ -1,5 +1,5 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
-import User from "./User";
+import User from "../User";
 import Company from "./Company";
 import EmployeeRole from "./EmployeeRole";
 

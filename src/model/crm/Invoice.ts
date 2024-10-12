@@ -1,47 +1,43 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
-import Address from "./Address";
+import User from "../User";
 
 /**
- * Company
+ * Category
  */
-export default class Company extends Model<
+export default class Invoice extends Model<
     InferAttributes<
-		Company
+		Invoice
     >,
     InferCreationAttributes<
-		Company,
-        { omit: 'id' | "description" | 'createdAt' | 'updatedAt' }
+		Invoice,
+        { omit: 'id' | 'createdAt' | 'updatedAt' }
     >> {
     declare id: number;
-    declare name: string;
-	declare description: string;
+	declare total: number;
     declare createdAt: Date;
     declare updatedAt: Date;
 }
 
 /**
- * Create company model
+ * Create category model
  */
-export function createCompanyModel(
+export function createInvoiceModel(
 	conn: Sequelize,
-	address: typeof Address
+	user: typeof User,
 ) {
-    const TABLE_NAME = "company";
-        
-    const Model = Company.init({
+    const TABLE_NAME = "invoice";
+	
+    const InvoiceModel = Invoice.init({
         id: {
             type: DataTypes.BIGINT,
             allowNull: false,
             primaryKey: true,
             autoIncrement: true,
         },
-        name: {
-            type: DataTypes.STRING(256),
-            allowNull: false,
-        },
-		// Optional company description
-		description: {
-			type: DataTypes.TEXT
+		// Total price to pay
+		total: {
+			type: DataTypes.DOUBLE,
+			allowNull: false,
 		},
         createdAt: DataTypes.DATE,
         updatedAt: DataTypes.DATE,
@@ -51,7 +47,7 @@ export function createCompanyModel(
         modelName: TABLE_NAME,
     });
     
-	Model.belongsTo(address);
+	InvoiceModel.belongsTo(user);
 	
-    return Model;
+    return InvoiceModel;
 }

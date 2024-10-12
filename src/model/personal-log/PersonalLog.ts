@@ -1,5 +1,5 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
-import Address from "./Address";
+import Address from "../Address";
 
 /**
  * Personal log

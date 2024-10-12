@@ -1,4 +1,4 @@
-import Sequelize, {
+import {
 	Model,
 	InferCreationAttributes,
 	InferAttributes,
