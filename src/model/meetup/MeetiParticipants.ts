@@ -1,6 +1,6 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
 import Meeti from "./Meeti";
-import User from "../User";
+import User from "../user/User";
 
 /**
  * Meeti participants

@@ -1,7 +1,7 @@
 import shortid from "shortid";
 import slug from 'slug';
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
-import User from "../User";
+import User from "../user/User";
 import Groups from "./Groups";
 import Address from "../Address";
 

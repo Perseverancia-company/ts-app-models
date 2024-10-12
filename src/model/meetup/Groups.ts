@@ -1,6 +1,6 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
 import SocialCategory from "./SocialCategory";
-import User from "../User";
+import User from "../user/User";
 
 /**
  * Meetup groups model

@@ -1,5 +1,6 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
+import Role from "./Role";
 
 /**
  * User model
@@ -50,7 +51,7 @@ export default class User extends Model<
  * @param conn 
  * @returns 
  */
-export function createUserModel(conn: Sequelize) {
+export function createUserModel(conn: Sequelize, role: typeof Role) {
     const TABLE_NAME = "user";
     
     const UserModel = User.init({
@@ -126,6 +127,10 @@ export function createUserModel(conn: Sequelize) {
             }
         },
     });
+	
+	// User roles
+	UserModel.belongsToMany(Role, { through: 'user_roles' });
+	Role.belongsToMany(UserModel, { through: 'user_roles' });
     
     return UserModel;
 }

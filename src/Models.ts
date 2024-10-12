@@ -2,8 +2,8 @@ import { Sequelize } from "sequelize";
 
 import mysqlConn from "./connection/mysqlConn";
 
-import User, { createUserModel } from "./model/User";
-import UserContactMethods, { createUserContactMethods } from "./model/UserContactMethods";
+import User, { createUserModel } from "./model/user/User";
+import UserContactMethods, { createUserContactMethods } from "./model/user/UserContactMethods";
 import Category, { createCategoryModel } from "./model/real-estate/Category";
 import Price, { createPriceModel } from "./model/real-estate/Price";
 import UserMessages, { createUserMessagesModel } from "./model/real-estate/UserMessages";
@@ -56,6 +56,7 @@ import ServerLocation, { createServerLocation } from "./model/system-info/Server
 import SystemInfo, { createSystemInfoModel } from "./model/system-info/SystemInfo";
 import Service, { createServiceModel } from "./model/Service";
 import OAuth2Client, { createOAuth2Client } from "./model/OAuth2Client";
+import Role, { createRoleModel } from "./model/user/Role";
 
 /**
  * Models
@@ -74,6 +75,7 @@ export default class Models {
 	ContactForm: typeof ContactForm;
 	
     // User tables
+	Role: typeof Role;
     User: typeof User;
     UserContactMethods: typeof UserContactMethods;
     
@@ -159,7 +161,8 @@ export default class Models {
 		this.ContactForm = createContactFormModel(this.connection);
 		
 		// User tables
-        this.User = createUserModel(this.connection);
+		this.Role = createRoleModel(this.connection);
+        this.User = createUserModel(this.connection, this.Role);
         this.UserContactMethods = createUserContactMethods(this.connection, this.User);
         
         // App tables
@@ -344,6 +347,7 @@ export default class Models {
 			this.Address,
 			this.ContactForm,
 			
+			this.Role,
 			this.User,
 			this.UserContactMethods,
 			
