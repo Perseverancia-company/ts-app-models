@@ -11,7 +11,7 @@ import {
  */
 export default class Role extends Model<
 	InferAttributes<Role>,
-	InferCreationAttributes<Role>
+	InferCreationAttributes<Role, { omit: "createdAt" | "updatedAt" }>
 > {
 	declare name: string;
 	declare description: string;
