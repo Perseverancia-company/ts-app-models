@@ -17,9 +17,6 @@ export default class UserRoles extends Model<
 > {
 	declare userId: number;
 	declare roleId: number;
-
-	declare createdAt: Date;
-	declare updatedAt: Date;
 }
 
 /**
@@ -51,13 +48,12 @@ export function createUserRolesModel(
 					key: "name",
 				},
 			},
-			createdAt: DataTypes.DATE,
-			updatedAt: DataTypes.DATE,
 		},
 		{
 			sequelize: conn,
 			tableName: TABLE_NAME,
 			modelName: TABLE_NAME,
+			timestamps: false,
 		}
 	);
 
