@@ -3,7 +3,7 @@ import Models from "../Models";
 import TablesController from "../lib/TablesController";
 import TablesGroupController from '../lib/TablesGroupController';
 import mysqlConn, { mysqlProductionConnection, mysqlTestingConnection } from '../connection/mysqlConn';
-import databaseName, { isTesting } from '../env';
+import databaseName, { isDevelopment, isTesting } from '../env';
 
 /**
  * Reset tables
@@ -59,6 +59,25 @@ export default async function tablesMain(args: any, models: Models) {
 			});
 			const tc = new TablesController(testingModels);
 			await tc.forceSync();
+		} else {
+			console.error("This command should only be used in a testing environment.");
+		}
+	}
+	
+	if(args.sync_development_force) {
+		if(isDevelopment()) {
+			// Maybe prompt for confirmation?
+			const dbName = databaseName();
+			console.log(`Database name: `, dbName);
+			
+			const testingConnection = mysqlConn();
+			const testingModels = new Models({
+				connection: testingConnection,
+			});
+			const tc = new TablesController(testingModels);
+			await tc.forceSync();
+		} else {
+			console.error("This command should only be used in a development environment.");
 		}
 	}
 	

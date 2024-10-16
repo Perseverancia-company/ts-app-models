@@ -13,8 +13,9 @@ import Role from "./Role";
  */
 export default class UserRoles extends Model<
 	InferAttributes<UserRoles>,
-	InferCreationAttributes<UserRoles>
+	InferCreationAttributes<UserRoles, { omit: "id" }>
 > {
+	declare id: number;
 	declare userId: number;
 	declare roleName: string;
 }
@@ -34,6 +35,12 @@ export function createUserRolesModel(
 
 	const UserRolesModel = UserRoles.init(
 		{
+			id: {
+				type: DataTypes.BIGINT,
+				allowNull: false,
+				primaryKey: true,
+				autoIncrement: true,
+			},
 			userId: {
 				type: DataTypes.BIGINT,
 				references: {

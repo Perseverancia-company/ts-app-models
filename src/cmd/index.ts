@@ -53,6 +53,11 @@ export default async function main() {
         action: "store_true"
     });
 	
+	parser.add_argument("--sync-development-force", {
+        help: "Sync development database",
+        action: "store_true"
+    });
+	
 	parser.add_argument("--sync-all", {
         help: "Sync all databases",
         action: "store_true"
