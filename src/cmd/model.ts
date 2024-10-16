@@ -1,33 +1,18 @@
 import Models from "../Models";
-import bcrypt from "bcrypt";
-
-/**
- * Seed user
- */
-async function seedUser(models: Models) {
-    const TEST_USERS_SEED = [
-        {
-            name: "Rick",
-            email: "rick@email.com",
-            confirmedEmail: 1,
-            password: bcrypt.hashSync("asd12345", 10)
-        }
-    ];
-    
-    const User = models.User;
-    
-    await User.bulkCreate(TEST_USERS_SEED);
-}
+import { createAdminUser, createNormalUser } from "../seed";
 
 /**
  * Main
  */
 export default async function modelMain(args: any, models: Models) {
-    if(args.open_all) {
-        console.log(`Tables are already opened when running this app.`);
-    }
-    
-    if(args.seed_user) {
-        await seedUser(models);
-    }
+	if (args.open_all) {
+		console.log(`Tables are already opened when running this app.`);
+	}
+
+	if (args.seed_user) {
+		await Promise.all([
+			createAdminUser(models),
+			createNormalUser(models),
+		]);
+	}
 }

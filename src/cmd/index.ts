@@ -98,7 +98,7 @@ export default async function main() {
     await tablesMain(args, models);
     
     await modelMain(args, models);
-    
+	
     // process.exit(0);
 }
 

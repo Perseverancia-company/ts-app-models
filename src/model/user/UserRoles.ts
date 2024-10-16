@@ -16,7 +16,7 @@ export default class UserRoles extends Model<
 	InferCreationAttributes<UserRoles>
 > {
 	declare userId: number;
-	declare roleId: number;
+	declare roleName: string;
 }
 
 /**
@@ -41,7 +41,7 @@ export function createUserRolesModel(
 					key: "id",
 				},
 			},
-			roleId: {
+			roleName: {
 				type: DataTypes.STRING,
 				references: {
 					model: role,

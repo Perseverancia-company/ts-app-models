@@ -129,3 +129,10 @@ export default function databaseName() {
 		return defaultDatabaseName();
 	}
 }
+
+/**
+ * Get access token
+ */
+export function accessToken() {
+    return process.env.ACCESS_TOKEN;
+}
