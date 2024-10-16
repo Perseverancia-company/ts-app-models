@@ -57,8 +57,5 @@ export function createUserRolesModel(
 		}
 	);
 
-	user.belongsToMany(role, { through: UserRoles });
-	role.belongsToMany(user, { through: UserRoles });
-
 	return UserRolesModel;
 }
