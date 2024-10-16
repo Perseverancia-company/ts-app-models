@@ -57,6 +57,7 @@ import SystemInfo, { createSystemInfoModel } from "./model/system-info/SystemInf
 import Service, { createServiceModel } from "./model/Service";
 import OAuth2Client, { createOAuth2Client } from "./model/OAuth2Client";
 import Role, { createRoleModel } from "./model/user/Role";
+import UserRoles, { createUserRolesModel } from "./model/user/UserRoles";
 
 /**
  * Models
@@ -77,6 +78,7 @@ export default class Models {
     // User tables
 	Role: typeof Role;
     User: typeof User;
+	UserRoles: typeof UserRoles;
     UserContactMethods: typeof UserContactMethods;
     
     // App manager tables
@@ -163,6 +165,7 @@ export default class Models {
 		// User tables
 		this.Role = createRoleModel(this.connection);
         this.User = createUserModel(this.connection, this.Role);
+		this.UserRoles = createUserRolesModel(this.connection, this.User, this.Role);
         this.UserContactMethods = createUserContactMethods(this.connection, this.User);
         
         // App tables
@@ -349,6 +352,7 @@ export default class Models {
 			
 			this.Role,
 			this.User,
+			this.UserRoles,
 			this.UserContactMethods,
 			
 			// App manager

@@ -128,9 +128,5 @@ export function createUserModel(conn: Sequelize, role: typeof Role) {
         },
     });
 	
-	// User roles
-	UserModel.belongsToMany(Role, { through: 'user-roles' });
-	Role.belongsToMany(UserModel, { through: 'user-roles' });
-    
     return UserModel;
 }
