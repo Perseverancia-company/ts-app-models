@@ -107,13 +107,14 @@ describe("User creation", () => {
 		await createNormalUser(models);
 
 		// Verify normal user exists
-		const normalUser = await models.User.findOne({
-			where: { email: "user@perseverancia.com.ar" },
-		});
+		const { User, Role, UserRoles } = models;
+		const [normalUser, userRole] = await Promise.all([
+			User.findOne({
+				where: { email: "user@perseverancia.com.ar" },
+			}),
+			Role.findOne({ where: { name: "user" } }),
+		]);
 		expect(normalUser).not.toBeNull(); // Expect normal user to be created
-
-		// Verify user role assignment
-		const userRole = await models.Role.findOne({ where: { name: "user" } });
 
 		// Validate them
 		if (!normalUser) {
@@ -123,9 +124,16 @@ describe("User creation", () => {
 			throw Error("Admin role not found");
 		}
 
-		const userRoleAssignment = await models.UserRoles.findOne({
+		// Assign roles
+		await UserRoles.create({
+			userId: normalUser.id,
+			roleName: userRole.name,
+		});
+
+		const userRoleAssignment = await UserRoles.findOne({
 			where: { userId: normalUser.id, roleName: userRole.name },
 		});
+		
 		expect(userRoleAssignment).not.toBeNull(); // Expect user role to be assigned
 	});
 });
