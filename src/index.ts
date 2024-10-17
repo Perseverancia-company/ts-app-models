@@ -7,7 +7,6 @@ import Models from "./Models";
 import { PartialConnectionOptions } from "./connection/mysqlConn";
 import TablesController from "./lib/TablesController";
 import TablesGroupController from "./lib/TablesGroupController";
-
 import databaseName, {
 	defaultDatabaseName,
 	developmentDatabaseName,
@@ -17,6 +16,10 @@ import databaseName, {
 	isTesting,
 	isDevelopment,
 } from "./env";
+import {
+	createAdminUser,
+	createNormalUser,
+} from "./seed";
 
 export {
 	// Prefer to use this one
@@ -25,6 +28,10 @@ export {
 	
 	isTesting,
 	isDevelopment,
+	
+	// Seeding
+	createAdminUser,
+	createNormalUser,
 	
 	// Debug
 	printMysqlEnvironmentVariables,
