@@ -25,12 +25,13 @@ describe("Role creation", () => {
 
 		// First remove relations
 		// Get users
-		const [user, user2] = await Promise.all([
+		const [user, user2, user3] = await Promise.all([
 			User.findOne({ where: { email: "test1@example.com" } }),
 			User.findOne({ where: { email: "test2@example.com" } }),
+			User.findOne({ where: { email: "test3@example.com" } }),
 		]);
 
-		if (!user || !user2) {
+		if (!user || !user2 || !user3) {
 			throw Error(
 				"The users that were being tested were not found in the database"
 			);
@@ -40,6 +41,7 @@ describe("Role creation", () => {
 		await Promise.all([
 			UserRoles.destroy({ where: { userId: user.id } }),
 			UserRoles.destroy({ where: { userId: user2.id } }),
+			UserRoles.destroy({ where: { userId: user3.id } }),
 		]);
 
 		// Then remove roles and users
@@ -52,6 +54,9 @@ describe("Role creation", () => {
 			}),
 			User.destroy({
 				where: { email: "test2@example.com" },
+			}),
+			User.destroy({
+				where: { email: "test3@example.com" },
 			}),
 		]);
 	});
@@ -96,6 +101,30 @@ describe("Role creation", () => {
 		// Verify only one role assignment exists
 		const userRoles = await UserRoles.findAll({
 			where: { userId: user.id, roleName: "test-role" },
+		});
+		expect(userRoles.length).toBe(1);
+	});
+
+	/**
+	 * Test case: Prevent duplicate role assignment
+	 */
+	it("should not assign same role twice(search by user id)", async () => {
+		const models = new Models();
+		const user = await User.create({
+			name: "Test User",
+			email: "test3@example.com",
+			password: "password",
+		});
+
+		// Assign role to user
+		await user.assignRole("test-role", UserRoles);
+
+		// Attempt to assign same role again
+		await user.assignRole("test-role", UserRoles);
+
+		// Verify only one role assignment exists
+		const userRoles = await UserRoles.findAll({
+			where: { userId: user.id },
 		});
 		expect(userRoles.length).toBe(1);
 	});
