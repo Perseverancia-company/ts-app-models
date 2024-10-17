@@ -11,7 +11,7 @@ export default async function modelMain(args: any, models: Models) {
 
 	if (args.seed_user) {
 		await Promise.all([
-			createAdminUser(models),
+			createAdminUser(models, "Admin", "Admin user"),
 			createNormalUser(models),
 		]);
 	}

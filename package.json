@@ -10,7 +10,7 @@
 	],
 	"scripts": {
 		"start": "ts-node src/cmd/index.ts",
-		"test": "ts-node src/cmd/index.ts --test",
+		"test": "NODE_ENV=testing jest",
 		"build": "tsup"
 	},
 	"keywords": [],
@@ -31,10 +31,12 @@
 		"@swc/core": "^1.5.27",
 		"@types/argparse": "^2.0.15",
 		"@types/bcrypt": "^5.0.2",
+		"@types/jest": "^29.5.13",
 		"@types/node": "^20.14.2",
 		"@types/shortid": "^0.0.32",
 		"@types/slug": "^5.0.8",
 		"@types/validator": "^13.11.10",
+		"ts-jest": "^29.2.5",
 		"ts-node": "^10.9.2",
 		"tsup": "^8.0.2",
 		"typescript": "^5.4.2"

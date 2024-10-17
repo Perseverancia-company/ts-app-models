@@ -64,7 +64,7 @@ export default function mysqlConn(options: PartialConnectionOptions = {
     const MYSQL_USERNAME = process.env.DATABASE_USERNAME ?? process.env.MYSQL_USERNAME ?? "root";
     const MYSQL_PASSWORD = process.env.DATABASE_PASSWORD ?? process.env.MYSQL_PASSWORD ?? "";
     const MYSQL_HOST = process.env.DATABASE_HOST ?? process.env.MYSQL_HOST ?? "localhost";
-    
+	
     // Get port
     let endPort: number = 3306;
     if(process.env.MYSQL_PORT) endPort = parseInt(process.env.MYSQL_PORT);
