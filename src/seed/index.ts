@@ -12,12 +12,15 @@ export async function createAdminRole(models: Models) {
 			name: "admin",
 		},
 	});
+
 	if (!adminRole) {
 		adminRole = await Role.create({
 			name: "admin",
 			description: "Admin role",
 		});
 	}
+
+	return adminRole;
 }
 
 /**
@@ -26,17 +29,19 @@ export async function createAdminRole(models: Models) {
 export async function createUserRole(models: Models) {
 	// Create admin role
 	const Role = models.Role;
-	const userRole = await Role.findOne({
+	let userRole = await Role.findOne({
 		where: {
 			name: "user",
 		},
 	});
 	if (!userRole) {
-		Role.create({
+		userRole = await Role.create({
 			name: "user",
 			description: "User role",
 		});
 	}
+
+	return userRole;
 }
 
 /**
@@ -45,14 +50,12 @@ export async function createUserRole(models: Models) {
  * The access token is the password of the user
  * Also create admin role
  */
-export async function createAdminUser(models: Models, name: string, description: string) {
+export async function createAdminUser(models: Models) {
 	// Get access token
 	const token = accessToken();
 	if (!token) {
 		throw Error("Access token is required");
 	}
-	
-	createAdminRole(models);
 
 	// Create admin user
 	const User = models.User;
@@ -62,31 +65,36 @@ export async function createAdminUser(models: Models, name: string, description:
 		password: token,
 		confirmedEmail: true,
 	};
-	let adminUser = await User.findOne({
-		where: {
-			email: user.email,
-		},
-	});
+
+	// Run queries
+	let [adminRole, adminUser] = await Promise.all([
+		createAdminRole(models),
+		User.findOne({
+			where: {
+				email: user.email,
+			},
+			raw: true,
+		}),
+	]);
+
 	if (!adminUser) {
 		adminUser = await User.create(user);
 	}
 
-	// Get admin role
-	const Role = models.Role;
-	let adminRole = await Role.findOne({
-		where: {
-			name: "admin",
-		},
-	});
+	// Admin role
 	if (!adminRole) {
 		throw Error("Couldn't fetch admin role");
 	}
-	
+
 	// Now assign admin role
 	if (adminRole && adminUser) {
-		await models.UserRoles.create({
+		const UserRoles = models.UserRoles;
+
+		await UserRoles.create({
 			userId: adminUser.id,
 			roleName: adminRole.name,
+		}).catch((err) => {
+			throw Error(err);
 		});
 	}
 }
@@ -96,7 +104,7 @@ export async function createAdminUser(models: Models, name: string, description:
  */
 export async function createNormalUser(models: Models) {
 	createUserRole(models);
-	
+
 	// Create admin user
 	const User = models.User;
 	const user = {

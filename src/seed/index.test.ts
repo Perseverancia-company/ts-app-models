@@ -18,17 +18,17 @@ import Models from "../Models";
  * Test suite for role creation
  */
 describe("Role creation", () => {
-	beforeAll(() => {
-		initializeDotenv();
-	});
-	
+	initializeDotenv();
+
+	// Initialize Models instance
+	const models = new Models();
+
+	beforeAll(() => {});
+
 	/**
 	 * Test case: Create admin role
 	 */
 	it("should create admin role", async () => {
-		// Initialize Models instance
-		const models = new Models();
-
 		// Create admin role
 		await createAdminRole(models);
 
@@ -43,9 +43,6 @@ describe("Role creation", () => {
 	 * Test case: Create user role
 	 */
 	it("should create user role", async () => {
-		// Initialize Models instance
-		const models = new Models();
-
 		// Create user role
 		await createUserRole(models);
 
@@ -59,39 +56,43 @@ describe("Role creation", () => {
  * Test suite for user creation
  */
 describe("User creation", () => {
-	beforeAll(() => {
-		initializeDotenv();
+	initializeDotenv();
+
+	// Initialize Models instance
+	const models = new Models();
+
+	beforeAll(() => {});
+
+	afterAll(async () => {
+		// Delete everything
 	});
-	
+
 	/**
 	 * Test case: Create admin user
 	 */
 	it("should create admin user", async () => {
-		// Initialize Models instance
-		const models = new Models();
-
 		// Create admin user with name and description
-		await createAdminUser(models, "Admin", "Admin description");
+		await createAdminUser(models);
 
 		// Verify admin user exists
 		const adminUser = await models.User.findOne({
 			where: { email: "admin@perseverancia.com.ar" },
 		});
 		expect(adminUser).not.toBeNull(); // Expect admin user to be created
-		
+
 		// Verify admin role assignment
 		const adminRole = await models.Role.findOne({
 			where: { name: "admin" },
 		});
-		
+
 		// Validate them
-		if(!adminUser) {
+		if (!adminUser) {
 			throw Error("User not found");
 		}
-		if(!adminRole) {
+		if (!adminRole) {
 			throw Error("Admin role not found");
 		}
-		
+
 		const userRole = await models.UserRoles.findOne({
 			where: { userId: adminUser.id, roleName: adminRole.name },
 		});
@@ -102,9 +103,6 @@ describe("User creation", () => {
 	 * Test case: Create normal user
 	 */
 	it("should create normal user", async () => {
-		// Initialize Models instance
-		const models = new Models();
-
 		// Create normal user
 		await createNormalUser(models);
 
@@ -116,15 +114,15 @@ describe("User creation", () => {
 
 		// Verify user role assignment
 		const userRole = await models.Role.findOne({ where: { name: "user" } });
-		
+
 		// Validate them
-		if(!normalUser) {
+		if (!normalUser) {
 			throw Error("User not found");
 		}
-		if(!userRole) {
+		if (!userRole) {
 			throw Error("Admin role not found");
 		}
-		
+
 		const userRoleAssignment = await models.UserRoles.findOne({
 			where: { userId: normalUser.id, roleName: userRole.name },
 		});
