@@ -1,6 +1,7 @@
 import { Model, InferCreationAttributes, InferAttributes, Sequelize, DataTypes } from "sequelize";
 import bcrypt from "bcrypt";
 import Role from "./Role";
+import UserRoles from "./UserRoles";
 
 /**
  * User model
@@ -43,6 +44,24 @@ export default class User extends Model<
     verifyPassword(password: string) {
         return this.validatePassword(password);
     }
+	
+	/**
+	 * Assign role
+	 */
+	async assignRole(role: string, userRoles: typeof UserRoles) {
+		const userRoleAssignment = await UserRoles.findOne({
+			where: { userId: this.id, roleName: role },
+		});
+		
+		// If the user doesn't have this role assigned, do it
+		if(!userRoleAssignment) {
+			// Assign roles
+			await UserRoles.create({
+				userId: this.id,
+				roleName: role,
+			});
+		}
+	}
 }
 
 /**
