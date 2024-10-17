@@ -90,17 +90,27 @@ export async function createAdminUser(models: Models) {
 	if (adminRole && adminUser) {
 		const UserRoles = models.UserRoles;
 
-		await UserRoles.create({
-			userId: adminUser.id,
-			roleName: adminRole.name,
-		}).catch((err) => {
-			throw Error(err);
+		// Prevent re-assigning a role
+		// Assign role
+		let adminRoleAssigned = await UserRoles.findOne({
+			where: { userId: adminUser.id, roleName: adminRole.name },
+			raw: true,
 		});
+		if(!adminRoleAssigned) {
+			await UserRoles.create({
+				userId: adminUser.id,
+				roleName: adminRole.name,
+			}).catch((err) => {
+				throw Error(err);
+			});
+		}
 	}
 }
 
 /**
  * Create normal user
+ * 
+ * No need to assign user role to user as it's implicit
  */
 export async function createNormalUser(models: Models) {
 	createUserRole(models);
@@ -121,4 +131,6 @@ export async function createNormalUser(models: Models) {
 	if (!userExists) {
 		User.create(user);
 	}
+	
+	// No need to assign user role to user as it's implicit
 }

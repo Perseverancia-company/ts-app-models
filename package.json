@@ -11,7 +11,8 @@
 	"scripts": {
 		"start": "ts-node src/cmd/index.ts",
 		"test": "NODE_ENV=testing jest",
-		"build": "tsup"
+		"build": "tsup",
+		"force-sync-test": "NODE_ENV=testing npm run start -- --sync-testing-force"
 	},
 	"keywords": [],
 	"author": "",
