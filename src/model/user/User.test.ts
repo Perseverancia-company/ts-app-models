@@ -10,44 +10,67 @@ describe("Role creation", () => {
 	// Initialize Models instance
 	const models = new Models();
 
+	const { Role, User, UserRoles } = models;
+
 	beforeAll(async () => {
-		const role = await models.Role.create({
+		const role = await Role.create({
 			name: "test-role",
 			description: "Test role",
 		});
 	});
 
 	afterAll(async () => {
-		// Remove created user
-		await models.User.destroy({
-			where: { email: "test1@example.com" },
-		}).catch((err) => {});
-		await models.User.destroy({
-			where: { email: "test2@example.com" },
-		}).catch((err) => {});
+		// Explanation: I need to remove them one by one in order, otherwise, if I just wipe the whole table,
+		// it would collide with other tests. As all test suites are run in parallel.
 
-		// Remove created role
-		await models.Role.destroy({ where: { name: "test-role" } }).catch(
-			(err) => {}
-		);
+		// First remove relations
+		// Get users
+		const [user, user2] = await Promise.all([
+			User.findOne({ where: { email: "test1@example.com" } }),
+			User.findOne({ where: { email: "test2@example.com" } }),
+		]);
+
+		if (!user || !user2) {
+			throw Error(
+				"The users that were being tested were not found in the database"
+			);
+		}
+
+		// Remove relations by user id
+		await Promise.all([
+			UserRoles.destroy({ where: { userId: user.id } }),
+			UserRoles.destroy({ where: { userId: user2.id } }),
+		]);
+
+		// Then remove roles and users
+		await Promise.all([
+			// Remove created role
+			Role.destroy({ where: { name: "test-role" } }),
+			// Remove created user
+			User.destroy({
+				where: { email: "test1@example.com" },
+			}),
+			User.destroy({
+				where: { email: "test2@example.com" },
+			}),
+		]);
 	});
 
 	/**
 	 * Test case: Assign role to user
 	 */
 	it("should assign role to user", async () => {
-		const models = new Models();
-		const user = await models.User.create({
+		const user = await User.create({
 			name: "Test User",
 			email: "test1@example.com",
 			password: "password",
 		});
 
 		// Assign role to user
-		await user.assignRole("test-role", models.UserRoles);
+		await user.assignRole("test-role", UserRoles);
 
 		// Verify role assignment
-		const userRole = await models.UserRoles.findOne({
+		const userRole = await UserRoles.findOne({
 			where: { userId: user.id, roleName: "test-role" },
 		});
 		expect(userRole).not.toBeNull();
@@ -58,20 +81,20 @@ describe("Role creation", () => {
 	 */
 	it("should not assign same role twice", async () => {
 		const models = new Models();
-		const user = await models.User.create({
+		const user = await User.create({
 			name: "Test User",
 			email: "test2@example.com",
 			password: "password",
 		});
 
 		// Assign role to user
-		await user.assignRole("test-role", models.UserRoles);
+		await user.assignRole("test-role", UserRoles);
 
 		// Attempt to assign same role again
-		await user.assignRole("test-role", models.UserRoles);
+		await user.assignRole("test-role", UserRoles);
 
 		// Verify only one role assignment exists
-		const userRoles = await models.UserRoles.findAll({
+		const userRoles = await UserRoles.findAll({
 			where: { userId: user.id, roleName: "test-role" },
 		});
 		expect(userRoles.length).toBe(1);
