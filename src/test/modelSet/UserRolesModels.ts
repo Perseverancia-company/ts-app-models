@@ -3,7 +3,7 @@ import mysqlConn from "../../connection/mysqlConn";
 import Role, { createRoleModel } from "../../model/user/Role";
 import User, { createUserModel } from "../../model/user/User";
 import UserRoles, { createUserRolesModel } from "../../model/user/UserRoles";
-import shortUUID from "short-uuid";
+import short from "short-uuid";
 
 /**
  * User roles models
@@ -22,21 +22,21 @@ export default class UserRolesModels {
 		this.connection = (options && options.connection) ?? mysqlConn();
 
 		// Generate random table names
-		const randomSuffix = shortUUID();
+		const randomSuffix = short.generate();
 
 		// User tables
 		this.Role = createRoleModel(this.connection, {
-			tableName: `roles_${randomSuffix}`,
+			tableName: `roles-${randomSuffix}`,
 		});
 		this.User = createUserModel(this.connection, {
-			tableName: `users_${randomSuffix}`,
+			tableName: `users-${randomSuffix}`,
 		});
 		this.UserRoles = createUserRolesModel(
 			this.connection,
 			this.User,
 			this.Role,
 			{
-				tableName: `user_roles_${randomSuffix}`,
+				tableName: `user-roles-${randomSuffix}`,
 			}
 		);
 	}

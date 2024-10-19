@@ -1,4 +1,3 @@
-// Connections
 import { mysqlProductionConnection } from "./connection/mysqlConn";
 import mysqlConn from "./connection/mysqlConn";
 import printMysqlEnvironmentVariables from "./env/printMysqlEnvironmentVariables";

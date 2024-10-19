@@ -2,11 +2,13 @@ import DefaultUsers from "./DefaultUsers";
 import { initializeDotenv } from "../env";
 import UserRolesModels from "../test/modelSet/UserRolesModels";
 
+initializeDotenv();
+
 /**
  * Test suite for role creation
  */
 describe("Role creation", () => {
-	initializeDotenv();
+	// Create new instance otherwise table names will be the same
 	const models = new UserRolesModels();
 	
 	// Initialize Models instance
@@ -17,7 +19,7 @@ describe("Role creation", () => {
 	});
 	
 	afterAll(async () => {
-		console.log(`Delete tables`);
+		// console.log(`Delete tables`);
 		await models.deleteTables();
 	})
 	
@@ -52,12 +54,16 @@ describe("Role creation", () => {
  * Test suite for user creation
  */
 describe("User creation", () => {
-	initializeDotenv();
+	// Create new instance otherwise table names will be the same
 	const models = new UserRolesModels();
 	
 	// Initialize Models instance
 	const defaultUsers = new DefaultUsers(models);
 
+	beforeAll(async () => {
+		await models.createTables();
+	});
+	
 	afterAll(async () => {
 		// Delete everything
 		await defaultUsers.deleteUsersAndRoles();
