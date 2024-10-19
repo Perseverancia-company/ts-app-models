@@ -15,10 +15,6 @@ import databaseName, {
 	isTesting,
 	isDevelopment,
 } from "./env";
-import {
-	createAdminUser,
-	createNormalUser,
-} from "./seed";
 import UserRolesModels from "./test/modelSet/UserRolesModels";
 import DefaultUsers from "./seed/DefaultUsers";
 
@@ -31,8 +27,6 @@ export {
 	isDevelopment,
 	
 	// Seeding
-	createAdminUser,
-	createNormalUser,
 	DefaultUsers,
 	
 	// Debug

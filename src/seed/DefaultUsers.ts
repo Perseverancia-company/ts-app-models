@@ -45,15 +45,26 @@ export default class DefaultUsers {
 					: Promise.resolve()
 			)
 		);
-
-		// Then remove users and roles
-		await Promise.all([
+		
+		const destroyList = [
 			...emails.map((email) =>
 				this.models.User.destroy({ where: { email } })
 			),
+		];
+		
+		// Then remove users and roles
+		await Promise.all([
+			...destroyList,
 			this.models.Role.destroy({ where: { name: "admin" } }),
 			this.models.Role.destroy({ where: { name: "user" } }),
 		]);
+	}
+
+	/**
+	 * Create default users
+	 */
+	async createDefaultUsers() {
+		await Promise.all([this.createAdminUser(), this.createNormalUser()]);
 	}
 
 	/**
@@ -119,7 +130,7 @@ export default class DefaultUsers {
 			}),
 			this.createAdminRole(),
 		]);
-		
+
 		// If admin user doesn't exists, create it
 		if (!adminUser) {
 			adminUser = await User.create(user);

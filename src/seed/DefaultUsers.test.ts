@@ -111,3 +111,58 @@ describe("User creation", () => {
 		}
 	});
 });
+
+/**
+ * Test suite for user creation
+ */
+describe("Delete users and roles", () => {
+	// Create new instance otherwise table names will be the same
+	const models = new UserRolesModels();
+	const { User } = models;
+
+	// Initialize Models instance
+	const defaultUsers = new DefaultUsers(models);
+
+	beforeAll(async () => {
+		await models.createTables();
+		await defaultUsers.createDefaultUsers();
+	});
+
+	afterAll(async () => {
+		await models.deleteTables();
+	});
+
+	/**
+	 * Test case: Create admin user
+	 */
+	it("should create admin user", async () => {
+		// Verify users exist
+		const [normalUser, adminUser] = await Promise.all([
+			User.findOne({
+				where: { email: "user@perseverancia.com.ar" },
+			}),
+			User.findOne({
+				where: { email: "admin@perseverancia.com.ar" },
+			}),
+		]);
+
+		expect(adminUser).not.toBeNull();
+		expect(normalUser).not.toBeNull();
+
+		// Now delete users
+		await defaultUsers.deleteUsersAndRoles();
+		
+		// Verify users ceased to exist
+		const [normalUser1, adminUser1] = await Promise.all([
+			User.findOne({
+				where: { email: "user@perseverancia.com.ar" },
+			}),
+			User.findOne({
+				where: { email: "admin@perseverancia.com.ar" },
+			}),
+		]);
+
+		expect(normalUser1).toBeNull();
+		expect(adminUser1).toBeNull();
+	});
+});

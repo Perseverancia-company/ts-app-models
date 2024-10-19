@@ -6,7 +6,7 @@ import UserRoles, { createUserRolesModel } from "../../model/user/UserRoles";
 import short from "short-uuid";
 
 /**
- * User roles models
+ * Ephemeral user roles models
  * 
  * This class is merely for testing purposes, it only uses three tables and their names are 
  * chosen randomly
