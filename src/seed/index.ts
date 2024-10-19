@@ -96,7 +96,7 @@ export async function createAdminUser(models: Models) {
 			where: { userId: adminUser.id, roleName: adminRole.name },
 			raw: true,
 		});
-		if(!adminRoleAssigned) {
+		if (!adminRoleAssigned) {
 			await UserRoles.create({
 				userId: adminUser.id,
 				roleName: adminRole.name,
@@ -109,7 +109,7 @@ export async function createAdminUser(models: Models) {
 
 /**
  * Create normal user
- * 
+ *
  * No need to assign user role to user as it's implicit
  */
 export async function createNormalUser(models: Models) {
@@ -131,6 +131,6 @@ export async function createNormalUser(models: Models) {
 	if (!userExists) {
 		User.create(user);
 	}
-	
+
 	// No need to assign user role to user as it's implicit
 }

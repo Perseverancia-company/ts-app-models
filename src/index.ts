@@ -20,6 +20,8 @@ import {
 	createAdminUser,
 	createNormalUser,
 } from "./seed";
+import UserRolesModels from "./test/modelSet/UserRolesModels";
+import DefaultUsers from "./seed/DefaultUsers";
 
 export {
 	// Prefer to use this one
@@ -32,6 +34,7 @@ export {
 	// Seeding
 	createAdminUser,
 	createNormalUser,
+	DefaultUsers,
 	
 	// Debug
 	printMysqlEnvironmentVariables,
@@ -46,6 +49,7 @@ export {
 
 	// Models
 	Models,
+	UserRolesModels,
 
 	// Tables
 	resetTables,

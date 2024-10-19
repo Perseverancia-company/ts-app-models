@@ -23,8 +23,13 @@ export default class Role extends Model<
 /**
  * Role model
  */
-export function createRoleModel(conn: Sequelize) {
-	const TABLE_NAME = "role";
+export function createRoleModel(
+	conn: Sequelize,
+	config?: {
+		tableName: string;
+	}
+) {
+	const TABLE_NAME = config && config.tableName ? config.tableName : "role";
 	const Model = Role.init(
 		{
 			name: {

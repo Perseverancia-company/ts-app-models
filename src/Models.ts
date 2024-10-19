@@ -164,7 +164,7 @@ export default class Models {
 		
 		// User tables
 		this.Role = createRoleModel(this.connection);
-        this.User = createUserModel(this.connection, this.Role);
+        this.User = createUserModel(this.connection);
 		this.UserRoles = createUserRolesModel(this.connection, this.User, this.Role);
         this.UserContactMethods = createUserContactMethods(this.connection, this.User);
         

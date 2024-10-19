@@ -29,9 +29,12 @@ export default class UserRoles extends Model<
 export function createUserRolesModel(
 	conn: Sequelize,
 	user: typeof User,
-	role: typeof Role
+	role: typeof Role,
+	config?: {
+		tableName: string;
+	}
 ) {
-	const TABLE_NAME = "user-roles";
+	const TABLE_NAME = config && config.tableName ? config.tableName :  "user-roles";
 
 	const UserRolesModel = UserRoles.init(
 		{
