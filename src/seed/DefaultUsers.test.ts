@@ -65,8 +65,7 @@ describe("User creation", () => {
 	});
 
 	afterAll(async () => {
-		// Delete everything
-		await defaultUsers.deleteUsersAndRoles();
+		await models.deleteTables();
 	});
 
 	/**
