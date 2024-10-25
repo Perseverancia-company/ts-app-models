@@ -39,6 +39,8 @@ export function createRoleModel(
 			description: {
 				type: DataTypes.STRING,
 			},
+			// TODO: Add scopes
+			// TODO: Delete dates
 			createdAt: DataTypes.DATE,
 			updatedAt: DataTypes.DATE,
 		},

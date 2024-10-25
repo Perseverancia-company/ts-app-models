@@ -13,14 +13,18 @@ export default class OAuth2Client extends Model<
 	InferAttributes<OAuth2Client>,
 	InferCreationAttributes<
 		OAuth2Client,
-		{ omit: "id" | "createdAt" | "updatedAt" }
+		{ omit: "clientId" | "createdAt" | "updatedAt" }
 	>
 > {
-	declare id: number;
-	
-	declare name: string;
 	declare clientId: string;
+	declare name: string;
 	declare clientSecret: string;
+
+	// These are comma separated strings
+	declare authorizedOrigins: string;
+	declare authorizedRedirects: string;
+	declare grantTypes: string;
+	declare authorizationScopes: string;
 
 	declare createdAt: Date;
 	declare updatedAt: Date;
@@ -33,22 +37,36 @@ export function createOAuth2Client(conn: Sequelize) {
 	const TABLE_NAME = "oauth2-client";
 	const Model = OAuth2Client.init(
 		{
-			id: {
-				type: DataTypes.BIGINT,
+			clientId: {
+				type: DataTypes.UUID,
 				primaryKey: true,
-				allowNull: false,
-				autoIncrement: true,
+				unique: true,
 			},
 			name: {
 				type: DataTypes.STRING,
 			},
-			clientId: {
-				type: DataTypes.STRING,
-				unique: true,
-			},
 			clientSecret: {
 				type: DataTypes.STRING,
 			},
+
+			// These are comma separated strings
+			authorizedOrigins: {
+				type: DataTypes.STRING,
+				comment: "Comma-separated list of authorized origins",
+			},
+			authorizedRedirects: {
+				type: DataTypes.STRING,
+				comment: "Comma-separated list of authorized redirects",
+			},
+			grantTypes: {
+				type: DataTypes.STRING,
+				comment: "Comma-separated list of grant types",
+			},
+			authorizationScopes: {
+				type: DataTypes.STRING,
+				comment: "Space-separated list of authorization scopes",
+			},
+
 			createdAt: DataTypes.DATE,
 			updatedAt: DataTypes.DATE,
 		},
