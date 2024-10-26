@@ -37,8 +37,10 @@ export function createOAuth2Client(conn: Sequelize) {
 	const TABLE_NAME = "oauth2-client";
 	const Model = OAuth2Client.init(
 		{
+			// STRING
+			// It's a UUID, but DataTypes.UUID causes errors
 			clientId: {
-				type: DataTypes.UUID,
+				type: DataTypes.STRING,
 				primaryKey: true,
 				unique: true,
 			},
