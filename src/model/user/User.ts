@@ -29,6 +29,7 @@ export default class User extends Model<
 	>
 > {
 	declare id: number;
+	
 	declare name: string;
 	declare surname: string;
 	declare email: string;

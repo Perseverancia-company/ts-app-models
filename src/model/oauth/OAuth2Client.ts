@@ -13,7 +13,7 @@ export default class OAuth2Client extends Model<
 	InferAttributes<OAuth2Client>,
 	InferCreationAttributes<
 		OAuth2Client,
-		{ omit: "createdAt" | "updatedAt" }
+		{ omit: "createdAt" | "updatedAt" | "grantTypes" | "authorizedOrigins" | "authorizedRedirects" }
 	>
 > {
 	declare clientId: string;

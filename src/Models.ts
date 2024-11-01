@@ -55,9 +55,10 @@ import ServerNode, { createServerNodeModel } from "./model/system-info/ServerNod
 import ServerLocation, { createServerLocation } from "./model/system-info/ServerLocation";
 import SystemInfo, { createSystemInfoModel } from "./model/system-info/SystemInfo";
 import Service, { createServiceModel } from "./model/Service";
-import OAuth2Client, { createOAuth2Client } from "./model/OAuth2Client";
+import OAuth2Client, { createOAuth2Client } from "./model/oauth/OAuth2Client";
 import Role, { createRoleModel } from "./model/user/Role";
 import UserRoles, { createUserRolesModel } from "./model/user/UserRoles";
+import OAuthAccessToken, { createOAuthAccessToken } from "./model/oauth/OAuthAccessToken";
 
 /**
  * Models
@@ -148,7 +149,10 @@ export default class Models {
 	ServerNode: typeof ServerNode;
 	
 	Service: typeof Service;
+	
+	// OAuth
 	OAuth2Client: typeof OAuth2Client;
+	OAuthAccessToken: typeof OAuthAccessToken;
 	
     /**
      * Constructor
@@ -339,7 +343,10 @@ export default class Models {
 		);
 		
 		this.Service = createServiceModel(this.connection);
+		
+		// OAuth2
 		this.OAuth2Client = createOAuth2Client(this.connection);
+		this.OAuthAccessToken = createOAuthAccessToken(this.connection, this.User);
     }
 	
     /**
