@@ -20,7 +20,7 @@ export default class OAuthAuthorizationCode extends Model<
 > {
 	declare id: number;
 
-	declare authorizationCode: OAuthAuthorizationCode;
+	declare authorizationCode: string;
 	declare expiresAt: Date;
 	declare redirectUri: string;
 	declare scope: string;
