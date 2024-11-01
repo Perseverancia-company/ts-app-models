@@ -12,7 +12,7 @@ import User from "../user/User";
  */
 export default class OAuthAccessToken extends Model<
 	InferAttributes<OAuthAccessToken>,
-	InferCreationAttributes<OAuthAccessToken, { omit: "id" }>
+	InferCreationAttributes<OAuthAccessToken, { omit: "id" | "createdAt" | "updatedAt" }>
 > {
 	declare id: number;
 
