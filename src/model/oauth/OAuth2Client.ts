@@ -49,6 +49,7 @@ export function createOAuth2Client(conn: Sequelize) {
 			},
 			clientSecret: {
 				type: DataTypes.STRING,
+				allowNull: false, // Ensure clientSecret cannot be null
 			},
 
 			// These are comma separated strings
