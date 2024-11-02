@@ -1,9 +1,9 @@
-import { randomBytes } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
 import OAuth2Client from "./OAuth2Client";
 import { initializeDotenv } from "../../env";
 import Models from "../../Models";
+import { generateRandomSecret } from "../../lib/secret";
 
 describe("OAuth2Client Model", () => {
 	initializeDotenv();
@@ -25,12 +25,7 @@ describe("OAuth2Client Model", () => {
 			await model.destroy();
 		}
 	});
-
-	// Helper function to generate a unique clientSecret
-	function generateRandomSecret() {
-		return randomBytes(32).toString("hex");
-	}
-
+	
 	it("should create an OAuth2Client instance successfully", async () => {
 		const uniqueClientId = uuidv4();
 		const uniqueClientSecret = generateRandomSecret();

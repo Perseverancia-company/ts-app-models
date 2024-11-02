@@ -23,6 +23,9 @@ export default class OAuthRefreshToken extends Model<
 	declare refreshToken: string;
 	declare refreshTokenExpiresAt: Date;
 	declare scope: string;
+	
+	declare userId: number;
+	declare clientId: string;
 
 	declare createdAt: Date;
 	declare updatedAt: Date;
@@ -57,6 +60,22 @@ export function createOAuthRefreshToken(
 				type: DataTypes.STRING,
 				allowNull: false,
 			},
+			userId: {
+				type: DataTypes.BIGINT,
+                allowNull: false,
+                references: {
+                    model: user,
+                    key: "id",
+                },
+            },
+			clientId: {
+				type: DataTypes.STRING,
+                allowNull: false,
+                references: {
+                    model: oauth2Client,
+                    key: "clientId",
+                },
+            },
 			createdAt: DataTypes.DATE,
 			updatedAt: DataTypes.DATE,
 		},
