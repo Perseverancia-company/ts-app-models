@@ -19,6 +19,7 @@ export default class OAuthAccessToken extends Model<
 	declare clientId: string;
 	declare accessToken: string;
 	declare accessTokenExpiresAt: Date;
+	declare userId: number;
 
 	// Comma separated
 	declare scopes: string;
@@ -51,6 +52,14 @@ export function createOAuthAccessToken(conn: Sequelize, user: typeof User) {
 					},
 				},
 			},
+			// We need this otherwise typescript throws an error
+			userId: {
+				type: DataTypes.BIGINT,
+				references: {
+					model: user,
+					key: 'id'
+				},
+			},
 			accessTokenExpiresAt: {
 				type: DataTypes.DATE,
 			},
@@ -66,7 +75,8 @@ export function createOAuthAccessToken(conn: Sequelize, user: typeof User) {
 			modelName: TABLE_NAME,
 		}
 	);
-
+	
+	// We need this otherwise sequelize throws an error
 	model.belongsTo(user, {
 		foreignKey: "userId",
 		onUpdate: "CASCADE",
