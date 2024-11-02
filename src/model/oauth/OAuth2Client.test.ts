@@ -1,23 +1,22 @@
-import { Sequelize } from "sequelize";
-import OAuth2Client, { createOAuth2Client } from "./OAuth2Client";
-import mysqlConn from "../../connection/mysqlConn";
 import { randomBytes } from "crypto";
 import { v4 as uuidv4 } from "uuid";
 
-describe("OAuth2Client Model", () => {
-	let sequelize: Sequelize;
-	let client: typeof OAuth2Client;
+import OAuth2Client from "./OAuth2Client";
+import { initializeDotenv } from "../../env";
+import Models from "../../Models";
 
+describe("OAuth2Client Model", () => {
+	initializeDotenv();
+	
+	// Initialize Models instance
+	const models = new Models();
+	const { OAuth2Client } = models;
+	
 	// Array to store created models for cleanup
 	let createdModels: OAuth2Client[] = [];
 
 	beforeAll(async () => {
 		process.env.NODE_ENV = "testing";
-
-		// Initialize a test database connection
-		sequelize = mysqlConn();
-		client = createOAuth2Client(sequelize);
-		await sequelize.sync({ force: true });
 	});
 
 	afterAll(async () => {
@@ -25,9 +24,6 @@ describe("OAuth2Client Model", () => {
 		for (const model of createdModels) {
 			await model.destroy();
 		}
-
-		// Close the database connection
-		await sequelize.close();
 	});
 
 	// Helper function to generate a unique clientSecret
