@@ -50,8 +50,15 @@ export function createOAuth2Client(conn: Sequelize) {
 			clientSecret: {
 				type: DataTypes.STRING,
 				allowNull: false, // Ensure clientSecret cannot be null
+				validate: {
+					notEmpty: {
+                        msg: "Client secret is required",
+                    },
+                    is: /^[\w\-]+$/, // Client secret must only contain alphanumeric characters and hyphens
+					// Must be at least 32 characters long
+					len: [32, 64],
+				}
 			},
-
 			// These are comma separated strings
 			authorizedOrigins: {
 				type: DataTypes.STRING,
