@@ -27,7 +27,8 @@
 		"sequelize-typescript": "^2.1.6",
 		"short-uuid": "^5.2.0",
 		"shortid": "^2.2.16",
-		"slug": "^9.1.0"
+		"slug": "^9.1.0",
+		"uuid": "^11.0.2"
 	},
 	"devDependencies": {
 		"@swc/core": "^1.5.27",
@@ -37,6 +38,7 @@
 		"@types/node": "^20.14.2",
 		"@types/shortid": "^0.0.32",
 		"@types/slug": "^5.0.8",
+		"@types/uuid": "^10.0.0",
 		"@types/validator": "^13.11.10",
 		"ts-jest": "^29.2.5",
 		"ts-node": "^10.9.2",

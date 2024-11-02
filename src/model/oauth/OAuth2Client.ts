@@ -13,7 +13,7 @@ export default class OAuth2Client extends Model<
 	InferAttributes<OAuth2Client>,
 	InferCreationAttributes<
 		OAuth2Client,
-		{ omit: "createdAt" | "updatedAt" | "grantTypes" | "authorizedOrigins" | "authorizedRedirects" }
+		{ omit: "createdAt" | "updatedAt" }
 	>
 > {
 	declare clientId: string;
@@ -21,9 +21,9 @@ export default class OAuth2Client extends Model<
 	declare clientSecret: string;
 
 	// These are comma separated strings
-	declare authorizedOrigins: string;
-	declare authorizedRedirects: string;
-	declare grantTypes: string;
+	declare authorizedOrigins?: string;
+	declare authorizedRedirects?: string;
+	declare grantTypes?: string;
 	declare authorizationScopes: string;
 
 	declare createdAt: Date;
