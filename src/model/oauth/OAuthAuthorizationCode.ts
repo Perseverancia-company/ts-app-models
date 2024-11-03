@@ -24,6 +24,9 @@ export default class OAuthAuthorizationCode extends Model<
 	declare expiresAt: Date;
 	declare redirectUri: string;
 	declare scope: string;
+	
+	declare userId: number;
+	declare clientId: number;
 
 	declare createdAt: Date;
 	declare updatedAt: Date;
@@ -69,6 +72,19 @@ export function createOAuthAuthorizationCode(
 						msg: "Scope is required",
 					},
 				},
+			},
+			userId: {
+				type: DataTypes.BIGINT,
+                allowNull: false,
+            },
+			clientId: {
+				type: DataTypes.BIGINT,
+                allowNull: false,
+                validate: {
+                    notEmpty: {
+                        msg: "Client ID is required",
+                    },
+                },
 			},
 			createdAt: DataTypes.DATE,
 			updatedAt: DataTypes.DATE,
