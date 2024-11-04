@@ -56,7 +56,12 @@ describe("OAuthAuthorizationCode Model", () => {
 		} catch (err) {}
 	});
 
-	afterAll(async () => {});
+	afterAll(async () => {
+		// Clean up test data for User, OAuth2Client, and OAuthAuthorizationCode
+        await User.destroy({ where: { id: user.id } });
+        await OAuth2Client.destroy({ where: { clientId } });
+        await OAuthAuthorizationCode.destroy({ where: { authorizationCode } });
+	});
 
 	it("should create a valid authorization code", async () => {
 		expect(authCode).toBeDefined();
