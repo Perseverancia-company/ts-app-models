@@ -52,6 +52,9 @@ export function createOAuthAuthorizationCode(
 			authorizationCode: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				// FIXME: Big mistake
+				// This has to be unique
+				// unique: true,
 				validate: {
 					notEmpty: {
 						msg: "Authorization code is required",
@@ -76,15 +79,23 @@ export function createOAuthAuthorizationCode(
 			userId: {
 				type: DataTypes.BIGINT,
                 allowNull: false,
+				references: {
+					model: user,
+					key: 'id'
+				},
             },
 			clientId: {
-				type: DataTypes.BIGINT,
+				type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: {
                         msg: "Client ID is required",
                     },
                 },
+				references: {
+					model: oauth2Client,
+					key: 'clientId'
+				},
 			},
 			createdAt: DataTypes.DATE,
 			updatedAt: DataTypes.DATE,
