@@ -26,7 +26,7 @@ export default class OAuthAuthorizationCode extends Model<
 	declare scope: string;
 	
 	declare userId: number;
-	declare clientId: number;
+	declare clientId: string;
 
 	declare createdAt: Date;
 	declare updatedAt: Date;
