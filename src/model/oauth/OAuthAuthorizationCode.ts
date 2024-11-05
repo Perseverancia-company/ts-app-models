@@ -52,8 +52,7 @@ export function createOAuthAuthorizationCode(
 			authorizationCode: {
 				type: DataTypes.STRING,
 				allowNull: false,
-				// FIXME: Big mistake
-				// This has to be unique
+				// FIXME: This has to be unique
 				// unique: true,
 				validate: {
 					notEmpty: {

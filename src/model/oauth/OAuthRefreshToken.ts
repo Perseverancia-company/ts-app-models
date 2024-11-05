@@ -9,7 +9,7 @@ import User from "../user/User";
 import OAuth2Client from "./OAuth2Client";
 
 /**
- * Address
+ * Refresh token
  */
 export default class OAuthRefreshToken extends Model<
 	InferAttributes<OAuthRefreshToken>,
@@ -32,7 +32,9 @@ export default class OAuthRefreshToken extends Model<
 }
 
 /**
- * Authorization token
+ * Refresh token
+ * 
+ * Make sure to validate expiration date doesn't exceeds 30 days
  */
 export function createOAuthRefreshToken(
 	conn: Sequelize,
@@ -51,6 +53,8 @@ export function createOAuthRefreshToken(
 			refreshToken: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				// FIXME: This has to be unique
+				// unique: true,
 			},
 			refreshTokenExpiresAt: {
 				type: DataTypes.DATE,

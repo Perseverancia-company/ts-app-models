@@ -29,7 +29,11 @@ export default class OAuthAccessToken extends Model<
 }
 
 /**
- * Address
+ * OAuth access token
+ * 
+ * There's another way where this has no need to be unique
+ * It's by searching OAuth2Client and then the user and putting it together
+ * Then you would know even if tokens repeat, to who they belong.
  */
 export function createOAuthAccessToken(conn: Sequelize, oauth2Client: typeof OAuth2Client, user: typeof User) {
 	const TABLE_NAME = "oauth-access-token";
@@ -51,6 +55,8 @@ export function createOAuthAccessToken(conn: Sequelize, oauth2Client: typeof OAu
 			accessToken: {
 				type: DataTypes.STRING,
 				allowNull: false,
+				// FIXME: This has to be unique
+				// unique: true,
 				validate: {
 					notEmpty: {
 						msg: "Access token is required",
