@@ -6,6 +6,7 @@ import {
 	DataTypes,
 } from "sequelize";
 import User from "../user/User";
+import OAuth2Client from "./OAuth2Client";
 
 /**
  * Address
@@ -30,7 +31,7 @@ export default class OAuthAccessToken extends Model<
 /**
  * Address
  */
-export function createOAuthAccessToken(conn: Sequelize, user: typeof User) {
+export function createOAuthAccessToken(conn: Sequelize, oauth2Client: typeof OAuth2Client, user: typeof User) {
 	const TABLE_NAME = "oauth-access-token";
 	const model = OAuthAccessToken.init(
 		{
@@ -42,6 +43,10 @@ export function createOAuthAccessToken(conn: Sequelize, user: typeof User) {
 			},
 			clientId: {
 				type: DataTypes.STRING,
+				references: {
+					model: oauth2Client,
+                    key: "clientId",
+				}
 			},
 			accessToken: {
 				type: DataTypes.STRING,
@@ -77,6 +82,13 @@ export function createOAuthAccessToken(conn: Sequelize, user: typeof User) {
 	);
 	
 	// We need this otherwise sequelize throws an error
+	model.belongsTo(oauth2Client, {
+        foreignKey: "clientId",
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        targetKey: "clientId",
+    });
+	
 	model.belongsTo(user, {
 		foreignKey: "userId",
 		onUpdate: "CASCADE",

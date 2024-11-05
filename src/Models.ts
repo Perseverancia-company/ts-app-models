@@ -422,7 +422,8 @@ export default class Models {
 		this.OAuth2Client = createOAuth2Client(this.connection);
 		this.OAuthAccessToken = createOAuthAccessToken(
 			this.connection,
-			this.User
+			this.OAuth2Client,
+			this.User,
 		);
 		this.OAuthAuthorizationCode = createOAuthAuthorizationCode(
 			this.connection,
