@@ -13,3 +13,7 @@ Default users for testing, moderating and administrative uses.
 	- [x] Delete users
 
 - [x] Ephemeral models
+
+## Roles
+
+- [ ] Scopes

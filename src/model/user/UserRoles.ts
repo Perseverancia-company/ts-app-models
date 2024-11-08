@@ -34,7 +34,8 @@ export function createUserRolesModel(
 		tableName: string;
 	}
 ) {
-	const TABLE_NAME = config && config.tableName ? config.tableName :  "user-roles";
+	const TABLE_NAME =
+		config && config.tableName ? config.tableName : "user-roles";
 
 	const UserRolesModel = UserRoles.init(
 		{
@@ -58,6 +59,16 @@ export function createUserRolesModel(
 					key: "name",
 				},
 			},
+			// TODO: Scopes
+			// (It's json, but it can only be an array of strings)
+			// scopes: {
+			// 	type: DataTypes.JSON,
+			// 	allowNull: false,
+			// 	validate: {
+			// 		isArray: true,
+            //         notEmpty: true,
+			// 	}
+			// },
 		},
 		{
 			sequelize: conn,
