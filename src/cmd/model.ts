@@ -1,5 +1,4 @@
 import Models from "../Models";
-import { createAdminUser, createNormalUser } from "../seed";
 
 /**
  * Main
@@ -10,9 +9,8 @@ export default async function modelMain(args: any, models: Models) {
 	}
 
 	if (args.seed_user) {
+		console.log(`Incomplete`);
 		await Promise.all([
-			createAdminUser(models),
-			createNormalUser(models),
 		]);
 	}
 }

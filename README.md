@@ -16,7 +16,11 @@ MYSQL_USERNAME=root
 MYSQL_PASSWORD=123
 MYSQL_HOST=localhost
 MYSQL_PORT=3306
+```
 
+## Database and environment variables
+
+```bash
 # Database name
 # There are many ways to configure the database name, most of the time they depend on the state of the app
 # By state ordered from highest priority to lowest
