@@ -41,6 +41,8 @@ export function createProcessModel(
 		},
 		pid: {
 			type: DataTypes.INTEGER,
+			// We need to allow null, this will indicate that the process is not running
+			allowNull: true,
 		},
 		// URL if it's a server
 		url: {
