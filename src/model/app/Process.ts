@@ -9,11 +9,11 @@ export default class Process extends Model<
     >,
     InferCreationAttributes<
 		Process,
-        { omit: 'pid' | 'url' | 'createdAt' | 'updatedAt' }
+        { omit: 'createdAt' | 'updatedAt' }
     >> {
 	declare name: string;
-	declare pid: number;
-	declare url: string;
+	declare pid?: number | null;
+	declare url?: string;
 	declare appType: string;
     declare createdAt: Date;
     declare updatedAt: Date;
