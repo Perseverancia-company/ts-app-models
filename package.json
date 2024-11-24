@@ -1,6 +1,6 @@
 {
 	"name": "felixriddle.ts-app-models",
-	"version": "1.0.52",
+	"version": "1.0.53",
 	"description": "Sequelize models for my apps",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",

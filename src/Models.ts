@@ -119,6 +119,7 @@ import OAuthAuthorizationCode, {
 	createOAuthAuthorizationCode,
 } from "./model/oauth/OAuthAuthorizationCode";
 import OAuthRefreshToken, { createOAuthRefreshToken } from "./model/oauth/OAuthRefreshToken";
+import Documentation, { createDocumentationModel } from "./model/documentation/Documentation";
 
 /**
  * Models
@@ -215,6 +216,9 @@ export default class Models {
 	OAuthAccessToken: typeof OAuthAccessToken;
 	OAuthAuthorizationCode: typeof OAuthAuthorizationCode;
 	OAuthRefreshToken: typeof OAuthRefreshToken;
+
+	// Documentation
+	Documentation: typeof Documentation;
 
 	/**
 	 * Constructor
@@ -435,6 +439,9 @@ export default class Models {
 			this.OAuth2Client,
             this.User
         );
+
+		// Documentation
+		this.Documentation = createDocumentationModel(this.connection);
 	}
 
 	/**
