@@ -17,3 +17,8 @@ Default users for testing, moderating and administrative uses.
 ## Roles
 
 - [ ] Scopes
+
+## Universal models
+
+- [x] Universal OAuth2Client
+	- [x] OAuth2Client

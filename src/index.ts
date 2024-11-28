@@ -93,6 +93,8 @@ import Service from "./model/Service";
 import UserRolesModels from "./test/modelSet/UserRolesModels";
 import DefaultUsers from "./seed/DefaultUsers";
 
+import UniversalOAuth2Client from "./universal/oauth/UniversalOAuth2Client";
+
 // Exporting models, controllers, and helpers
 export {
 	// Connections
@@ -120,6 +122,9 @@ export {
 	resetTables,
 	TablesController,
 	TablesGroupController,
+
+	// Universal models
+	UniversalOAuth2Client,
 
 	// Models
 	Models,
