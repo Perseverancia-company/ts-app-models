@@ -3,6 +3,14 @@ import { v4 as uuidv4 } from "uuid";
 import AbstractUniversalModel, { DatabaseDriver } from "..";
 import { generateClientSecret } from "../../lib/codes";
 
+export interface RequiredOAuth2ClientFields {
+	name: string;
+	authorizedOrigins?: string;
+	authorizedRedirects?: string;
+	grantTypes?: string;
+	authorizationScopes: string;
+}
+
 /**
  * Universal OAuth2 client
  */
@@ -16,7 +24,7 @@ export default class UniversalOAuth2Client extends AbstractUniversalModel {
 	 * 
 	 * Different than save, this one will assign automatically a client id and a secret
 	 */
-	async create(data: object) {
+	async create(data: RequiredOAuth2ClientFields) {
 		try {
 			switch (this.databaseDriver) {
 				case "mysql":
