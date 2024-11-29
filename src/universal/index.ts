@@ -5,6 +5,8 @@
  *
  * These models are supposed to use any database driver, and on top of that, these would provide unified
  * functions.
+ * 
+ * The point of unified functionality is to provide a consistent interface for operations, in many projects.
  */
 export type DatabaseDriver =
 	| "mysql"
