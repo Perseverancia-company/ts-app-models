@@ -29,7 +29,7 @@ export function createGroupAppJunction(
 ) {
 	const TABLE_NAME = "group-app-junction";
 	const Model = GroupAppJunction.init({
-		appName: { 
+		appName: {
 			allowNull: false,
 			type: DataTypes.STRING(128),
 			references: {
