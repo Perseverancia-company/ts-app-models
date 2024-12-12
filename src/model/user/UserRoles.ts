@@ -66,7 +66,7 @@ export function createUserRolesModel(
 			// 	allowNull: false,
 			// 	validate: {
 			// 		isArray: true,
-            //         notEmpty: true,
+			//         notEmpty: true,
 			// 	}
 			// },
 		},
@@ -77,6 +77,13 @@ export function createUserRolesModel(
 			timestamps: false,
 		}
 	);
+
+	// Add associations
+	UserRolesModel.belongsTo(user, { foreignKey: "userId" });
+	UserRolesModel.belongsTo(role, {
+		foreignKey: "roleName",
+		targetKey: "name"
+	});
 
 	return UserRolesModel;
 }

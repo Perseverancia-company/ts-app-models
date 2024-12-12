@@ -29,7 +29,7 @@ export default class User extends Model<
 	>
 > {
 	declare id: number;
-	
+
 	declare name: string;
 	declare surname: string;
 	declare email: string;
@@ -63,14 +63,14 @@ export default class User extends Model<
 	 * Assign role
 	 */
 	async assignRole(role: string, userRoles: typeof UserRoles) {
-		const userRoleAssignment = await UserRoles.findOne({
+		const userRoleAssignment = await userRoles.findOne({
 			where: { userId: this.id, roleName: role },
 		});
 
 		// If the user doesn't have this role assigned, do it
 		if (!userRoleAssignment) {
 			// Assign roles
-			await UserRoles.create({
+			return await userRoles.create({
 				userId: this.id,
 				roleName: role,
 			});
