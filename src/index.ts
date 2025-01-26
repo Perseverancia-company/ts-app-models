@@ -93,6 +93,10 @@ import Service from "./model/Service";
 import UserRolesModels from "./test/modelSet/UserRolesModels";
 import DefaultUsers from "./seed/DefaultUsers";
 
+// Configuration
+import Configuration from "./model/configuration/Configuration";
+import AppConfig from "./model/configuration/AppConfig";
+
 import UniversalOAuth2Client from "./universal/oauth/UniversalOAuth2Client";
 
 // Exporting models, controllers, and helpers
@@ -201,6 +205,10 @@ export {
 
 	// Service models
 	Service,
+
+	// Configuraiton
+	Configuration,
+	AppConfig,
 };
 
 export type { PartialConnectionOptions };

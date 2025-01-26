@@ -121,6 +121,10 @@ import OAuthAuthorizationCode, {
 import OAuthRefreshToken, { createOAuthRefreshToken } from "./model/oauth/OAuthRefreshToken";
 import Documentation, { createDocumentationModel } from "./model/documentation/Documentation";
 
+// Configuration
+import Configuration, { createConfigurationModel } from "./model/configuration/Configuration";
+import AppConfig, { createAppConfigModel } from "./model/configuration/AppConfig";
+
 /**
  * Models
  *
@@ -219,6 +223,10 @@ export default class Models {
 
 	// Documentation
 	Documentation: typeof Documentation;
+
+	// Configuration
+	Configuration: typeof Configuration;
+	AppConfig: typeof AppConfig;
 
 	/**
 	 * Constructor
@@ -442,6 +450,10 @@ export default class Models {
 
 		// Documentation
 		this.Documentation = createDocumentationModel(this.connection);
+
+		// Configuration
+		this.Configuration = createConfigurationModel(this.connection);
+		this.AppConfig = createAppConfigModel(this.connection, this.App);
 	}
 
 	/**

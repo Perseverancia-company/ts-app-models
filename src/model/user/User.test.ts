@@ -4,7 +4,7 @@ import Models from "../../Models";
 /**
  * Test suite for role creation
  */
-describe("Role creation", () => {
+describe("User tests", () => {
 	initializeDotenv();
 
 	// Initialize Models instance
