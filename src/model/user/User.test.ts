@@ -1,11 +1,12 @@
-import { initializeDotenv } from "../../env";
-import Models from "../../Models";
+import Models from "@/Models";
+import { initializeDotenv, isDebug } from "@/env";
 
 /**
  * Test suite for role creation
  */
 describe("User tests", () => {
 	initializeDotenv();
+	const debug = isDebug();
 
 	// Initialize Models instance
 	const models = new Models();
@@ -13,10 +14,18 @@ describe("User tests", () => {
 	const { Role, User, UserRoles } = models;
 
 	beforeAll(async () => {
-		const role = await Role.create({
-			name: "test-role",
-			description: "Test role",
-		});
+		try {
+			const role = await Role.create({
+				name: "test-role",
+				description: "Test role",
+			});
+
+			if (debug) {
+				console.log(`Created role: `, JSON.parse(JSON.stringify(role)));
+			}
+		} catch (err) {
+			console.error("Error when creating role: ", err);
+		}
 	});
 
 	afterAll(async () => {
@@ -31,10 +40,16 @@ describe("User tests", () => {
 			User.findOne({ where: { email: "test3@example.com" } }),
 		]);
 
-		if (!user || !user2 || !user3) {
-			throw Error(
-				"The users that were being tested were not found in the database"
-			);
+		if (!user) {
+			throw Error("User 1 not found in the database");
+		}
+
+		if (!user2) {
+			throw Error("User 2 not found in the database");
+		}
+
+		if (!user3) {
+			throw Error("User 3 not found in the database");
 		}
 
 		// Remove relations by user id
@@ -65,20 +80,39 @@ describe("User tests", () => {
 	 * Test case: Assign role to user
 	 */
 	it("should assign role to user", async () => {
-		const user = await User.create({
-			name: "Test User",
-			email: "test1@example.com",
-			password: "password",
-		});
+		try {
+			const user = await User.create({
+				name: "Test User",
+				email: "test1@example.com",
+				password: "password",
+			});
 
-		// Assign role to user
-		await user.assignRole("test-role", UserRoles);
+			if (debug) {
+				console.log("User created: ", JSON.parse(JSON.stringify(user)));
+			}
 
-		// Verify role assignment
-		const userRole = await UserRoles.findOne({
-			where: { userId: user.id, roleName: "test-role" },
-		});
-		expect(userRole).not.toBeNull();
+			// Assign role to user
+			const roleAssignation = await user.assignRole(
+				"test-role",
+				UserRoles
+			);
+
+			if (debug) {
+				console.log(
+					"Role assignment created: ",
+					JSON.parse(JSON.stringify(roleAssignation))
+				);
+			}
+
+			// Verify role assignment
+			const userRole = await UserRoles.findOne({
+				where: { userId: user.id, roleName: "test-role" },
+			});
+			expect(userRole).not.toBeNull();
+		} catch (err) {
+			console.error("Error occurred: ", err);
+			expect(true).toBe(false);
+		}
 	});
 
 	/**

@@ -136,3 +136,10 @@ export default function databaseName() {
 export function accessToken() {
     return process.env.ACCESS_TOKEN;
 }
+
+/**
+ * Is debug
+ */
+export function isDebug() {
+	return Boolean(process.env.DEBUG) || Boolean(process.env.NEXT_PUBLIC_DEBUG) || false;
+}

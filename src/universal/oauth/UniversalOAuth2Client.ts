@@ -163,6 +163,7 @@ export default class UniversalOAuth2Client extends AbstractUniversalModel {
 						throw new Error(`Token not found.`);
 					}
 					await record.destroy();
+					break;
 				default:
 					throw new Error("Unsupported database driver");
 			}
