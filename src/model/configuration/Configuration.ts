@@ -42,9 +42,10 @@ export function createConfigurationModel(conn: Sequelize) {
 						msg: "Value is required",
 					},
 				},
-			}
+			},
 		},
 		{
+			timestamps: false, // <-- If this thing is missing, there are untraceable errors thrown when trying to use the model
 			sequelize: conn,
 			tableName: TABLE_NAME,
 			modelName: TABLE_NAME,

@@ -82,6 +82,7 @@ export function createAppConfigModel(conn: Sequelize, appModel: typeof App) {
 			},
 		},
 		{
+			timestamps: false, // <-- If this thing is missing, there are untraceable errors thrown when trying to use the model
 			sequelize: conn,
 			tableName: TABLE_NAME,
 			modelName: TABLE_NAME,
