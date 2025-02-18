@@ -118,12 +118,20 @@ import OAuthAccessToken, {
 import OAuthAuthorizationCode, {
 	createOAuthAuthorizationCode,
 } from "./model/oauth/OAuthAuthorizationCode";
-import OAuthRefreshToken, { createOAuthRefreshToken } from "./model/oauth/OAuthRefreshToken";
-import Documentation, { createDocumentationModel } from "./model/documentation/Documentation";
+import OAuthRefreshToken, {
+	createOAuthRefreshToken,
+} from "./model/oauth/OAuthRefreshToken";
+import Documentation, {
+	createDocumentationModel,
+} from "./model/documentation/Documentation";
 
 // Configuration
-import Configuration, { createConfigurationModel } from "./model/configuration/Configuration";
-import AppConfig, { createAppConfigModel } from "./model/configuration/AppConfig";
+import Configuration, {
+	createConfigurationModel,
+} from "./model/configuration/Configuration";
+import AppConfig, {
+	createAppConfigModel,
+} from "./model/configuration/AppConfig";
 
 /**
  * Models
@@ -435,7 +443,7 @@ export default class Models {
 		this.OAuthAccessToken = createOAuthAccessToken(
 			this.connection,
 			this.OAuth2Client,
-			this.User,
+			this.User
 		);
 		this.OAuthAuthorizationCode = createOAuthAuthorizationCode(
 			this.connection,
@@ -443,10 +451,10 @@ export default class Models {
 			this.User
 		);
 		this.OAuthRefreshToken = createOAuthRefreshToken(
-            this.connection,
+			this.connection,
 			this.OAuth2Client,
-            this.User
-        );
+			this.User
+		);
 
 		// Documentation
 		this.Documentation = createDocumentationModel(this.connection);
@@ -535,8 +543,21 @@ export default class Models {
 			this.SystemInfo,
 			this.ServerNode,
 
+			// Service
 			this.Service,
+
+			// OAuth models
 			this.OAuth2Client,
+			this.OAuthAccessToken,
+			this.OAuthAuthorizationCode,
+			this.OAuthRefreshToken,
+
+			// Documentation
+			this.Documentation,
+
+			// Configuration
+			this.Configuration,
+			this.AppConfig,
 		];
 
 		return modelArray;

@@ -27,6 +27,11 @@ export async function resetTables(models: Models) {
  * @param args
  */
 export default async function tablesMain(args: any, models: Models) {
+	if (args.print_db_name) {
+		const dbName = databaseName();
+		console.log(`Database name: `, dbName);
+	}
+
 	// Production
 	if (args.sync_production) {
 		const productionConnection = mysqlProductionConnection();
