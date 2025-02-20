@@ -1,3 +1,7 @@
+# Deprecation Notice
+
+This package is deprecated and no longer maintained. It has been moved to the monorepo `perseverancia-deployment`.
+
 # App models
 
 These are the app models for my apps.
